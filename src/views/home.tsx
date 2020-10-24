@@ -7,7 +7,6 @@ function Home(): React.ReactElement{
   return (
     <div>
        <Pouet counter={count} label="salut" />
-      <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>
         Click me
       </button>
