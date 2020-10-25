@@ -23,8 +23,8 @@ export default function Stork(props: JSX.IntrinsicElements['group']) {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const gltf = useLoader(GLTFLoader, "/birds/Stork.glb");
   const { nodes, materials, animations } = gltf as GLTFResult
-  const factor = 4;
-  const speed = 1.5;
+  const factor = 3.5;
+  const speed = 1.25;
   const actions = useRef<GLTFActions>()
   const [mixer] = useState(() => new THREE.AnimationMixer(null as any))
   useFrame((state, delta) => {
@@ -41,14 +41,14 @@ export default function Stork(props: JSX.IntrinsicElements['group']) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <group ref={group} position={[19, 4, -12.5]} {...props}>
+    <group ref={group} position={[19, 7, -8]} {...props}>
       <mesh
         material={materials.Material_0_COLOR_0}
         geometry={nodes.Object_0.geometry}
         name="Object_0"
         morphTargetDictionary={nodes.Object_0.morphTargetDictionary}
         morphTargetInfluences={nodes.Object_0.morphTargetInfluences}
-        rotation={[1.5707964611537577, 0, 2]}
+        rotation={[1.5707964611537577, 0, 1.5]}
       />
     </group>
   )
