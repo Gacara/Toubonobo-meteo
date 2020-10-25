@@ -41,7 +41,7 @@ export default function Parrot(props: JSX.IntrinsicElements['group']) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <group ref={group} position={[20, 4, -13]} {...props}>
+    <group ref={group} position={[20, 4, -13.5]} {...props}>
       <mesh
         material={materials.Material_0_COLOR_0}
         geometry={nodes.Object_0.geometry}
