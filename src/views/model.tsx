@@ -6,6 +6,8 @@ import Monkey from '../component/monkey';
 import Sun from "../component/sun";
 import Forest from "../component/forest";
 import Flamingo from '../component/Flamingo';
+import Parrot from '../component/Parrot';
+import Stork from '../component/Stork';
 
 function ModelViewer(): React.ReactElement{
   const [clicked, setClicked] = useState<boolean>(false);
@@ -24,6 +26,12 @@ function ModelViewer(): React.ReactElement{
       </Suspense>
       <Suspense fallback={null}>
         <Flamingo scale={[0.3, 0.3, 0.3]} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <Parrot scale={[0.3, 0.3, 0.3]} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <Stork scale={[0.3, 0.3, 0.3]} />
       </Suspense>
       <Suspense fallback={<Html>loading..</Html>}>
          <Monkey  position={[4, -0.03, -15]} rotation= {[0, 2.7, 0]}/>

@@ -28,14 +28,9 @@ export default function Flamingo(props: JSX.IntrinsicElements['group']) {
   const actions = useRef<GLTFActions>()
   const [mixer] = useState(() => new THREE.AnimationMixer(null as any))
   useFrame((state, delta) => {
-    //group.current.rotation.y += Math.sin((delta * factor) / 2) * Math.cos((delta * factor) / 2) * 1.5;
     const x = Math.sin((delta * factor) / 2) * Math.cos((delta * factor) / 2) * 1.5;
-    if (group.current.position.x <= 0) {group.current.position.x = 15};
- 
+    if (group.current.position.x <= -10) {group.current.position.x = 17};
     group.current.position.x -= x;
-    console.log(group.current.position.x)
-    //group.current.position.x += Math.sin((delta * factor) / 2) * Math.cos((delta * factor) / 2) * 1.5;
-    //group.current.position.z += delta * 1.5;
     mixer.update(delta * speed);
   })
   useEffect(() => {
@@ -46,7 +41,7 @@ export default function Flamingo(props: JSX.IntrinsicElements['group']) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <group ref={group} position={[4, 4, -13]} {...props}>
+    <group ref={group} position={[17, 4, -13]} {...props}>
       <mesh
         material={materials.Material_0_COLOR_0}
         geometry={nodes.Object_0.geometry}
