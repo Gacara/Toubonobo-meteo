@@ -3,7 +3,7 @@ import { useFrame } from 'react-three-fiber';
 
 function Box(props: any): React.ReactElement {
   // This reference will give us direct access to the mesh
-  const mesh: React.MutableRefObject<any> = useRef();
+  const meshRef: React.MutableRefObject<any> = useRef();
 
   // Set up state for the hovered and active state
   const [hovered, setHover] = useState<boolean>(false);
@@ -11,14 +11,14 @@ function Box(props: any): React.ReactElement {
 
   // Rotate mesh every frame, this is outside of React without overhead
   useFrame(() => {
-   mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
+    meshRef.current.rotation.x = meshRef.current.rotation.y += 0.01;
   })
 
   return (
     <mesh
       {...props}
-      ref={mesh}
-      scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
+      ref={meshRef}
+      scale={active ? [2, 2, 2] : [1, 1, 1]}
       onClick={(e) => setActive(!active)}
       onPointerOver={(e) => setHover(true)}
       onPointerOut={(e) => setHover(false)}>
