@@ -10,7 +10,6 @@ import Stork from '../component/Stork';
 import Storm from '../component/storm';
 
 function ModelViewer(): React.ReactElement{
-  const [clicked, setClicked] = useState<boolean>(false);
   const [storm, setStorm] = useState<boolean>(false);
 
 
@@ -25,7 +24,9 @@ function ModelViewer(): React.ReactElement{
      camera={{ far: 2000, position: [5, 1.2, -18] }}
     >
     <pointLight intensity={storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
+{
     <OrbitControls />
+}
     <Storm trigger={storm} />
     {
       !storm && 
@@ -47,10 +48,10 @@ function ModelViewer(): React.ReactElement{
         <Stork scale={[0.3, 0.3, 0.3]} />
       </Suspense>
       <Suspense fallback={<Html>loading..</Html>}>
-         <Monkey  position={[4, -0.03, -15]} rotation= {[0, 2.7, 0]}/>
+         <Monkey  position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
       </Suspense>
 
-      <Html position={[7.5, 0, -15]} rotation-z={100}>
+      <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
         <button
           style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
           onClick={handleCLick}
@@ -59,20 +60,14 @@ function ModelViewer(): React.ReactElement{
         </button>
       </Html>
 
-      <Html position={[4.5, -0.75, -15]} rotation-z={100}>
+      <Html scaleFactor={5} position={[4.25, -0.75, -13.5]} rotation-z={100}>
         <button
           style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
-          onClick={()=>setClicked(!clicked)}
-        >
-          {
-            clicked ?
-            "ALEEEEEDD"
-            :
-            "Il fait beau"
-          }
+          onClick={()=>{}}
+        > Reset camera
         </button>
       </Html>
-      <Html position={[4.5, -0.2, -15]} rotation-z={100}>
+      <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <div style={{width:"max-content"}}>
         Toubo le bonobo
         </div>
