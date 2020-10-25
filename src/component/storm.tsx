@@ -8,7 +8,7 @@ export default function Storm({trigger}: triggerInterface) {
   const [storm, setStorm] = useState<boolean>(false);
      
   useEffect(() => {
-    let counter = 25;
+    let counter = 30;
     let intervalId: any = null;
     function start() {  intervalId = setInterval(bip, 150);
     }	
@@ -19,7 +19,7 @@ export default function Storm({trigger}: triggerInterface) {
     function bip() {
         if(counter === 0) finish();
         else {
-          setTimeout(()=> setStorm(!!(Math.round(Math.random()-0.05))), Math.random()*50);
+          setTimeout(()=> setStorm(!!(Math.round(Math.random()-0.2))), Math.random()*50);
         }
         counter--;
     }
