@@ -9,11 +9,11 @@ export default function Storm({trigger}: triggerInterface) {
      
   useEffect(() => {
     let counter = 30;
-    let intervalId: any = null;
+    let intervalId: NodeJS.Timeout | null = null;
     function start() {  intervalId = setInterval(bip, 150);
     }	
     function finish() {
-      clearInterval(intervalId);
+      if(intervalId)clearInterval(intervalId);
       setStorm(false);
     }
     function bip() {

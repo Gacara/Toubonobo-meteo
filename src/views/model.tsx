@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from 'react';
-import { Canvas } from 'react-three-fiber';
+import { Canvas, ReactThreeFiber } from 'react-three-fiber';
 import { OrbitControls, Html } from 'drei'
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
@@ -8,11 +8,17 @@ import Flamingo from '../component/Flamingo';
 import Parrot from '../component/Parrot';
 import Stork from '../component/Stork';
 import Storm from '../component/storm';
+import THREE from 'three';
+
+interface cameraInterface {
+  far: number;
+  position: number[];
+}
 
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
-
-
+  const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
+ 
   function handleCLick() {
     setStorm(true);
     setTimeout(()=>setStorm(false), 5000);
@@ -21,7 +27,8 @@ function ModelViewer(): React.ReactElement{
   return (
     <div style={{ height:"100vh", width:"100vw" }}>
     <Canvas 
-     camera={{ far: 2000, position: [5, 1.2, -18] }}
+     camera={camera}
+     shadowMap
     >
     <pointLight intensity={storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
@@ -63,7 +70,7 @@ function ModelViewer(): React.ReactElement{
       <Html scaleFactor={5} position={[4.25, -0.75, -13.5]} rotation-z={100}>
         <button
           style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
-          onClick={()=>{}}
+          onClick={()=> setCamera({ far: 2000, position: [5, 1.2, -18] })}
         > Reset camera
         </button>
       </Html>
