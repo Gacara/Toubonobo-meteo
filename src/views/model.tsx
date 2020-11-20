@@ -9,6 +9,7 @@ import Parrot from '../component/Parrot';
 import Stork from '../component/Stork';
 import Storm from '../component/storm';
 import THREE from 'three';
+import Clouds from '../component/clouds';
 
 interface cameraInterface {
   far: number;
@@ -45,6 +46,11 @@ function ModelViewer(): React.ReactElement{
       <Suspense fallback={<Html>loading..</Html>}>
          <Forest />
       </Suspense>
+
+      <Suspense fallback={null}>
+        <Clouds intensity={8} number={4} />
+      </Suspense>
+    
       <Suspense fallback={null}>
         <Flamingo scale={[0.3, 0.3, 0.3]} />
       </Suspense>
