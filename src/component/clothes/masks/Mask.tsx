@@ -28,7 +28,7 @@ export default function Mask(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = gltf as GLTFResult
 
   return (
-    <group ref={group} {...props} scale={props.visible ? [0.025,0.025,0.025] : [0,0,0]} dispose={null}>
+    <group ref={group} {...props} scale={[0.025,0.025,0.025]} dispose={null}>
       <mesh
         material={nodes.mesh_0.material}
         geometry={nodes.mesh_0.geometry}
