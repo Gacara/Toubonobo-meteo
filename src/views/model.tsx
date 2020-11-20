@@ -10,6 +10,8 @@ import Stork from '../component/Stork';
 import Storm from '../component/storm';
 import THREE from 'three';
 import Clouds from '../component/clouds';
+import Hat from '../component/clothes/hats/Hat';
+import Mask from '../component/clothes/masks/Mask';
 
 interface cameraInterface {
   far: number;
@@ -18,6 +20,7 @@ interface cameraInterface {
 
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
+  const [wearMask, setWearMask] = useState<boolean>(false);
   const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
  
   function handleCLick() {
@@ -49,19 +52,17 @@ function ModelViewer(): React.ReactElement{
 
       <Suspense fallback={null}>
         <Clouds intensity={8} number={4} />
-      </Suspense>
-    
-      <Suspense fallback={null}>
         <Flamingo scale={[0.3, 0.3, 0.3]} />
-      </Suspense>
-      <Suspense fallback={null}>
         <Parrot scale={[0.3, 0.3, 0.3]} />
-      </Suspense>
-      <Suspense fallback={null}>
         <Stork scale={[0.3, 0.3, 0.3]} />
       </Suspense>
-      <Suspense fallback={<Html>loading..</Html>}>
-         <Monkey  position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
+      <Suspense fallback={<Html>Toubonobo is coming..</Html>}>
+         <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <Hat position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
+          <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
       </Suspense>
 
       <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
@@ -76,8 +77,8 @@ function ModelViewer(): React.ReactElement{
       <Html scaleFactor={5} position={[4.25, -0.75, -13.5]} rotation-z={100}>
         <button
           style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
-          onClick={()=> setCamera({ far: 2000, position: [5, 1.2, -18] })}
-        > Reset camera
+          onClick={()=> setWearMask(!wearMask)}
+        > Wear mask
         </button>
       </Html>
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>

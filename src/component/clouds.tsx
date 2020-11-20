@@ -18,7 +18,6 @@ const Cloud = ({ height, position }: positionInterface) => {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const z = -10;
 
-  // move the cloud across the canvas until at certain position, then reset
   useFrame(({ clock }) => {
 
     if (group.current.position.x >= 30) {group.current.position.x = positionRand(-20, -25)};
@@ -61,7 +60,6 @@ function cloudSpawn(number: number){
 }
 
 const Clouds = ({number}: cloudInterface) => {
-
   return (
     <group>
     {cloudSpawn(number)}
