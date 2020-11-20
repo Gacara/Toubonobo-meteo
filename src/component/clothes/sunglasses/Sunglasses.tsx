@@ -24,7 +24,7 @@ export default function Sunglasses(props: JSX.IntrinsicElements['group']) {
   const gltf = useLoader(GLTFLoader, "/sunglasses/sunglasses.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (
-    <group ref={group} {...props} scale={props.visible ? [0.2,0.2,0.2] : [0.2,0.2,0.2]} dispose={null}>
+    <group ref={group} {...props} scale={[0.2,0.2,0.2]} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <mesh material={materials.Material__385} geometry={nodes.defaultMaterial.geometry} />

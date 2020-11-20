@@ -64,9 +64,6 @@ function ModelViewer(): React.ReactElement{
       <Suspense fallback={null}>
         <Hat position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
-      </Suspense>
-
-      <Suspense fallback={null}>
           <Sunglasses position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
       </Suspense>
 
