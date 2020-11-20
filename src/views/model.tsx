@@ -22,6 +22,8 @@ interface cameraInterface {
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
   const [wearMask, setWearMask] = useState<boolean>(false);
+  const [wearHat, setWearHat] = useState<boolean>(false);
+  const [wearSunglasses, setWearSunglasses] = useState<boolean>(false);
   const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
  
   function handleCLick() {
@@ -62,9 +64,9 @@ function ModelViewer(): React.ReactElement{
       </Suspense>
 
       <Suspense fallback={null}>
-        <Hat position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
+          <Hat visible={wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
-          <Sunglasses position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
+          <Sunglasses visible={wearSunglasses} position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
       </Suspense>
 
       <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
@@ -77,12 +79,23 @@ function ModelViewer(): React.ReactElement{
       </Html>
 
       <Html scaleFactor={5} position={[4.25, -0.75, -13.5]} rotation-z={100}>
+      <button
+          style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
+          onClick={()=> setWearHat(!wearHat)}
+        > wear hat
+      </button>
+      <button
+          style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
+          onClick={()=> setWearSunglasses(!wearSunglasses)}
+        > wear Sunglasses
+        </button>
         <button
           style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
           onClick={()=> setWearMask(!wearMask)}
         > Wear mask
         </button>
       </Html>
+
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <div style={{width:"max-content"}}>
         Toubo le bonobo
