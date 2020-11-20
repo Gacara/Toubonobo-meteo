@@ -12,6 +12,7 @@ import THREE from 'three';
 import Clouds from '../component/clouds';
 import Hat from '../component/clothes/hats/Hat';
 import Mask from '../component/clothes/masks/Mask';
+import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
 
 interface cameraInterface {
   far: number;
@@ -63,6 +64,7 @@ function ModelViewer(): React.ReactElement{
       <Suspense fallback={null}>
         <Hat position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
+          <Sunglasses position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
       </Suspense>
 
       <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
