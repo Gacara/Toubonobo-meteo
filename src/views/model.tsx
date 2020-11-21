@@ -41,7 +41,7 @@ function ModelViewer(): React.ReactElement{
     >
     <pointLight intensity={storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
-    <OrbitControls />
+    // <OrbitControls />
 }
     <Storm trigger={storm} />
     {
@@ -75,7 +75,7 @@ function ModelViewer(): React.ReactElement{
 
       <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
       <GradientBtn label={<span role="img" aria-label="storm"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
-      <GradientBtn label={<span role="img" aria-label="storm"> Snow  !❄️</span>} onClick={() => setSnow(!snow)} />
+      <GradientBtn label={<span role="img" aria-label="storm"> Snow  ❄️</span>} onClick={() => setSnow(!snow)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Rain  ⛆</span>} onClick={() => setRain(!rain)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
       </Html>

@@ -3,7 +3,7 @@ import { useLoader } from 'react-three-fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { draco } from "drei";
 
-function Monkey(props: any) {
+function Monkey(props: JSX.IntrinsicElements['mesh']) {
 const gltf = useLoader(GLTFLoader, "/source/out.glb", draco());
 const bonobo = gltf.scene;
 
