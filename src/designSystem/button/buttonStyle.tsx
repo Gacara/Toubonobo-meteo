@@ -1,0 +1,38 @@
+import { makeStyles, Theme, createStyles } from "@material-ui/core";
+import shadows from "@material-ui/core/styles/shadows";
+
+  const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: () => ({
+      minWidth: 200,
+      transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
+      background:
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        'linear-gradient(to right, #FFC371, #FF5F6D)',
+      '&:hover': {
+        transform: 'scale(1.1)',
+      },
+        borderRadius: 50,
+    }),
+    label: {
+      color: "white",
+      textTransform: 'none',
+      fontSize: 15,
+      fontWeight: 700,
+    },
+    contained: {
+      minHeight: 30,
+      boxShadow: shadows[0],
+      '&:active': {
+        boxShadow: shadows[0],
+      },
+    },
+    margin: {
+      margin: theme.spacing(1),
+    },
+    extendedIcon: {
+      marginRight: theme.spacing(1),
+    },
+  }),
+);
+export default useStyles;

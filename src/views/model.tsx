@@ -13,11 +13,7 @@ import Clouds from '../component/clouds';
 import Hat from '../component/clothes/hats/Hat';
 import Mask from '../component/clothes/masks/Mask';
 import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
-
-interface cameraInterface {
-  far: number;
-  position: number[];
-}
+import GradientBtn from "../designSystem/button/button";
 
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
@@ -70,30 +66,13 @@ function ModelViewer(): React.ReactElement{
       </Suspense>
 
       <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
-        <button
-          style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
-          onClick={handleCLick}
-        >
-        <span role="img" aria-label="storm"> Storm  !!⚡</span>
-        </button>
+      <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
       </Html>
 
       <Html scaleFactor={5} position={[4.25, -0.75, -13.5]} rotation-z={100}>
-      <button
-          style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
-          onClick={()=> setWearHat(!wearHat)}
-        > wear hat
-      </button>
-      <button
-          style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
-          onClick={()=> setWearSunglasses(!wearSunglasses)}
-        > wear Sunglasses
-        </button>
-        <button
-          style={{ padding: "2rem", width:"max-content", background: "#d3d3d3", fontSize: "x-large" }}
-          onClick={()=> setWearMask(!wearMask)}
-        > Wear mask
-        </button>
+      <GradientBtn label={"Wear hat"} onClick={()=> setWearHat(!wearHat)} />
+      <GradientBtn label={"Wear Sunglasses"} onClick={()=> setWearSunglasses(!wearSunglasses)} />
+      <GradientBtn label={"Wear Mask"} onClick={()=> setWearMask(!wearMask)} />
       </Html>
 
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
