@@ -7,14 +7,16 @@ import * as THREE from "three";
 interface positionInterface{
     height : number;
     position: number;
+    isVisible: boolean;
 }
 
 interface cloudInterface{
     intensity: number;
     number: number;
+    isVisible: boolean;
 }
 
-const Cloud = ({ height, position }: positionInterface) => {
+const Cloud = ({ height, position, isVisible}: positionInterface) => {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const z = -10;
 
@@ -25,7 +27,7 @@ const Cloud = ({ height, position }: positionInterface) => {
   });
 
   return (
-    <group ref={group}>
+    <group ref={group} visible={isVisible}>
       <mesh castShadow receiveShadow position={[position, height, z]}>
         <icosahedronBufferGeometry attach="geometry" args={[2, 2]} />
       </mesh>
@@ -47,22 +49,22 @@ const heightRand = (min: number, max: number) => {
     return Math.random() * (max - min) + min;
   };
 
-function cloudSpawn(number: number){
+function cloudSpawn(number: number, isVisible: boolean){
     let cloudsDisplay = [];
 
     for(let i=0; i<number; i++){
     cloudsDisplay.push( <>
-    <Cloud height={heightRand(3, 4)} position={positionRand(10, -25)} />
-    <Cloud height={heightRand(4, 8)} position={positionRand(10, -25)} />
+    <Cloud isVisible={isVisible} height={heightRand(3, 4)} position={positionRand(10, -25)} />
+    <Cloud isVisible={isVisible} height={heightRand(4, 8)} position={positionRand(10, -25)} />
     </>);
     };
     return cloudsDisplay;
 }
 
-const Clouds = ({number}: cloudInterface) => {
+const Clouds = ({number, isVisible}: cloudInterface) => {
   return (
     <group>
-    {cloudSpawn(number)}
+    {cloudSpawn(number, isVisible)}
     </group>
   );
 };

@@ -14,9 +14,15 @@ import Hat from '../component/clothes/hats/Hat';
 import Mask from '../component/clothes/masks/Mask';
 import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
 import GradientBtn from "../designSystem/button/button";
+import Rain from '../component/rain';
+import Snow from '../component/snow';
 
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
+  const [rain, setRain] = useState<boolean>(false);
+  const [snow, setSnow] = useState<boolean>(false);
+  const [cloud, setCloud] = useState<boolean>(false);
+
   const [wearMask, setWearMask] = useState<boolean>(false);
   const [wearHat, setWearHat] = useState<boolean>(false);
   const [wearSunglasses, setWearSunglasses] = useState<boolean>(false);
@@ -50,7 +56,9 @@ function ModelViewer(): React.ReactElement{
       </Suspense>
 
       <Suspense fallback={null}>
-        <Clouds intensity={8} number={4} />
+        <Rain isVisible={rain} rainCount={8000} />
+        <Snow isVisible={snow} snowCount={3000} />
+        <Clouds isVisible={cloud} intensity={8} number={4} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />
@@ -66,6 +74,9 @@ function ModelViewer(): React.ReactElement{
       </Suspense>
 
       <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
+      <GradientBtn label={<span role="img" aria-label="storm"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
+      <GradientBtn label={<span role="img" aria-label="storm"> Snow  !❄️</span>} onClick={() => setSnow(!snow)} />
+      <GradientBtn label={<span role="img" aria-label="storm"> Rain  ⛆</span>} onClick={() => setRain(!rain)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
       </Html>
 
