@@ -19,6 +19,7 @@ import Snow from '../component/snow';
 
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
+  const [sun, setSun] = useState<boolean>(true);
   const [rain, setRain] = useState<boolean>(false);
   const [snow, setSnow] = useState<boolean>(false);
   const [cloud, setCloud] = useState<boolean>(false);
@@ -44,18 +45,13 @@ function ModelViewer(): React.ReactElement{
     // <OrbitControls />
 }
     <Storm trigger={storm} />
-    {
-      !storm && 
-      <>
-      <Sun />
-      <ambientLight />
-      </>
-      }
       <Suspense fallback={<Html>loading..</Html>}>
          <Forest />
       </Suspense>
 
       <Suspense fallback={null}>
+        <Sun visible={sun && !storm} />
+        <ambientLight visible={!storm} />
         <Rain isVisible={rain} rainCount={8000} />
         <Snow isVisible={snow} snowCount={3000} />
         <Clouds isVisible={cloud} intensity={8} number={4} />
@@ -73,14 +69,15 @@ function ModelViewer(): React.ReactElement{
           <Sunglasses visible={wearSunglasses} position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
       </Suspense>
 
-      <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
+      <Html zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
+      <GradientBtn label={<span role="img" aria-label="storm"> Sun  ☀️</span>} onClick={() => setSun(!sun)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Snow  ❄️</span>} onClick={() => setSnow(!snow)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Rain  ⛆</span>} onClick={() => setRain(!rain)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
       </Html>
 
-      <Html scaleFactor={5} position={[4.25, -0.75, -13.5]} rotation-z={100}>
+      <Html scaleFactor={6} position={[4.25, -0.75, -13.5]} rotation-z={100}>
       <GradientBtn label={"Wear hat"} onClick={()=> setWearHat(!wearHat)} />
       <GradientBtn label={"Wear Sunglasses"} onClick={()=> setWearSunglasses(!wearSunglasses)} />
       <GradientBtn label={"Wear Mask"} onClick={()=> setWearMask(!wearMask)} />

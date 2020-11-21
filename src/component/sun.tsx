@@ -1,10 +1,9 @@
 import React, { useRef } from 'react'
 
-export default function Sun() {
+export default function Sun(props: JSX.IntrinsicElements['group']) {
   const ref = useRef()
   return (
-    <>
-      <group ref={ref}>
+      <group ref={ref} {...props}>
         <pointLight intensity={0} position={[1, 10, 0]} scale={[4,4,4]}>
           <mesh position={[5, 0, 0]}>
             <sphereBufferGeometry attach="geometry" args={[0.5, 10, 10]} />
@@ -12,6 +11,5 @@ export default function Sun() {
           </mesh>
         </pointLight>
       </group>
-    </>
   )
 }
