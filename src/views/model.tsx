@@ -42,7 +42,7 @@ function ModelViewer(): React.ReactElement{
     >
     <pointLight intensity={storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
-    // <OrbitControls />
+    <OrbitControls />
 }
     <Storm trigger={storm} />
       <Suspense fallback={<Html>loading..</Html>}>
@@ -66,7 +66,7 @@ function ModelViewer(): React.ReactElement{
       <Suspense fallback={null}>
           <Hat visible={wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
-          <Sunglasses visible={wearSunglasses} position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
+          <Sunglasses visible={wearSunglasses} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
       </Suspense>
 
       <Html zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
