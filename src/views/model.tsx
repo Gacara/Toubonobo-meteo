@@ -13,9 +13,18 @@ import Clouds from '../component/clouds';
 import Hat from '../component/clothes/hats/Hat';
 import Mask from '../component/clothes/masks/Mask';
 import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
+<<<<<<< HEAD
 import GradientBtn from "../designSystem/button/button";
 import Rain from '../component/rain';
 import Snow from '../component/snow';
+=======
+import Water_bottle from '../component/accessories/Water_bottle';
+
+interface cameraInterface {
+  far: number;
+  position: number[];
+}
+>>>>>>> Add water bottle
 
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
@@ -64,9 +73,16 @@ function ModelViewer(): React.ReactElement{
       </Suspense>
 
       <Suspense fallback={null}>
+<<<<<<< HEAD
           <Hat visible={wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
           <Sunglasses visible={wearSunglasses} position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
+=======
+          <Hat position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
+          <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
+          <Sunglasses position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
+          <Water_bottle position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
+>>>>>>> Add water bottle
       </Suspense>
 
       <Html zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
