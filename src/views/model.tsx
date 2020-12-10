@@ -69,7 +69,7 @@ function ModelViewer(): React.ReactElement{
           <Hat visible={wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
           <Sunglasses visible={wearSunglasses} position={[4.05, 1.8, -13.55]}  rotation= {[0, 2.9, 0]}/>
-          <Umbrella visible={wearUmbrella} position={[4.20, 2.0, -13.55]}  rotation= {[0, 2.2, 0]}/>
+          <Umbrella visible={wearUmbrella} position={[4.18, 2.0, -13.55]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
 
       <Html zIndexRange={[1,5]} position={[7.5, 0, -15]} rotation-z={100}>
