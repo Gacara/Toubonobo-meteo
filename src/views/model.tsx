@@ -16,6 +16,7 @@ import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
 import GradientBtn from "../designSystem/button/button";
 import Rain from '../component/rain';
 import Snow from '../component/snow';
+import WaterBottle from '../component/accessories/WaterBottle';
 
 function ModelViewer(): React.ReactElement{
   const [storm, setStorm] = useState<boolean>(false);
@@ -27,6 +28,7 @@ function ModelViewer(): React.ReactElement{
   const [wearMask, setWearMask] = useState<boolean>(false);
   const [wearHat, setWearHat] = useState<boolean>(false);
   const [wearSunglasses, setWearSunglasses] = useState<boolean>(false);
+  const [wearBottle, setWearBottle] = useState<boolean>(false);
   const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
  
   function handleCLick() {
@@ -67,6 +69,7 @@ function ModelViewer(): React.ReactElement{
           <Hat visible={wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
           <Sunglasses visible={wearSunglasses} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
+          <WaterBottle visible={wearBottle} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
       </Suspense>
 
       <Html zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
@@ -81,11 +84,12 @@ function ModelViewer(): React.ReactElement{
       <GradientBtn label={"Wear hat"} onClick={()=> setWearHat(!wearHat)} />
       <GradientBtn label={"Wear Sunglasses"} onClick={()=> setWearSunglasses(!wearSunglasses)} />
       <GradientBtn label={"Wear Mask"} onClick={()=> setWearMask(!wearMask)} />
+      <GradientBtn label={"Wear Bottle"} onClick={()=> setWearBottle(!wearBottle)} />
       </Html>
 
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <div style={{width:"max-content"}}>
-        Toubo le bonobo
+        Toubonobo 
         </div>
       </Html>
     </Canvas>
