@@ -83,7 +83,7 @@ export default function Umbrella(props: JSX.IntrinsicElements['group']) {
   const gltf = useLoader(GLTFLoader, "/umbrella/umbrella.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} {...props} scale={[0.12,0.12,0.12]} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group position={[0, 0, 0]}>
