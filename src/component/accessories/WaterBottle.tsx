@@ -13,7 +13,7 @@ type GLTFResult = GLTF & {
   }
 }
 
-export default function Water_bottle(props: JSX.IntrinsicElements['group']) {
+export default function WaterBottle(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
   const gltf = useLoader(GLTFLoader, "/water/water_bottle.glb");
   const { nodes, materials } = gltf as GLTFResult
