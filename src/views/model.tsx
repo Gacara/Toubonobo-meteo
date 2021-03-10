@@ -56,7 +56,7 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
   const [wearUmbrella, setWearUmbrella] = useState<boolean>(isRaining);
   const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
 
-  const [openMenu, setOpenMenu] = useState<boolean>(true);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
   console.log(data);
 
   function checkIfApiModeResult(apiBool: boolean, testBool: boolean): boolean{
