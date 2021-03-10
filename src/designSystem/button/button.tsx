@@ -6,11 +6,12 @@ export interface buttonInterface{
     size?: "small" | "medium" | "large";
     label: React.ReactNode;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    disabled?: boolean;
 }
-function GradientBtn({size="medium", label, onClick}: buttonInterface) {
+function GradientBtn({size="medium", label, onClick, disabled}: buttonInterface) {
   const classes = useStyle();
   return (
-        <Button onClick={onClick} size={size} classes={classes}>
+        <Button disabled={disabled} onClick={onClick} size={size} classes={classes}>
             {label}
         </Button>
   );

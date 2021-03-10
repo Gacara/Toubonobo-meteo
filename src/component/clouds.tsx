@@ -8,22 +8,24 @@ interface positionInterface{
     height : number;
     position: number;
     isVisible: boolean;
+    velocity: number;
 }
 
 interface cloudInterface{
     intensity: number;
     number: number;
     isVisible: boolean;
+    velocity: number;
 }
 
-const Cloud = ({ height, position, isVisible}: positionInterface) => {
+const Cloud = ({ height, position, isVisible, velocity}: positionInterface) => {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const z = -10;
 
   useFrame(({ clock }) => {
 
     if (group.current.position.x >= 30) {group.current.position.x = positionRand(-20, -25)};
-    group.current.position.x = (clock.getElapsedTime() * 0.6) % 30;
+    group.current.position.x = (clock.getElapsedTime() * velocity) % 30;
   });
 
   return (
@@ -49,22 +51,22 @@ const heightRand = (min: number, max: number) => {
     return Math.random() * (max - min) + min;
   };
 
-function cloudSpawn(number: number, isVisible: boolean){
+function cloudSpawn(number: number, isVisible: boolean, velocity: number){
     let cloudsDisplay = [];
 
     for(let i=0; i<number; i++){
     cloudsDisplay.push( <>
-    <Cloud isVisible={isVisible} height={heightRand(3, 4)} position={positionRand(10, -25)} />
-    <Cloud isVisible={isVisible} height={heightRand(4, 8)} position={positionRand(10, -25)} />
+    <Cloud isVisible={isVisible} velocity={velocity} height={heightRand(3, 4)} position={positionRand(10, -25)} />
+    <Cloud isVisible={isVisible} velocity={velocity} height={heightRand(4, 8)} position={positionRand(10, -25)} />
     </>);
     };
     return cloudsDisplay;
 }
 
-const Clouds = ({number, isVisible}: cloudInterface) => {
+const Clouds = ({number, isVisible, velocity}: cloudInterface) => {
   return (
     <group>
-    {cloudSpawn(number, isVisible)}
+    {cloudSpawn(number, isVisible, velocity)}
     </group>
   );
 };

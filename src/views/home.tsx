@@ -1,16 +1,52 @@
-import React, { useState } from 'react';
-import Pouet from "../component/pouet";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
+import { getJSON } from '../callAPI/fetch-json'
+import useRefreshablePromise from '../callAPI/use-refreshable-promise'
+import Model, { switchModetype } from "./model";
+import { data, forecastInterface } from "../interfaces/utils";
+import { CircularProgress } from '@material-ui/core';
+
+const fetchForecastData = async (city: string) => {
+  return getJSON<data>(`https://wtow.xyz/api/data/forecast/${city}`)
+ }
 
 function Home(): React.ReactElement{
-  const [count, setCount] = useState<number>(0);
+  const [resultData, setResultData] = useState<forecastInterface[]>();
+  const defaultCity = "Paris";
+  const [city, setCity] = useState<string>(defaultCity);
+  const { refresh: refreshData } = useRefreshablePromise(() => fetchForecastData(city), setResultData);
+  const [testMode, setTestMode] = useState<switchModetype | undefined>();
+
+  useEffect(() => {
+    refreshData()
+  }, [city]);
+
+  function loadingBeforeTestMode(){
+      setTimeout(() => {
+        setTestMode("test");
+      }, 3000);
+      return <div>
+      Waiting for data...
+      <CircularProgress />
+    </div>;
+  }
 
   return (
-    <div>
-       <Pouet counter={count} label="salut" />
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-    </div>
+    <>
+    {
+      resultData ?
+      <Model data={resultData[0]} city={city} onCityClick={(city) => setCity(city)} />
+      :
+      <>
+      {
+        testMode ?
+        <Model mode={testMode} city={city} data={null} onCityClick={(city) => setCity(city)} />
+      :
+      loadingBeforeTestMode()
+      }
+      </>
+    }
+    </>
   );
 }
 
