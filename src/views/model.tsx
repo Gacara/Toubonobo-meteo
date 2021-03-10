@@ -19,21 +19,25 @@ import Snow from '../component/snow';
 import WaterBottle from '../component/accessories/WaterBottle';
 import Umbrella from '../component/accessories/umbrella';
 import { forecastInterface } from "../interfaces/utils";
+import useStyles from './modelStyle';
+import TemporaryDrawer from '../designSystem/drawers/drawers';
 
 interface modelInterface{
   data: forecastInterface | null;
   onCityClick: (city: string) => void;
   mode?: switchModetype;
+  city: string;
 }
 
 export type switchModetype = "api" | "test";
 
-function ModelViewer({data, onCityClick, mode}: modelInterface): React.ReactElement{
-  const [city, setCity] = useState<"paris"|"annecy"|"lyon">("paris");
-  const isRaining = !!((data && data.Precipitation.mode === "rain") || city ==="lyon");
+function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.ReactElement{
+  const classes = useStyles();
+
+  const isRaining = !!((data && data.Precipitation.mode === "rain"));
   const isSnowing = !!(data && data.Precipitation.mode === "snow");
   const hasCloud = !!((data && data.Cloud.cover > 0) || true);
-  const hasSun = !!((data && data.Cloud.cover > 75) || city !=="lyon");
+  const hasSun = !!((data && data.Cloud.cover > 75));
   const hasStorm = !!(data && +data.Precipitation.value > 10);
 
 
@@ -52,6 +56,7 @@ function ModelViewer({data, onCityClick, mode}: modelInterface): React.ReactElem
   const [wearUmbrella, setWearUmbrella] = useState<boolean>(isRaining);
   const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
 
+  const [openMenu, setOpenMenu] = useState<boolean>(true);
   console.log(data);
 
   function checkIfApiModeResult(apiBool: boolean, testBool: boolean): boolean{
@@ -65,22 +70,18 @@ function ModelViewer({data, onCityClick, mode}: modelInterface): React.ReactElem
 
   function convertDataCloudCoverToIntensity(): number{
     return data?.Cloud.cover ? data.Cloud.cover / 10 : 1;
-   // return city ==="paris" ? 2 : 1;
   }
 
   function convertDataCloudCoverToNumber(): number{
     return data?.Cloud.cover ? data.Cloud.cover / 20 : 1;
-    //return city ==="paris" ? 5 : 1;
   }
 
   function convertDataWindSpeedToVelocity(): number{
     return data?.Wind.speed ? +data.Wind.speed / 6 : 1;
-  // return city ==="paris" ? 4 : 1;
-
   }
 
   function wearSummerClothes(): boolean{
-    if((data && +data.Temperature.feeling > 1 && data.Precipitation.mode === null) || city === "paris" || city === "annecy"){
+    if((data && +data.Temperature.feeling > 1 && data.Precipitation.mode === null)){
       return true;
     } else {
       return false;
@@ -135,10 +136,8 @@ function ModelViewer({data, onCityClick, mode}: modelInterface): React.ReactElem
 
       <Html scaleFactor={13} position={[8.3, 3.25, -13.5]} rotation-z={100}>
       <GradientBtn label={`Switch to ${switchModeValue()} mode`} onClick={()=> setSwitchMode(switchModeValue())} />
-  
       </Html>
 
-  
       <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
       <GradientBtn label={<span role="img" aria-label="storm"> Sun  ☀️</span>} onClick={() => setSun(!sun)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
@@ -155,20 +154,16 @@ function ModelViewer({data, onCityClick, mode}: modelInterface): React.ReactElem
       <GradientBtn label={"Wear Umbrella"} onClick={()=> setWearUmbrella(!wearUmbrella)} />
       </Html>
 
-      <Html style={{display: switchMode === "api" ? "initial" : "none"}} scaleFactor={7} position={[1, -0.75, -15.5]} rotation-z={100}>
-{
-  /*
-   <GradientBtn label={"Paris"} onClick={()=> onCityClick("Paris")} />
-   <GradientBtn label={"Lyon"} onClick={()=> onCityClick("Lyon")} />
-   <GradientBtn label={"Annecy"} onClick={()=> onCityClick("Annecy")} />
-   */
-}
+      <Html style={{display: switchMode === "api" ? "initial" : "none"}} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
     <div>{city}</div>
-    <GradientBtn disabled={city === "paris"} label={"Paris"} onClick={()=> setCity("paris")} />
-    <GradientBtn disabled={city === "lyon"} label={"Lyon"} onClick={()=> setCity("lyon")} />
-    <GradientBtn disabled={city === "annecy"} label={"Annecy"} onClick={()=> setCity("annecy")} />
+    <GradientBtn disabled={city === "Paris"} label={"Paris"} onClick={()=> onCityClick("Paris")} />
+    <GradientBtn disabled={city === "Lyon"} label={"Lyon"} onClick={()=> onCityClick("Lyon")} />
+    <GradientBtn disabled={city === "Annecy"} label={"Annecy"} onClick={()=> onCityClick("Annecy")} />
       </Html>
-
+      <Html scaleFactor={7} position={[1, -0.75, -15.5]} rotation-z={100}>
+      {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
+      <TemporaryDrawer city={city} open={openMenu} data={data} onClose={() => setOpenMenu(false)} />
+      </Html>
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <div style={{width:"max-content"}}>
         Toubonobo 

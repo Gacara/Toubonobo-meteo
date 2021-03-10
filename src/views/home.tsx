@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { getJSON } from '../callAPI/fetch-json'
 import useRefreshablePromise from '../callAPI/use-refreshable-promise'
@@ -6,19 +7,18 @@ import { data, forecastInterface } from "../interfaces/utils";
 import { CircularProgress } from '@material-ui/core';
 
 const fetchForecastData = async (city: string) => {
-  return getJSON<data>(``)
+  return getJSON<data>(`https://wtow.xyz/api/data/forecast/${city}`)
  }
- //https://iim-a4-back-toubonobo.herokuapp.com/api/data/forecas/${city}
 
 function Home(): React.ReactElement{
   const [resultData, setResultData] = useState<forecastInterface[]>();
   const defaultCity = "Paris";
   const [city, setCity] = useState<string>(defaultCity);
-  const { refresh: refreshStations } = useRefreshablePromise(() => fetchForecastData(city), setResultData);
+  const { refresh: refreshData } = useRefreshablePromise(() => fetchForecastData(city), setResultData);
   const [testMode, setTestMode] = useState<switchModetype | undefined>();
 
   useEffect(() => {
-    refreshStations()
+    refreshData()
   }, [city]);
 
   function loadingBeforeTestMode(){
@@ -35,12 +35,12 @@ function Home(): React.ReactElement{
     <>
     {
       resultData ?
-      <Model data={resultData[0]} onCityClick={(city) => setCity(city)} />
+      <Model data={resultData[0]} city={city} onCityClick={(city) => setCity(city)} />
       :
       <>
       {
         testMode ?
-        <Model mode={testMode} data={null} onCityClick={(city) => setCity(city)} />
+        <Model mode={testMode} city={city} data={null} onCityClick={(city) => setCity(city)} />
       :
       loadingBeforeTestMode()
       }
