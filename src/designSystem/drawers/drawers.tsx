@@ -14,12 +14,12 @@ interface DrawerInterface {
 export default function TemporaryDrawer({open, onClose, data, city}: DrawerInterface) {
   return (
           <Drawer anchor="right" open={open} onClose={onClose}>
-              <Grid style={{width: "800px"}} container item sm={12} justify="center" alignItems="center">
+              <Grid style={{width: "800px", background: "#FFC371"}} container item sm={12} justify="center" alignItems="center">
                   <Grid container item sm={6} justify="center">
                   <iframe title="city" src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDERFj1udznFe_t0Dw_jQFgsxHG7EGmg2E&q=${city}+France`} sandbox=''/>
                   </Grid>
                   <Grid container item sm={6} justify="center">
-                {`${data?.Temperature.value}°C`}
+                      {`${data?.Temperature.value}°C`}
                       </Grid>
                       <Grid container item sm={6} justify="center">
                       {`${data?.Wind.speed}km/h`}
