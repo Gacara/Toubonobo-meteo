@@ -22,10 +22,11 @@ import { forecastInterface } from "../interfaces/utils";
 import useStyles from './modelStyle';
 import TemporaryDrawer from '../designSystem/drawers/drawers';
 import LowPoly from '../component/lowPolyBackground';
-import Camp from '../component/camp';
+import NightCamp from '../component/nightCamp';
+import DayCamp from '../component/nightCamp';
 
 interface modelInterface{
-  data: forecastInterface | null;
+  data: forecastInterface[] | null;
   onCityClick: (city: string) => void;
   mode?: switchModetype;
   city: string;
@@ -33,9 +34,9 @@ interface modelInterface{
 
 export type switchModetype = "api" | "test";
 
-function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.ReactElement{
+function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const classes = useStyles();
-
+  const data = allData ? allData[0] : null;
   const isRaining = !!((data && data.Precipitation.mode === "rain"));
   const isSnowing = !!(data && data.Precipitation.mode === "snow");
   const hasCloud = !!((data && data.Cloud.cover > 0) || true);
@@ -50,7 +51,7 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
   const [cloud, setCloud] = useState<boolean>(hasCloud);
 
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
-  const [sceneNumber, setSceneNumber] = useState<number>(3);
+  const [sceneNumber, setSceneNumber] = useState<number>(4);
 
   const [wearMask, setWearMask] = useState<boolean>(true);
   const [wearHat, setWearHat] = useState<boolean>(wearSummerClothes());
@@ -72,7 +73,7 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
   }
 
   function changeScene(){
-    if(sceneNumber === 4){
+    if(sceneNumber === 5){
       setSceneNumber(1);
     }
     else {setSceneNumber(sceneNumber + 1);}
@@ -113,13 +114,14 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
     >
     <pointLight intensity={storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
-    // <OrbitControls />
+     <OrbitControls />
 }
     <Storm trigger={storm} />
       <Suspense fallback={<Html>loading..</Html>}>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -3.2]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} />
-          <Camp visible={sceneNumber === 3} position={[3, 0, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.5, 0]}/>
+          <NightCamp visible={sceneNumber === 3} position={[3, 0, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.5, 0]}/>
+          <DayCamp visible={sceneNumber === 4} position={[3, 0, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.5, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
@@ -143,7 +145,6 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
           <WaterBottle visible={checkIfApiModeResult(wearSummerClothes(), wearBottle)} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
           <Umbrella visible={checkIfApiModeResult(isRaining, wearUmbrella)} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
-
 
       <Html scaleFactor={13} position={[8.3, 3.25, -13.5]} rotation-z={100}>
       <GradientBtn label={`Switch to ${switchModeValue()} mode`} onClick={()=> setSwitchMode(switchModeValue())} />
