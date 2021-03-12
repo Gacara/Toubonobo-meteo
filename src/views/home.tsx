@@ -35,7 +35,7 @@ function Home(): React.ReactElement{
     <>
     {
       resultData ?
-      <Model data={resultData[0]} city={city} onCityClick={(city) => setCity(city)} />
+      <Model data={resultData} city={city} onCityClick={(city) => setCity(city)} />
       :
       <>
       {

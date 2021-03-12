@@ -26,7 +26,7 @@ import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/nightCamp';
 
 interface modelInterface{
-  data: forecastInterface | null;
+  data: forecastInterface[] | null;
   onCityClick: (city: string) => void;
   mode?: switchModetype;
   city: string;
@@ -34,9 +34,9 @@ interface modelInterface{
 
 export type switchModetype = "api" | "test";
 
-function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.ReactElement{
+function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const classes = useStyles();
-
+  const data = allData ? allData[0] : null;
   const isRaining = !!((data && data.Precipitation.mode === "rain"));
   const isSnowing = !!(data && data.Precipitation.mode === "snow");
   const hasCloud = !!((data && data.Cloud.cover > 0) || true);
