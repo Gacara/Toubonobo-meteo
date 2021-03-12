@@ -149,7 +149,7 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
       <GradientBtn label={`Switch to ${switchModeValue()} mode`} onClick={()=> setSwitchMode(switchModeValue())} />
       </Html>
 
-      <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1.25, -15]} rotation-z={100}>
+      <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1, -15]} rotation-z={100}>
       <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => setSun(!sun)} />
       <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
       <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => setSnow(!snow)} />
