@@ -19,7 +19,7 @@ export default function TemporaryDrawer({open, onClose, data, city}: DrawerInter
                   <iframe title="city" src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDERFj1udznFe_t0Dw_jQFgsxHG7EGmg2E&q=${city}+France`} sandbox=''/>
                   </Grid>
                   <Grid container item sm={6} justify="center">
-                {`${data?.Temperature.value}°C`}
+                      {`${data?.Temperature.value}°C`}
                       </Grid>
                       <Grid container item sm={6} justify="center">
                       {`${data?.Wind.speed}km/h`}

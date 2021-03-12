@@ -21,6 +21,8 @@ import Umbrella from '../component/accessories/umbrella';
 import { forecastInterface } from "../interfaces/utils";
 import useStyles from './modelStyle';
 import TemporaryDrawer from '../designSystem/drawers/drawers';
+import LowPoly from '../component/lowPolyBackground';
+import Camp from '../component/camp';
 
 interface modelInterface{
   data: forecastInterface | null;
@@ -48,6 +50,7 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
   const [cloud, setCloud] = useState<boolean>(hasCloud);
 
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
+  const [sceneNumber, setSceneNumber] = useState<number>(3);
 
   const [wearMask, setWearMask] = useState<boolean>(true);
   const [wearHat, setWearHat] = useState<boolean>(wearSummerClothes());
@@ -68,6 +71,12 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
     setTimeout(()=>setStorm(false), 5000);
   }
 
+  function changeScene(){
+    if(sceneNumber === 4){
+      setSceneNumber(1);
+    }
+    else {setSceneNumber(sceneNumber + 1);}
+  }
   function convertDataCloudCoverToIntensity(): number{
     return data?.Cloud.cover ? data.Cloud.cover / 10 : 1;
   }
@@ -104,11 +113,13 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
     >
     <pointLight intensity={storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
-    //<OrbitControls />
+    // <OrbitControls />
 }
     <Storm trigger={storm} />
       <Suspense fallback={<Html>loading..</Html>}>
-         <Forest />
+          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -3.2]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
+          <Forest visible={sceneNumber === 2} />
+          <Camp visible={sceneNumber === 3} position={[3, 0, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.5, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
@@ -138,12 +149,13 @@ function ModelViewer({data, onCityClick, mode, city}: modelInterface): React.Rea
       <GradientBtn label={`Switch to ${switchModeValue()} mode`} onClick={()=> setSwitchMode(switchModeValue())} />
       </Html>
 
-      <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
-      <GradientBtn label={<span role="img" aria-label="storm"> Sun  ☀️</span>} onClick={() => setSun(!sun)} />
-      <GradientBtn label={<span role="img" aria-label="storm"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
-      <GradientBtn label={<span role="img" aria-label="storm"> Snow  ❄️</span>} onClick={() => setSnow(!snow)} />
-      <GradientBtn label={<span role="img" aria-label="storm"> Rain  ⛆</span>} onClick={() => setRain(!rain)} />
+      <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1.25, -15]} rotation-z={100}>
+      <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => setSun(!sun)} />
+      <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
+      <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => setSnow(!snow)} />
+      <GradientBtn label={<span role="img" aria-label="Rain"> Rain  ⛆</span>} onClick={() => setRain(!rain)} />
       <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
+      <GradientBtn label={<span role="img" aria-label="scene"> Change scene</span>} onClick={changeScene} />
       </Html>
 
       <Html style={{display: switchMode === "test" ? "initial" : "none"}} scaleFactor={6} position={[4.25, -0.75, -13.5]} rotation-z={100}>
