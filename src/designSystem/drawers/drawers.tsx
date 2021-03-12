@@ -2,16 +2,19 @@ import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import { forecastInterface } from '../../interfaces/utils';
 import { Grid } from '@material-ui/core';
+import {Bar} from 'react-chartjs-2';
 
 
 interface DrawerInterface {
     open: boolean;
     onClose: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
-    data: forecastInterface | null;
+    allData: forecastInterface[] | null;
     city: string;
 }
 
-export default function TemporaryDrawer({open, onClose, data, city}: DrawerInterface) {
+export default function TemporaryDrawer({open, onClose, allData, city}: DrawerInterface) {
+  const data = allData ? allData[0] : null;
+
   return (
           <Drawer anchor="right" open={open} onClose={onClose}>
               <Grid style={{width: "800px"}} container item sm={12} justify="center" alignItems="center">
