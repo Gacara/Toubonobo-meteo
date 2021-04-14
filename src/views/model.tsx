@@ -175,7 +175,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Html>
       <Html scaleFactor={7} position={[1, -0.75, -15.5]} rotation-z={100}>
       {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
-      <TemporaryDrawer city={city} open={openMenu} data={data} onClose={() => setOpenMenu(false)} />
+      <TemporaryDrawer city={city} open={openMenu} allData={allData} onClose={() => setOpenMenu(false)} />
       </Html>
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <div style={{width:"max-content"}}>
