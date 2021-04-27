@@ -24,7 +24,7 @@ import TemporaryDrawer from '../designSystem/drawers/drawers';
 import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/nightCamp';
-import WearablesHook from "../component/wearablesHook";
+import MeteoHook from "../component/meteoHook";
 
 interface modelInterface{
   data: forecastInterface[] | null;
@@ -43,7 +43,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const cloud = !!((data && data.Cloud.cover > 0) || true);
   const sun = !!((data && data.Cloud.cover > 75));
   const storm = !!(data && +data.Precipitation.value > 10);
-  const initVariables = {
+  const initMeteoVariables = {
     storm: rain && storm,
     sun,
     rain,
@@ -51,9 +51,9 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     cloud,
   }
   const {
-    variables,
-    updateVariables,
-  } = WearablesHook({initVariables});
+    meteoVariables,
+    updateMeteoVariables,
+  } = MeteoHook({initMeteoVariables});
 
 
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
@@ -74,8 +74,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function handleCLick() {
-    updateVariables(true, "storm");
-    setTimeout(()=>updateVariables(false, "storm"), 5000);
+    updateMeteoVariables(true, "storm");
+    setTimeout(()=>updateMeteoVariables(false, "storm"), 5000);
   }
 
   function changeScene(){
@@ -118,11 +118,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
      camera={camera}
      shadowMap
     >
-    <pointLight intensity={variables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
+    <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
      <OrbitControls />
 }
-    <Storm trigger={variables.storm} />
+    <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={<Html>loading..</Html>}>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -3.2]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} />
@@ -131,11 +131,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Suspense>
 
       <Suspense fallback={null}>
-        <Sun visible={checkIfApiModeResult(sun, variables.sun) && !storm} />
+        <Sun visible={checkIfApiModeResult(sun, meteoVariables.sun) && !storm} />
         <ambientLight visible={!storm} />
-        <Rain isVisible={checkIfApiModeResult(rain, variables.rain)} rainCount={8000} />
-        <Snow isVisible={checkIfApiModeResult(snow, variables.snow)} snowCount={3000} />
-        <Clouds isVisible={checkIfApiModeResult(cloud, variables.cloud)} velocity={convertDataCloudCoverToNumber()} intensity={convertDataCloudCoverToIntensity()} number={convertDataWindSpeedToVelocity()} />
+        <Rain isVisible={checkIfApiModeResult(rain, meteoVariables.rain)} rainCount={8000} />
+        <Snow isVisible={checkIfApiModeResult(snow, meteoVariables.snow)} snowCount={3000} />
+        <Clouds isVisible={checkIfApiModeResult(cloud, meteoVariables.cloud)} velocity={convertDataCloudCoverToNumber()} intensity={convertDataCloudCoverToIntensity()} number={convertDataWindSpeedToVelocity()} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />
@@ -157,10 +157,10 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Html>
 
       <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1, -15]} rotation-z={100}>
-      <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => updateVariables(!variables.sun, "sun")} />
-      <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => updateVariables(!variables.cloud, "cloud")} />
-      <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => updateVariables(!variables.snow, "snow")} />
-      <GradientBtn label={<span role="img" aria-label="Rain"> Rain  ⛆</span>} onClick={() => updateVariables(!variables.rain, "rain")} />
+      <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => updateMeteoVariables(!meteoVariables.sun, "sun")} />
+      <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => updateMeteoVariables(!meteoVariables.cloud, "cloud")} />
+      <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => updateMeteoVariables(!meteoVariables.snow, "snow")} />
+      <GradientBtn label={<span role="img" aria-label="Rain"> Rain  ⛆</span>} onClick={() => updateMeteoVariables(!meteoVariables.rain, "rain")} />
       <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
       <GradientBtn label={<span role="img" aria-label="scene"> Change scene</span>} onClick={changeScene} />
       </Html>
