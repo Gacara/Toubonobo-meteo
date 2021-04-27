@@ -25,6 +25,7 @@ import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/nightCamp';
 import MeteoHook from "../component/meteoHook";
+import WearablesHook from '../component/wearablesHook';
 
 interface modelInterface{
   data: forecastInterface[] | null;
@@ -38,40 +39,23 @@ export type switchModetype = "api" | "test";
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const classes = useStyles();
   const data = allData ? allData[0] : null;
-  const rain = !!((data && data.Precipitation.mode === "rain"));
-  const snow = !!(data && data.Precipitation.mode === "snow");
-  const cloud = !!((data && data.Cloud.cover > 0) || true);
-  const sun = !!((data && data.Cloud.cover > 75));
-  const storm = !!(data && +data.Precipitation.value > 10);
-  const initMeteoVariables = {
-    storm: rain && storm,
-    sun,
-    rain,
-    snow,
-    cloud,
-  }
+  const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
+
   const {
     meteoVariables,
     updateMeteoVariables,
-  } = MeteoHook({initMeteoVariables});
+  } = MeteoHook({data, mode: switchMode});
 
-
-  const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
+  const {
+    wearablesVariables,
+    updateWearablesVariables,
+  } = WearablesHook({data, mode: switchMode});
   const [sceneNumber, setSceneNumber] = useState<number>(4);
 
-  const [wearMask, setWearMask] = useState<boolean>(true);
-  const [wearHat, setWearHat] = useState<boolean>(wearSummerClothes());
-  const [wearSunglasses, setWearSunglasses] = useState<boolean>(wearSummerClothes());
-  const [wearBottle, setWearBottle] = useState<boolean>(wearSummerClothes());
-  const [wearUmbrella, setWearUmbrella] = useState<boolean>(rain);
   const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   console.log(data);
-
-  function checkIfApiModeResult(apiBool: boolean, testBool: boolean): boolean{
-    return isApiMode() ? apiBool : testBool;
-  }
 
   function handleCLick() {
     updateMeteoVariables(true, "storm");
@@ -96,20 +80,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     return data?.Wind.speed ? +data.Wind.speed / 6 : 1;
   }
 
-  function wearSummerClothes(): boolean{
-    if((data && +data.Temperature.feeling > 1 && data.Precipitation.mode === null)){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   function switchModeValue(): switchModetype {
     return switchMode === "api" ? "test" : "api";
-  }
-
-  function isApiMode(): boolean {
-    return !!(switchMode === "api");
   }
 
   return (
@@ -131,11 +103,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Suspense>
 
       <Suspense fallback={null}>
-        <Sun visible={checkIfApiModeResult(sun, meteoVariables.sun) && !storm} />
-        <ambientLight visible={!storm} />
-        <Rain isVisible={checkIfApiModeResult(rain, meteoVariables.rain)} rainCount={8000} />
-        <Snow isVisible={checkIfApiModeResult(snow, meteoVariables.snow)} snowCount={3000} />
-        <Clouds isVisible={checkIfApiModeResult(cloud, meteoVariables.cloud)} velocity={convertDataCloudCoverToNumber()} intensity={convertDataCloudCoverToIntensity()} number={convertDataWindSpeedToVelocity()} />
+        <Sun visible={meteoVariables.sun && !meteoVariables.storm} />
+        <ambientLight visible={!meteoVariables.storm} />
+        <Rain isVisible={meteoVariables.rain} rainCount={8000} />
+        <Snow isVisible={meteoVariables.snow} snowCount={3000} />
+        <Clouds isVisible={meteoVariables.cloud} velocity={convertDataCloudCoverToNumber()} intensity={convertDataCloudCoverToIntensity()} number={convertDataWindSpeedToVelocity()} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />
@@ -145,11 +117,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Suspense>
 
       <Suspense fallback={null}>
-          <Hat visible={checkIfApiModeResult(wearSummerClothes(), wearHat)} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
-          <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
-          <Sunglasses visible={checkIfApiModeResult(wearSummerClothes(), wearSunglasses)} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
-          <WaterBottle visible={checkIfApiModeResult(wearSummerClothes(), wearBottle)} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
-          <Umbrella visible={checkIfApiModeResult(rain, wearUmbrella)} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
+          <Hat visible={wearablesVariables.wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
+          <Mask visible={wearablesVariables.wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
+          <Sunglasses visible={wearablesVariables.wearSunglasses} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
+          <WaterBottle visible={wearablesVariables.wearBottle} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
+          <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
 
       <Html scaleFactor={13} position={[8.3, 3.25, -13.5]} rotation-z={100}>
@@ -166,11 +138,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Html>
 
       <Html style={{display: switchMode === "test" ? "initial" : "none"}} scaleFactor={6} position={[4.25, -0.75, -13.5]} rotation-z={100}>
-      <GradientBtn label={"Wear hat"} onClick={()=> setWearHat(!wearHat)} />
-      <GradientBtn label={"Wear Sunglasses"} onClick={()=> setWearSunglasses(!wearSunglasses)} />
-      <GradientBtn label={"Wear Mask"} onClick={()=> setWearMask(!wearMask)} />
-      <GradientBtn label={"Wear Bottle"} onClick={()=> setWearBottle(!wearBottle)} />
-      <GradientBtn label={"Wear Umbrella"} onClick={()=> setWearUmbrella(!wearUmbrella)} />
+      <GradientBtn label={"Wear hat"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearHat, "wearHat")} />
+      <GradientBtn label={"Wear Sunglasses"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearSunglasses, "wearSunglasses")} />
+      <GradientBtn label={"Wear Mask"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearMask, "wearMask")} />
+      <GradientBtn label={"Wear Bottle"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearBottle, "wearBottle")} />
+      <GradientBtn label={"Wear Umbrella"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearUmbrella, "wearUmbrella")} />
       </Html>
 
       <Html style={{display: switchMode === "api" ? "initial" : "none"}} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
