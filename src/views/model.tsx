@@ -24,6 +24,7 @@ import TemporaryDrawer from '../designSystem/drawers/drawers';
 import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/nightCamp';
+import WearablesHook from "../component/wearablesHook";
 
 interface modelInterface{
   data: forecastInterface[] | null;
@@ -37,18 +38,23 @@ export type switchModetype = "api" | "test";
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const classes = useStyles();
   const data = allData ? allData[0] : null;
-  const isRaining = !!((data && data.Precipitation.mode === "rain"));
-  const isSnowing = !!(data && data.Precipitation.mode === "snow");
-  const hasCloud = !!((data && data.Cloud.cover > 0) || true);
-  const hasSun = !!((data && data.Cloud.cover > 75));
-  const hasStorm = !!(data && +data.Precipitation.value > 10);
+  const rain = !!((data && data.Precipitation.mode === "rain"));
+  const snow = !!(data && data.Precipitation.mode === "snow");
+  const cloud = !!((data && data.Cloud.cover > 0) || true);
+  const sun = !!((data && data.Cloud.cover > 75));
+  const storm = !!(data && +data.Precipitation.value > 10);
+  const initVariables = {
+    storm: rain && storm,
+    sun,
+    rain,
+    snow,
+    cloud,
+  }
+  const {
+    variables,
+    updateVariables,
+  } = WearablesHook({initVariables});
 
-
-  const [storm, setStorm] = useState<boolean>(isRaining && hasStorm);
-  const [sun, setSun] = useState<boolean>(hasSun);
-  const [rain, setRain] = useState<boolean>(isRaining);
-  const [snow, setSnow] = useState<boolean>(isSnowing);
-  const [cloud, setCloud] = useState<boolean>(hasCloud);
 
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
   const [sceneNumber, setSceneNumber] = useState<number>(4);
@@ -57,7 +63,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [wearHat, setWearHat] = useState<boolean>(wearSummerClothes());
   const [wearSunglasses, setWearSunglasses] = useState<boolean>(wearSummerClothes());
   const [wearBottle, setWearBottle] = useState<boolean>(wearSummerClothes());
-  const [wearUmbrella, setWearUmbrella] = useState<boolean>(isRaining);
+  const [wearUmbrella, setWearUmbrella] = useState<boolean>(rain);
   const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -68,8 +74,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function handleCLick() {
-    setStorm(true);
-    setTimeout(()=>setStorm(false), 5000);
+    updateVariables(true, "storm");
+    setTimeout(()=>updateVariables(false, "storm"), 5000);
   }
 
   function changeScene(){
@@ -112,11 +118,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
      camera={camera}
      shadowMap
     >
-    <pointLight intensity={storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
+    <pointLight intensity={variables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
      <OrbitControls />
 }
-    <Storm trigger={storm} />
+    <Storm trigger={variables.storm} />
       <Suspense fallback={<Html>loading..</Html>}>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -3.2]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} />
@@ -125,11 +131,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Suspense>
 
       <Suspense fallback={null}>
-        <Sun visible={checkIfApiModeResult(hasSun, sun) && !storm} />
+        <Sun visible={checkIfApiModeResult(sun, variables.sun) && !storm} />
         <ambientLight visible={!storm} />
-        <Rain isVisible={checkIfApiModeResult(isRaining, rain)} rainCount={8000} />
-        <Snow isVisible={checkIfApiModeResult(isSnowing,snow)} snowCount={3000} />
-        <Clouds isVisible={checkIfApiModeResult(hasCloud, cloud)} velocity={convertDataCloudCoverToNumber()} intensity={convertDataCloudCoverToIntensity()} number={convertDataWindSpeedToVelocity()} />
+        <Rain isVisible={checkIfApiModeResult(rain, variables.rain)} rainCount={8000} />
+        <Snow isVisible={checkIfApiModeResult(snow, variables.snow)} snowCount={3000} />
+        <Clouds isVisible={checkIfApiModeResult(cloud, variables.cloud)} velocity={convertDataCloudCoverToNumber()} intensity={convertDataCloudCoverToIntensity()} number={convertDataWindSpeedToVelocity()} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />
@@ -143,7 +149,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           <Mask visible={wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
           <Sunglasses visible={checkIfApiModeResult(wearSummerClothes(), wearSunglasses)} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
           <WaterBottle visible={checkIfApiModeResult(wearSummerClothes(), wearBottle)} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
-          <Umbrella visible={checkIfApiModeResult(isRaining, wearUmbrella)} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
+          <Umbrella visible={checkIfApiModeResult(rain, wearUmbrella)} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
 
       <Html scaleFactor={13} position={[8.3, 3.25, -13.5]} rotation-z={100}>
@@ -151,10 +157,10 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Html>
 
       <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1, -15]} rotation-z={100}>
-      <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => setSun(!sun)} />
-      <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => setCloud(!cloud)} />
-      <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => setSnow(!snow)} />
-      <GradientBtn label={<span role="img" aria-label="Rain"> Rain  ⛆</span>} onClick={() => setRain(!rain)} />
+      <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => updateVariables(!variables.sun, "sun")} />
+      <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => updateVariables(!variables.cloud, "cloud")} />
+      <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => updateVariables(!variables.snow, "snow")} />
+      <GradientBtn label={<span role="img" aria-label="Rain"> Rain  ⛆</span>} onClick={() => updateVariables(!variables.rain, "rain")} />
       <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
       <GradientBtn label={<span role="img" aria-label="scene"> Change scene</span>} onClick={changeScene} />
       </Html>
