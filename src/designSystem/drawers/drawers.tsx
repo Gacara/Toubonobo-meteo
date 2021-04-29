@@ -1,12 +1,12 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import { forecastInterface } from '../../interfaces/utils';
-import { Button, createStyles, Grid, makeStyles } from '@material-ui/core';
+import { Button, createStyles, Grid, makeStyles, Slider } from '@material-ui/core';
 import {Bar} from 'react-chartjs-2';
 import { meteoInterface } from '../../component/meteoHook';
 import { wearablesInterface } from '../../component/wearablesHook';
 import { switchModetype } from '../../views/model';
-import { TemperatureChart, mockedCharts } from './utils';
+import { TemperatureChart, mockedCharts, rainMarks } from './utils';
 import GradientBtn from '../button/button';
 
 
@@ -30,6 +30,7 @@ export default function TemporaryDrawer({open, onClose, allData, city, switchMod
 
   const styles = makeStyles(() => createStyles({
     root: {
+      position: "relative",
       "& .MuiButton-root":{
         fontSize: "1.5rem",
       },
@@ -47,6 +48,13 @@ export default function TemporaryDrawer({open, onClose, allData, city, switchMod
   valueLabelDisplay="auto"
   marks={marks}
 />
+
+
+  rainPrecipitation: number;
+    snowPrecipitation: number;
+    cloudIntensity: number;
+    cloudCover: number;
+    windSpeed: number;
 */
 
 function renderOnApiMode(){
@@ -79,44 +87,63 @@ function renderOnTestMode(){
   return  (<Grid style={{height: "100%", width: "500px", background: "#FFC371", overflow: "hidden", padding: "10px 30px"}} container item sm={12}  justify="center" alignItems="flex-start">
   
   <Grid container item sm={12} direction="column" justify="center" style={{minHeight: "33%"}}>
+  
   <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
 
-      <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
-      <Grid container item sm={6} justify="flex-start">
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "20px 0 10px 0"}}>
+      <Grid container item sm={6} justify="center">
       <Button color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
       {<span role="img" aria-label="Sun">☀️</span>}
       </Button>
       </Grid>
-      
+    
       <Grid container item sm={6} justify="center">
-      </Grid>
-    </Grid>
-
-
-
-      <Grid container item sm={10} justify="center">
-      <Button color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
-      {<span role="img" aria-label="Clouds">☁️</span>}
-      </Button>
-      </Grid>
-
-      <Grid container item sm={10} justify="center">
-      <Button color="primary" onClick={() => action(!meteoVariables.snow, "updateMeteoVariables", "snow")}>
-      {<span role="img" aria-label="Snow">❄️</span>}
-      </Button>
-      </Grid>
-
-      <Grid container item sm={10} justify="center">
-      <Button color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
-      {<span role="img" aria-label="Rain">⛆</span>}
-      </Button>
-      </Grid>
-
-      <Grid container item sm={10} justify="center">
       <Button color="primary" onClick={() => action(undefined, "stormClick", "storm")}>
       {<span role="img" aria-label="storm">⚡</span>}
       </Button>
       </Grid>
+      </Grid>
+
+
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
+      <Grid container item sm={6} justify="flex-start">
+      <Button color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
+      {<span role="img" aria-label="Clouds">☁️</span>}
+      </Button>
+      </Grid>
+      <Grid container item sm={6} justify="center">
+        blabla
+      </Grid>
+      </Grid>
+
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
+      <Grid container item sm={6} justify="flex-start">
+      <Button color="primary" onClick={() => action(!meteoVariables.snow, "updateMeteoVariables", "snow")}>
+      {<span role="img" aria-label="Snow">❄️</span>}
+      </Button>
+      </Grid>
+      <Grid container item sm={6} justify="center">
+        blablazea
+      </Grid>
+      </Grid>
+
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
+      <Grid container item sm={6} justify="flex-start">
+      <Button color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
+      {<span role="img" aria-label="Rain">⛆</span>}
+      </Button>
+      </Grid>
+      <Grid container item sm={6} justify="center">
+      <Slider
+        value={meteoVariables.rainPrecipitation}
+        step={5000}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "rainPrecipitation");}}
+        min={0}
+        max={80000}
+      />
+      </Grid>
+      </Grid>
+
 
     </Grid>
     
@@ -180,7 +207,11 @@ function renderOnTestMode(){
 
   return (
           <Drawer anchor="left" open={open} onClose={onClose} classes={styles}>
-              
+            <div style={{position: "absolute", top: "5px", right: "0"}}>
+            <GradientBtn label={`Switch to ${switchMode === "api" ? "test" : "api"} mode`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
+
+            </div>
+
               {
                 switchMode === "api"
               ?

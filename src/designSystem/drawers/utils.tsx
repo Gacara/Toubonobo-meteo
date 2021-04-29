@@ -31,3 +31,18 @@ return {
         ],
       }
 }
+
+export const rainMarks = [
+    {
+      value: 0,
+      label: '0',
+    },
+    {
+      value: 8000,
+      label: '8000',
+    },
+    {
+      value: 15000,
+      label: '15000',
+    },
+  ];

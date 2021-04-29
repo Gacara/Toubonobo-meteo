@@ -17,7 +17,7 @@ export interface meteoInterface {
 type variablesType = number | boolean;
 
 type OnlyBoolean = Omit<meteoInterface, Precipitation>;
-type Precipitation = "rainPrecipitation"|"snowPrecipitation" | "cloudIntensity" | "cloudCover" | "windSpeed";
+type Precipitation = "rainPrecipitation" | "snowPrecipitation" | "cloudIntensity" | "cloudCover" | "windSpeed";
 
 interface meteoHookProps {
     data: forecastInterface | null;
@@ -32,7 +32,7 @@ interface meteoHookInterface {
 export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterface {
     const rain = !!((data && data.Precipitation.mode === "rain"));
     const snow = !!(data && data.Precipitation.mode === "snow");
-    const cloud = !!((data && data.Cloud.cover > 0) || true);
+    const cloud = !!((data && data.Cloud.cover > 0) || false);
     const sun = !!((data && data.Cloud.cover > 75));
     const storm = !!(data && +data.Precipitation.value > 10);
     const rainPrecipitation = convertDataRainCoverToNumber();
