@@ -4,11 +4,12 @@ import shadows from "@material-ui/core/styles/shadows";
   const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: () => ({
-      minWidth: 200,
+      width: 200,
+      maxHeight: 35,
       transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
       background:
         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        'linear-gradient(to right, #FFC371, #FF5F6D)',
+        'linear-gradient(to right, #FF5F6D, #FF5F6D)',
       '&:hover': {
         transform: 'scale(1.1)',
       },

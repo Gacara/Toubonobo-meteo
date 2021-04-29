@@ -24,8 +24,8 @@ import TemporaryDrawer from '../designSystem/drawers/drawers';
 import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/nightCamp';
-import MeteoHook from "../component/meteoHook";
-import WearablesHook from '../component/wearablesHook';
+import MeteoHook, { meteoInterface } from "../component/meteoHook";
+import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
 
 interface modelInterface{
   data: forecastInterface[] | null;
@@ -57,7 +57,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   console.log(data);
 
-  function handleCLick() {
+  function stormClick() {
     updateMeteoVariables(true, "storm");
     setTimeout(()=>updateMeteoVariables(false, "storm"), 5000);
   }
@@ -68,20 +68,24 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     }
     else {setSceneNumber(sceneNumber + 1);}
   }
-  function convertDataCloudCoverToIntensity(): number{
-    return data?.Cloud.cover ? data.Cloud.cover / 10 : 1;
-  }
-
-  function convertDataCloudCoverToNumber(): number{
-    return data?.Cloud.cover ? data.Cloud.cover / 20 : 1;
-  }
-
-  function convertDataWindSpeedToVelocity(): number{
-    return data?.Wind.speed ? +data.Wind.speed / 6 : 1;
-  }
 
   function switchModeValue(): switchModetype {
     return switchMode === "api" ? "test" : "api";
+  }
+
+  function onAction(value: any, type: string, action: string){
+    if (type === "stormClick"){
+      stormClick();
+    }
+    if( type === "updateMeteoVariables"){
+      updateMeteoVariables(value, action as keyof meteoInterface);
+    }
+    if( type === "updateWearablesVariables"){
+      updateWearablesVariables(value, action as keyof wearablesInterface);
+    }
+    if( type === "setSwitchMode"){
+      setSwitchMode(switchModeValue());
+    }
   }
 
   return (
@@ -92,7 +96,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     >
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
-     <OrbitControls />
+     // <OrbitControls />
 }
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={<Html>loading..</Html>}>
@@ -105,9 +109,9 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       <Suspense fallback={null}>
         <Sun visible={meteoVariables.sun && !meteoVariables.storm} />
         <ambientLight visible={!meteoVariables.storm} />
-        <Rain isVisible={meteoVariables.rain} rainCount={8000} />
-        <Snow isVisible={meteoVariables.snow} snowCount={3000} />
-        <Clouds isVisible={meteoVariables.cloud} velocity={convertDataCloudCoverToNumber()} intensity={convertDataCloudCoverToIntensity()} number={convertDataWindSpeedToVelocity()} />
+        <Rain isVisible={meteoVariables.rain} rainCount={meteoVariables.rainPrecipitation} />
+        <Snow isVisible={meteoVariables.snow} snowCount={meteoVariables.snowPrecipitation} />
+        <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.cloudCover} intensity={meteoVariables.cloudIntensity} number={meteoVariables.windSpeed} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />
@@ -124,18 +128,22 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
 
-      <Html scaleFactor={13} position={[8.3, 3.25, -13.5]} rotation-z={100}>
+      <Html scaleFactor={13} position={[0, 4.5, -13.5]} rotation-z={100}>
       <GradientBtn label={`Switch to ${switchModeValue()} mode`} onClick={()=> setSwitchMode(switchModeValue())} />
       </Html>
-
-      <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1, -15]} rotation-z={100}>
+{
+/*
+ <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1, -15]} rotation-z={100}>
       <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => updateMeteoVariables(!meteoVariables.sun, "sun")} />
       <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => updateMeteoVariables(!meteoVariables.cloud, "cloud")} />
       <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => updateMeteoVariables(!meteoVariables.snow, "snow")} />
       <GradientBtn label={<span role="img" aria-label="Rain"> Rain  ⛆</span>} onClick={() => updateMeteoVariables(!meteoVariables.rain, "rain")} />
-      <GradientBtn label={<span role="img" aria-label="storm"> Storm  !!⚡</span>} onClick={handleCLick} />
       <GradientBtn label={<span role="img" aria-label="scene"> Change scene</span>} onClick={changeScene} />
       </Html>
+*/
+}
+{
+/*
 
       <Html style={{display: switchMode === "test" ? "initial" : "none"}} scaleFactor={6} position={[4.25, -0.75, -13.5]} rotation-z={100}>
       <GradientBtn label={"Wear hat"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearHat, "wearHat")} />
@@ -144,7 +152,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       <GradientBtn label={"Wear Bottle"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearBottle, "wearBottle")} />
       <GradientBtn label={"Wear Umbrella"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearUmbrella, "wearUmbrella")} />
       </Html>
-
+      */
+}
       <Html style={{display: switchMode === "api" ? "initial" : "none"}} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
     <div>{city}</div>
     <GradientBtn disabled={city === "Paris"} label={"Paris"} onClick={()=> onCityClick("Paris")} />
@@ -153,7 +162,16 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Html>
       <Html scaleFactor={7} position={[1, -0.75, -15.5]} rotation-z={100}>
       {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
-      <TemporaryDrawer city={city} open={openMenu} allData={allData} onClose={() => setOpenMenu(false)} />
+      <TemporaryDrawer
+      switchMode={switchMode}
+      meteoVariables={meteoVariables}
+      wearablesVariables={wearablesVariables}
+      city={city}
+      open={true}
+      allData={allData}
+      onClose={() => setOpenMenu(false)}
+      action={onAction}
+      />
       </Html>
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <div style={{width:"max-content"}}>
