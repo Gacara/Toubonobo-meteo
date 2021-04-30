@@ -24,7 +24,7 @@ function Home(): React.ReactElement{
   function loadingBeforeTestMode(){
       setTimeout(() => {
         setTestMode("test");
-      }, 0);
+      }, 3000);
       return <div>
       Waiting for data...
       <CircularProgress />

@@ -16,8 +16,9 @@ export const mockedCharts = {
   };
 
 export function TemperatureChart(allData: forecastInterface[]){
+    console.log(allData);
 return {
-        labels: [`${allData[0].dateObj}`, `${allData[1].dateObj}`, `${allData[2].dateObj}`, `${allData[3].dateObj}`, `${allData[4].dateObj}`],
+        labels: [`${allData[0].dateObj}`, `${allData[1].dateObj}`, `${allData[2].dateObj}`, `${allData[3].dateObj}`],
         datasets: [
           {
             label: 'Temperature',
@@ -26,7 +27,7 @@ return {
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: [+allData[0].Temperature.value, +allData[1].Temperature.value, +allData[2].Temperature.value, +allData[3].Temperature.value, +allData[4].Temperature.value],
+            data: [+allData[0].Temperature.value, +allData[1].Temperature.value, +allData[2].Temperature.value, +allData[3].Temperature.value]
           }
         ],
       }
