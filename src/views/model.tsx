@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
-import { Canvas, ReactThreeFiber } from 'react-three-fiber';
-import { OrbitControls, Html } from 'drei'
+import { Canvas, ReactThreeFiber } from '@react-three/fiber';
+import { OrbitControls, Html } from '@react-three/drei'
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
 import Forest from "../component/forest";
@@ -8,7 +8,6 @@ import Flamingo from '../component/Flamingo';
 import Parrot from '../component/Parrot';
 import Stork from '../component/Stork';
 import Storm from '../component/storm';
-import THREE from 'three';
 import Clouds from '../component/clouds';
 import Hat from '../component/clothes/hats/Hat';
 import Mask from '../component/clothes/masks/Mask';
@@ -52,7 +51,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   } = WearablesHook({data, mode: switchMode});
   const [sceneNumber, setSceneNumber] = useState<number>(4);
 
-  const [camera, setCamera] = useState<Partial<ReactThreeFiber.Object3DNode<THREE.Camera, typeof THREE.Camera> & ReactThreeFiber.Object3DNode<THREE.PerspectiveCamera, typeof THREE.PerspectiveCamera> & ReactThreeFiber.Object3DNode<THREE.OrthographicCamera, typeof THREE.OrthographicCamera>>>({ far: 2000, position: [5, 1.2, -18] });
+  const [camera, setCamera] = useState<any>({ far: 2000, position: [5, 1.2, -18] });
 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   console.log(data);
@@ -96,7 +95,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     <div style={{ height:"100vh", width:"100vw" }}>
     <Canvas 
      camera={camera}
-     shadowMap
     >
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
@@ -155,13 +153,13 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Html>
       */
 }
-      <Html style={{display: switchMode === "api" ? "initial" : "none"}} scaleFactor={7} position={[7.5, 0.5, -15]} rotation-z={100}>
+      <Html style={{display: switchMode === "api" ? "initial" : "none"}} position={[7.5, 0.5, -15]} rotation-z={100}>
     <div>{city}</div>
     <GradientBtn disabled={city === "Paris"} label={"Paris"} onClick={()=> onCityClick("Paris")} />
     <GradientBtn disabled={city === "Lyon"} label={"Lyon"} onClick={()=> onCityClick("Lyon")} />
     <GradientBtn disabled={city === "Annecy"} label={"Annecy"} onClick={()=> onCityClick("Annecy")} />
       </Html>
-      <Html scaleFactor={7} position={[1, -0.75, -15.5]} rotation-z={100}>
+      <Html position={[1, -0.75, -15.5]} rotation-z={100}>
       {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
       <TemporaryDrawer
       switchMode={switchMode}

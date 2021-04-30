@@ -7,7 +7,7 @@ title: umbrella
 */
 
 import React, { useRef } from 'react'
-import { useLoader } from 'react-three-fiber'
+import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 

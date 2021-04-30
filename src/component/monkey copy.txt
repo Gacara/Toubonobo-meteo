@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from 'react';
-import { Canvas, useLoader } from 'react-three-fiber';
+import { Canvas, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls, Html, draco } from 'drei'
+import { OrbitControls, Html, draco } from '@react-three/drei'
 import Box from "../component/box";
 import Monkey from '../component/monkey';
 import { Group } from 'three';
