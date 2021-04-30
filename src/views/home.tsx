@@ -23,8 +23,8 @@ function Home(): React.ReactElement{
 
   function loadingBeforeTestMode(){
       setTimeout(() => {
-        setTestMode("test");
-      }, 3000);
+        setTestMode("api");
+      }, 0);
       return <div>
       Waiting for data...
       <CircularProgress />
