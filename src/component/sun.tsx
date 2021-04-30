@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef } from 'react';
 
 export default function Sun(props: JSX.IntrinsicElements['group']) {
   const ref = useRef()

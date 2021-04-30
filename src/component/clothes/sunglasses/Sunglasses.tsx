@@ -6,7 +6,7 @@ source: https://sketchfab.com/3d-models/sunglasses-free-deeb41e3f5f1480bb6f79f47
 title: Sunglasses_Free
 */
 import React, { useRef } from 'react'
-import { useLoader } from 'react-three-fiber'
+import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 

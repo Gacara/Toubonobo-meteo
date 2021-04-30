@@ -6,7 +6,7 @@ source: https://sketchfab.com/models/01aa135a058e4d9396c234294d1691ea
 title: Dark Minaz Designs Offical Hat
 */
 import React, { useRef } from 'react'
-import { useLoader } from 'react-three-fiber'
+import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 

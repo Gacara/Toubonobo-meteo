@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import { useFrame } from "react-three-fiber";
-// import { OrbitControls, MeshDistortMaterial, shaderMaterial } from "drei";
+import { useFrame } from '@react-three/fiber';
+// import { OrbitControls, MeshDistortMaterial, shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
 // import setInitialPositions from "./set-initial-positions";
 
