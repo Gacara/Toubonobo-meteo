@@ -51,8 +51,8 @@ export const mockedMeteoData = {
   };
 
 export const mockedTemperatureCharts = {
-    labels: ["2021-04-30T09:00:00.000Z", "2021-05-30T09:00:00.000Z", "2021-06-30T09:00:00.000Z", "2021-07-30T09:00:00.000Z", "2021-08-30T09:00:00.000Z"],
-    datasets: [
+  labels: [convertTimeToDay(new Date("2021-04-30T09:00:00.000Z")),convertTimeToDay(new Date("2021-05-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-06-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-07-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-08-30T09:00:00.000Z"))],
+  datasets: [
       {
         label: 'Temperature (°C)',
         backgroundColor: 'rgba(255,99,132,0.2)',
@@ -66,7 +66,7 @@ export const mockedTemperatureCharts = {
   };
 
   export const mockedHumidityCharts = {
-    labels: ["2021-04-30T09:00:00.000Z", "2021-05-30T09:00:00.000Z", "2021-06-30T09:00:00.000Z", "2021-07-30T09:00:00.000Z", "2021-08-30T09:00:00.000Z"],
+    labels: [convertTimeToDay(new Date("2021-04-30T09:00:00.000Z")),convertTimeToDay(new Date("2021-05-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-06-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-07-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-08-30T09:00:00.000Z"))],
     datasets: [
       {
         label: 'Humidity (%)',
@@ -81,7 +81,7 @@ export const mockedTemperatureCharts = {
   };
 
   export const mockedCloudCharts = {
-    labels: ["2021-04-30T09:00:00.000Z", "2021-05-30T09:00:00.000Z", "2021-06-30T09:00:00.000Z", "2021-07-30T09:00:00.000Z", "2021-08-30T09:00:00.000Z"],
+    labels: [convertTimeToDay(new Date("2021-04-30T09:00:00.000Z")),convertTimeToDay(new Date("2021-05-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-06-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-07-30T09:00:00.000Z")), convertTimeToDay(new Date("2021-08-30T09:00:00.000Z"))],
     datasets: [
       {
         label: 'Cloud speed (m/s)',
@@ -94,10 +94,32 @@ export const mockedTemperatureCharts = {
       }
     ]
   };
-  
+  function convertTimeToDay(currentDate: Date){
+    const convertedDate = new Date(currentDate).getUTCDay();
+    const day = new Date(currentDate).getUTCDate();
+    const month = new Date(currentDate).getUTCMonth();
+    switch (convertedDate) {
+      case 1:
+        return `Monday ${day}/${month}`;
+      case 2:
+        return `Tuesday ${day}/${month}`;
+      case 3:
+        return `Wednesday ${day}/${month}`;
+      case 4:
+        return `Thursday ${day}/${month}`;
+      case 5:
+        return `Friday ${day}/${month}`;
+      case 6:
+        return `Saturday ${day}/${month}`;
+      case 7:
+        return `Sunday ${day}/${month}`;
+      default:
+        return "";
+    }
+  }
   export function CloudChart(allData: forecastInterface[]){
     return {
-            labels: [`${allData[0].dateObj}`, `${allData[1].dateObj}`, `${allData[2].dateObj}`, `${allData[3].dateObj}`],
+            labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`],
             datasets: [
               {
                 label: 'Cloud speed (m/s)',
@@ -114,7 +136,7 @@ export const mockedTemperatureCharts = {
 
   export function HumidityChart(allData: forecastInterface[]){
     return {
-            labels: [`${allData[0].dateObj}`, `${allData[1].dateObj}`, `${allData[2].dateObj}`, `${allData[3].dateObj}`],
+            labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`],
             datasets: [
               {
                 label: 'Humidity (%)',
@@ -131,7 +153,7 @@ export const mockedTemperatureCharts = {
 
 export function TemperatureChart(allData: forecastInterface[]){
 return {
-        labels: [`${allData[0].dateObj}`, `${allData[1].dateObj}`, `${allData[2].dateObj}`, `${allData[3].dateObj}`],
+        labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`],
         datasets: [
           {
             label: 'Temperature (°C)',
