@@ -31,11 +31,18 @@ export default function TemporaryDrawer({open, onClose, allData, city, switchMod
     root: {
       position: "relative",
       overflow: "hidden",
-      "& .MuiButton-root":{
+      "& .MuiButton-root": {
         fontSize: "1.5rem",
       },
-      "& .MuiBackdrop-root":{
+      "& .MuiBackdrop-root": {
         backgroundColor: 'rgba(0, 0, 0, 0)',
+      },
+      "& .iconButton": {
+        height: "40px",
+        minWidth: "45px",
+        maxWidth: "45px",
+        background: "white",
+        borderRadius: "5px",
       }
     },
   }))();
@@ -91,15 +98,15 @@ function renderOnTestMode(){
   
   <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
 
-      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "20px 0 10px 0"}}>
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "40px 0 10px 0"}}>
       <Grid container item sm={6} justify="center">
-      <Button color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
+      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
       {<span role="img" aria-label="Sun">☀️</span>}
       </Button>
       </Grid>
     
       <Grid container item sm={6} justify="center">
-      <Button color="primary" onClick={() => action(undefined, "stormClick", "storm")}>
+      <Button className="iconButton" color="primary" onClick={() => action(undefined, "stormClick", "storm")}>
       {<span role="img" aria-label="storm">⚡</span>}
       </Button>
       </Grid>
@@ -108,7 +115,7 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
+      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
       {<span role="img" aria-label="Clouds">☁️</span>}
       </Button>
       </Grid>    
@@ -146,7 +153,7 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button color="primary" onClick={() => {action(!meteoVariables.snow, "updateMeteoVariables", "snow")}}>
+      <Button className="iconButton" color="primary" onClick={() => {action(!meteoVariables.snow, "updateMeteoVariables", "snow")}}>
       {<span role="img" aria-label="Snow">❄️</span>}
       </Button>
       </Grid>
@@ -163,7 +170,7 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
+      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
       {<span role="img" aria-label="Rain">⛆</span>}
       </Button>
       </Grid>

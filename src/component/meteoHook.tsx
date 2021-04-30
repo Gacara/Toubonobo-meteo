@@ -51,7 +51,7 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
       case precipitation > 15:
         return 15000; 
       default:
-        return 8000; 
+        return 50000; 
     }
   }
 
