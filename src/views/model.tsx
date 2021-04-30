@@ -1,5 +1,5 @@
-import React, { Suspense, useState } from 'react';
-import { Canvas, ReactThreeFiber } from '@react-three/fiber';
+import React, { MutableRefObject, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Canvas, PerspectiveCameraProps, useFrame, useThree, Vector3 } from '@react-three/fiber';
 import { OrbitControls, Html } from '@react-three/drei'
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
@@ -18,13 +18,14 @@ import Snow from '../component/snow';
 import WaterBottle from '../component/accessories/WaterBottle';
 import Umbrella from '../component/accessories/umbrella';
 import { forecastInterface } from "../interfaces/utils";
-import useStyles from './modelStyle';
 import TemporaryDrawer from '../designSystem/drawers/drawers';
 import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/dayCamp';
 import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/meteoHook";
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
+import * as THREE from 'three';
+import { PerspectiveCamera } from 'three';
 
 interface modelInterface{
   data: forecastInterface[] | null;
@@ -36,7 +37,6 @@ interface modelInterface{
 export type switchModetype = "api" | "test";
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
-  const classes = useStyles();
   const data = allData ? allData[0] : null;
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
 
@@ -50,11 +50,10 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     updateWearablesVariables,
   } = WearablesHook({data, mode: switchMode});
   const [sceneNumber, setSceneNumber] = useState<number>(4);
-
-  const [camera, setCamera] = useState<any>({ far: 2000, position: [5, 1.2, -18] });
+const [fov, setFov] = useState<number>(50);
+  const [camera, setCamera] = useState<any>({ position: [10, 1.2, -18] });
 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  console.log(data);
 
   function stormClick() {
     updateMeteoVariables(true, "storm");
@@ -94,28 +93,97 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     }
   }
 
+  function CustomCamera(props: any) {
+    const cameraRef: React.MutableRefObject<PerspectiveCamera | undefined>= useRef()
+    const set = useThree(({ set }) => set)
+    const size = useThree(({ size }) => size)
+    
+    function zoomOnActions(value: unknown, type: string, action: string){
+      
+      if (cameraRef.current) {
+        if(type === "updateWearablesVariables"){
+          if (action === "wearUmbrella") {
+            setFov(35);
+          } else {
+          setFov(20);
+        }
+    }else {
+      resetFov();
+    }
+  }
+      
+      onAction(value, type, action);
+    }
+
+    function resetFov(){
+      setFov(50);
+      }
+
+      useLayoutEffect(() => {
+        if (cameraRef.current) {
+          cameraRef.current!.aspect! = size.width / size.height;
+          cameraRef.current.rotation.y = -16.1;
+          cameraRef.current.position.x = 7;
+          cameraRef.current.position.y = 1.2;
+          cameraRef.current.position.z = -20;
+          cameraRef.current.fov = fov;
+           // cameraRef.current!.fov! = 20;
+           cameraRef.current!.updateProjectionMatrix()
+         }
+      }, [size.height, size.width])
+    
+      useLayoutEffect(() => {
+        set({ camera: cameraRef.current as unknown as PerspectiveCamera })
+      }, [set])
+    
+    return <>
+    <perspectiveCamera ref={cameraRef} />
+    <Html position={[1, -0.75, -15.5]} rotation-z={100}>
+      {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
+      <TemporaryDrawer
+      switchMode={switchMode}
+      meteoVariables={meteoVariables}
+      wearablesVariables={wearablesVariables}
+      city={city}
+      open={openMenu}
+      allData={allData}
+      onClose={() => {setOpenMenu(false); resetFov();}}
+      action={zoomOnActions}
+      />
+      </Html>
+  
+    </>
+}
+
   return (
     <div style={{ height:"100vh", width:"100vw" }}>
-    <Canvas 
-     camera={camera}
-    >
+    <Canvas>
+    <CustomCamera />
+
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
-{
-    <OrbitControls />
+    {
+    // <OrbitControls />
 }
+
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={<Html>loading..</Html>}>
-          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -3.2]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
-          <Forest visible={sceneNumber === 2} />
-          <NightCamp visible={sceneNumber === 3} position={[3, 0, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.5, 0]}/>
-          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation= {[0.04, 3.4, 0]}/>
+          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
+          <Forest visible={sceneNumber === 2} rotation= {[0, 1.37, -0.001]} />
+          <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.45, 0]}/>
+          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation= {[0.04, 3.35, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
         <Sun visible={meteoVariables.sun && !meteoVariables.storm} color={sceneNumber !== 3 ? "yellow" : "#DCD8AE"}/>
         <ambientLight visible={!meteoVariables.storm} />
-        <Rain isVisible={meteoVariables.rain} rainCount={meteoVariables.rainPrecipitation} />
-        <Snow isVisible={meteoVariables.snow} snowCount={meteoVariables.snowPrecipitation} />
+        <Rain
+        isVisible={meteoVariables.rain}
+        rainCount={meteoVariables.rainPrecipitation}
+        />
+        <Snow 
+        isVisible={meteoVariables.snow}
+        snowCount={meteoVariables.snowPrecipitation}
+        />
         <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.windSpeed} intensity={meteoVariables.cloudIntensity} number={meteoVariables.cloudCover} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
@@ -132,20 +200,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           <WaterBottle visible={wearablesVariables.wearBottle} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
           <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
-      
-      <Html position={[1, -0.75, -15.5]} rotation-z={100}>
-      {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
-      <TemporaryDrawer
-      switchMode={switchMode}
-      meteoVariables={meteoVariables}
-      wearablesVariables={wearablesVariables}
-      city={city}
-      open={openMenu}
-      allData={allData}
-      onClose={() => setOpenMenu(false)}
-      action={onAction}
-      />
-      </Html>
+    
+
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <div style={{width:"max-content"}}>
         Toubonobo 

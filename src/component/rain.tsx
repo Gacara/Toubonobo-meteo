@@ -12,9 +12,9 @@ const setInitialPositions = (rainCount: number) => {
     const initialVelocities = [];
     const initialAccelerations = [];
     for (let i = 0; i < rainCount; i++) {
-      initialPositions.push(-15 + Math.random() * 40);
+      initialPositions.push(-12 + Math.random() * 40);
       initialPositions.push(Math.random() * 10);
-      initialPositions.push(-17 + Math.random() * 5);
+      initialPositions.push(-18.5 + Math.random() * 5);
       initialVelocities.push(0);
       initialVelocities.push(-1);
       initialVelocities.push(0);
@@ -22,6 +22,8 @@ const setInitialPositions = (rainCount: number) => {
       initialAccelerations.push(2);
       initialAccelerations.push(0);
     }
+    console.log([initialPositions, initialVelocities, initialAccelerations]);
+
     return [initialPositions, initialVelocities, initialAccelerations];
   };
 
