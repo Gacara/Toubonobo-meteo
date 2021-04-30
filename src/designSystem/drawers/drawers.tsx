@@ -185,7 +185,7 @@ function renderOnTestMode(){
         disabled={loading}
         value={meteoVariables.rainPrecipitation}
         step={5000}
-        onChange={(_e, value) => {action(value, "updateMeteoVariables", "rainPrecipitation");}}
+        onChange={(_e, value) => {setLoadingTimeout(); action(value, "updateMeteoVariables", "rainPrecipitation");}}
         min={0}
         max={80000}
       />
