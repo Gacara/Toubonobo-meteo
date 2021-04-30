@@ -6,8 +6,17 @@ import {Bar} from 'react-chartjs-2';
 import { meteoInterface } from '../../component/meteoHook';
 import { wearablesInterface } from '../../component/wearablesHook';
 import { switchModetype } from '../../views/model';
-import { TemperatureChart, mockedCharts } from './utils';
 import GradientBtn from '../button/button';
+import {
+  TemperatureChart,
+  mockedTemperatureCharts,
+  HumidityChart,
+  mockedHumidityCharts,
+  CloudChart,
+  mockedCloudCharts,
+  mockedMeteoData,
+} from './utils';
+
 
 
 interface DrawerInterface {
@@ -22,49 +31,82 @@ interface DrawerInterface {
 }
 
 export default function TemporaryDrawer({open, onClose, allData, city, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
-  const data = allData ? allData[0] : null;
+  const data = allData ? allData[0] : mockedMeteoData;
   const defaultSelectedButton = "Hide";
   const defaultNotSelectedButton = "Show";
-  const temperatureChart = allData ? TemperatureChart(allData) : mockedCharts;
+  const temperatureChart = allData ? TemperatureChart(allData) : mockedTemperatureCharts;
+  const humidityChart = allData ? HumidityChart(allData) : mockedHumidityCharts;
+  const cloudChart = allData ? CloudChart(allData) : mockedCloudCharts;
 
   const styles = makeStyles(() => createStyles({
     root: {
       position: "relative",
       overflow: "hidden",
-      "& .MuiButton-root":{
+      "& .MuiButton-root": {
         fontSize: "1.5rem",
       },
-      "& .MuiBackdrop-root":{
+      "& .MuiBackdrop-root": {
         backgroundColor: 'rgba(0, 0, 0, 0)',
+      },
+      "& .iconButton": {
+        height: "40px",
+        minWidth: "45px",
+        maxWidth: "45px",
+        background: "white",
+        borderRadius: "5px",
       }
     },
   }))();
-/*
-<Slider
-  defaultValue={20}
-  getAriaValueText={valuetext}
-  aria-labelledby="discrete-slider-custom"
-  step={10}
-  valueLabelDisplay="auto"
-  marks={marks}
-/>
-
-
-  rainPrecipitation: number;
-    snowPrecipitation: number;
-    cloudIntensity: number;
-    cloudCover: number;
-    windSpeed: number;
-*/
 
 function renderOnApiMode(){
-  return  (<Grid style={{width: "800px", background: "#FFC371"}} container item sm={12} justify="center" alignItems="center">
-  <Grid container item sm={6} justify="center">
-  <iframe title="city" src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDERFj1udznFe_t0Dw_jQFgsxHG7EGmg2E&q=${city}+France`} sandbox=''/>
+  return  (<Grid style={{height: "100%", width: "800px", background: "#FFC371", padding: "25px 30px 0 30px"}} container item sm={12} justify="center">
+
+  <Grid container item sm={12} justify="center" alignItems="center" style={{height: "15%"}}>
+
+
+  <Grid container item sm={4} alignItems="center" justify="center">
+    <Grid container item sm={6} justify="center">
+    <span style={{fontSize: "2rem"}} role="img" aria-label="Sun">☀️</span>
+    </Grid>
+    <Grid container item sm={6} justify="flex-start">
+      {data.weather}
+    </Grid>
   </Grid>
+
+  <Grid container item sm={4} alignItems="center" justify="center">
   <Grid container item sm={6} justify="center">
-      {//`${data?.Temperature.value}°C`
-      }
+    <span style={{fontSize: "2rem"}} role="img" aria-label="Temperature">🌡️</span>
+    </Grid>
+    <Grid container item sm={6} justify="flex-start">
+      {data.Temperature.value} °C
+    </Grid>
+  </Grid>
+  <Grid container item sm={4} alignItems="center" justify="center">
+  <Grid container item sm={6} justify="center">
+    <span style={{fontSize: "2rem"}} role="img" aria-label="Humidity">💧</span>
+    </Grid>
+    <Grid container item sm={6} justify="flex-start">
+      {data.humidity} %
+    </Grid>
+  </Grid>
+  </Grid>
+
+  <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "85%"}}>
+  <Grid container item sm={6} justify="center">
+  <div>{city}</div>
+  <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
+  <GradientBtn disabled={city === "Paris"} label={"Paris"} onClick={()=> action("Paris", "onCityClick", "Paris")} />
+      </Grid>
+      <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
+      <GradientBtn disabled={city === "Lyon"} label={"Lyon"} onClick={()=> action("Lyon", "onCityClick", "Lyon")} />
+      </Grid>
+      <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
+      <GradientBtn disabled={city === "Annecy"} label={"Annecy"} onClick={()=> action("Annecy", "onCityClick", "Annecy")} />
+      </Grid>
+    </Grid>
+  
+
+  <Grid container item sm={6} justify="center">
       <Bar
       data={temperatureChart}
       width={400}
@@ -75,11 +117,27 @@ function renderOnApiMode(){
       />
       </Grid>
       <Grid container item sm={6} justify="center">
-      {`${data?.Wind.speed}km/h`}
+      <Bar
+      data={cloudChart}
+      width={400}
+      height={200}
+      options={{
+      maintainAspectRatio: false
+      }}
+      />
       </Grid>
       <Grid container item sm={6} justify="center">
-     {`${data?.humidity}%`}
+      <Bar
+      data={humidityChart}
+      width={400}
+      height={200}
+      options={{
+      maintainAspectRatio: false
+      }}
+      />
       </Grid>
+  </Grid>
+  
 </Grid>);
 }
 
@@ -91,24 +149,23 @@ function renderOnTestMode(){
   
   <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
 
-      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "20px 0 10px 0"}}>
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "40px 0 10px 0"}}>
       <Grid container item sm={6} justify="center">
-      <Button color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
+      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
       {<span role="img" aria-label="Sun">☀️</span>}
       </Button>
       </Grid>
     
       <Grid container item sm={6} justify="center">
-      <Button color="primary" onClick={() => action(undefined, "stormClick", "storm")}>
+      <Button className="iconButton" color="primary" onClick={() => action(undefined, "stormClick", "storm")}>
       {<span role="img" aria-label="storm">⚡</span>}
       </Button>
       </Grid>
       </Grid>
 
-
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
+      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
       {<span role="img" aria-label="Clouds">☁️</span>}
       </Button>
       </Grid>    
@@ -146,7 +203,7 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button color="primary" onClick={() => {action(!meteoVariables.snow, "updateMeteoVariables", "snow")}}>
+      <Button className="iconButton" color="primary" onClick={() => {action(!meteoVariables.snow, "updateMeteoVariables", "snow")}}>
       {<span role="img" aria-label="Snow">❄️</span>}
       </Button>
       </Grid>
@@ -163,7 +220,7 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
+      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
       {<span role="img" aria-label="Rain">⛆</span>}
       </Button>
       </Grid>

@@ -23,7 +23,7 @@ import TemporaryDrawer from '../designSystem/drawers/drawers';
 import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/nightCamp';
-import MeteoHook, { meteoInterface } from "../component/meteoHook";
+import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/meteoHook";
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
 
 interface modelInterface{
@@ -72,15 +72,15 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     return switchMode === "api" ? "test" : "api";
   }
 
-  function onAction(value: any, type: string, action: string){
+  function onAction(value: unknown, type: string, action: string){
     if (type === "stormClick"){
       stormClick();
     }
     if( type === "updateMeteoVariables"){
-      updateMeteoVariables(value, action as keyof meteoInterface);
+      updateMeteoVariables(value as meteoVariablesType, action as keyof meteoInterface);
     }
     if( type === "updateWearablesVariables"){
-      updateWearablesVariables(value, action as keyof wearablesInterface);
+      updateWearablesVariables(value as boolean, action as keyof wearablesInterface);
     }
     if( type === "setSwitchMode"){
       setSwitchMode(switchModeValue());
@@ -88,6 +88,9 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     if( type === "changeScene")
     {
       changeScene();
+    }
+    if ( type === "onCityClick"){
+      onCityClick(value as string);
     }
   }
 
@@ -129,36 +132,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           <WaterBottle visible={wearablesVariables.wearBottle} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
           <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
-
-{
-/*
- <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1, -15]} rotation-z={100}>
-      <GradientBtn label={<span role="img" aria-label="Sun"> Sun  ☀️</span>} onClick={() => updateMeteoVariables(!meteoVariables.sun, "sun")} />
-      <GradientBtn label={<span role="img" aria-label="Clouds"> Clouds  ☁️</span>} onClick={() => updateMeteoVariables(!meteoVariables.cloud, "cloud")} />
-      <GradientBtn label={<span role="img" aria-label="Snow"> Snow  ❄️</span>} onClick={() => updateMeteoVariables(!meteoVariables.snow, "snow")} />
-      <GradientBtn label={<span role="img" aria-label="Rain"> Rain  ⛆</span>} onClick={() => updateMeteoVariables(!meteoVariables.rain, "rain")} />
-      <GradientBtn label={<span role="img" aria-label="scene"> Change scene</span>} onClick={changeScene} />
-      </Html>
-*/
-}
-{
-/*
-
-      <Html style={{display: switchMode === "test" ? "initial" : "none"}} scaleFactor={6} position={[4.25, -0.75, -13.5]} rotation-z={100}>
-      <GradientBtn label={"Wear hat"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearHat, "wearHat")} />
-      <GradientBtn label={"Wear Sunglasses"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearSunglasses, "wearSunglasses")} />
-      <GradientBtn label={"Wear Mask"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearMask, "wearMask")} />
-      <GradientBtn label={"Wear Bottle"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearBottle, "wearBottle")} />
-      <GradientBtn label={"Wear Umbrella"} onClick={()=> updateWearablesVariables(!wearablesVariables.wearUmbrella, "wearUmbrella")} />
-      </Html>
-      */
-}
-      <Html style={{display: switchMode === "api" ? "initial" : "none"}} position={[7.5, 0.5, -15]} rotation-z={100}>
-    <div>{city}</div>
-    <GradientBtn disabled={city === "Paris"} label={"Paris"} onClick={()=> onCityClick("Paris")} />
-    <GradientBtn disabled={city === "Lyon"} label={"Lyon"} onClick={()=> onCityClick("Lyon")} />
-    <GradientBtn disabled={city === "Annecy"} label={"Annecy"} onClick={()=> onCityClick("Annecy")} />
-      </Html>
+      
       <Html position={[1, -0.75, -15.5]} rotation-z={100}>
       {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
       <TemporaryDrawer

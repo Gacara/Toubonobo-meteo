@@ -14,7 +14,7 @@ export interface meteoInterface {
     cloudCover: number;
     windSpeed: number;
 }
-type variablesType = number | boolean;
+export type meteoVariablesType = number | boolean;
 
 type OnlyBoolean = Omit<meteoInterface, Precipitation>;
 type Precipitation = "rainPrecipitation" | "snowPrecipitation" | "cloudIntensity" | "cloudCover" | "windSpeed";
@@ -26,7 +26,7 @@ interface meteoHookProps {
 
 interface meteoHookInterface {
     meteoVariables: meteoInterface;
-    updateMeteoVariables: (value: boolean, type: keyof meteoInterface) => void;
+    updateMeteoVariables: (value: meteoVariablesType, type: keyof meteoInterface) => void;
 }
 
 export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterface {
@@ -51,7 +51,7 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
       case precipitation > 15:
         return 15000; 
       default:
-        return 8000; 
+        return 50000; 
     }
   }
 
@@ -82,11 +82,11 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
 
     const [meteoVariables, setMeteoVariables] = useState<meteoInterface>(initMeteoVariables);
 
-    function isBool(value: variablesType): value is boolean{
+    function isBool(value: meteoVariablesType): value is boolean{
         return typeof value === "boolean";
     }
 
-    function updateMeteoVariables(value: variablesType , type: keyof meteoInterface) {
+    function updateMeteoVariables(value: meteoVariablesType , type: keyof meteoInterface) {
         let newVariables: meteoInterface = {...meteoVariables};
         if (isBool(value)){
             newVariables[type as keyof OnlyBoolean]= value as boolean;
