@@ -9,7 +9,7 @@ return (
    <mesh
    {...props}
    scale={[1, 1, 1]}
-   position={[0,0,0]}
+   position={[0,0,7]}
    >
    <primitive object={gltf.scene} />
   </mesh>
