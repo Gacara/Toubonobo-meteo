@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import { forecastInterface } from '../../interfaces/utils';
 import { Button, createStyles, Grid, makeStyles, Slider } from '@material-ui/core';
@@ -6,7 +6,7 @@ import {Bar} from 'react-chartjs-2';
 import { meteoInterface } from '../../component/meteoHook';
 import { wearablesInterface } from '../../component/wearablesHook';
 import { switchModetype } from '../../views/model';
-import { TemperatureChart, mockedCharts, rainMarks } from './utils';
+import { TemperatureChart, mockedCharts } from './utils';
 import GradientBtn from '../button/button';
 
 
@@ -25,12 +25,14 @@ export default function TemporaryDrawer({open, onClose, allData, city, switchMod
   const data = allData ? allData[0] : null;
   const defaultSelectedButton = "Hide";
   const defaultNotSelectedButton = "Show";
+  const [loading, setLoading] = useState<boolean>(false);
 
   const temperatureChart = allData ? TemperatureChart(allData) : mockedCharts;
 
   const styles = makeStyles(() => createStyles({
     root: {
       position: "relative",
+      overflow: "hidden",
       "& .MuiButton-root":{
         fontSize: "1.5rem",
       },
@@ -83,6 +85,14 @@ function renderOnApiMode(){
 </Grid>);
 }
 
+function setLoadingTimeout(){
+  setLoading(true)
+  setTimeout(() => 
+    setLoading(false),
+    750,
+  )
+}
+
 function renderOnTestMode(){
   return  (<Grid style={{height: "100%", width: "500px", background: "#FFC371", overflow: "hidden", padding: "10px 30px"}} container item sm={12}  justify="center" alignItems="flex-start">
   
@@ -110,20 +120,57 @@ function renderOnTestMode(){
       <Button color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
       {<span role="img" aria-label="Clouds">☁️</span>}
       </Button>
-      </Grid>
+      </Grid>    
+
       <Grid container item sm={6} justify="center">
-        blabla
+        <Grid container item sm={12} justify="center">
+        <Slider
+        disabled={loading}
+        value={meteoVariables.cloudCover}
+        step={1}
+        onChange={(_e, value) => {setLoadingTimeout(); action(value, "updateMeteoVariables", "cloudCover") }}
+        min={1}
+        max={10}
+      />
+        </Grid>
+        <Grid container item sm={12} justify="center">
+        <Slider
+        disabled={loading}
+        value={meteoVariables.cloudIntensity}
+        step={1}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudIntensity"); setLoadingTimeout()}}
+        min={1}
+        max={15}
+      />
+        </Grid>
+        <Grid container item sm={12} justify="center">
+        <Slider
+        disabled={loading}
+        value={meteoVariables.windSpeed}
+        step={1}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "windSpeed"); setLoadingTimeout()}}
+        min={1}
+        max={20}
+      />
+        </Grid>
       </Grid>
       </Grid>
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button color="primary" onClick={() => action(!meteoVariables.snow, "updateMeteoVariables", "snow")}>
+      <Button color="primary" onClick={() => {action(!meteoVariables.snow, "updateMeteoVariables", "snow")}}>
       {<span role="img" aria-label="Snow">❄️</span>}
       </Button>
       </Grid>
       <Grid container item sm={6} justify="center">
-        blablazea
+      <Slider
+        disabled={loading}
+        value={meteoVariables.snowPrecipitation}
+        step={2500}
+        onChange={(_e, value) => {setLoadingTimeout(); action(value, "updateMeteoVariables", "snowPrecipitation");}}
+        min={0}
+        max={40000}
+      />
       </Grid>
       </Grid>
 
@@ -135,6 +182,7 @@ function renderOnTestMode(){
       </Grid>
       <Grid container item sm={6} justify="center">
       <Slider
+        disabled={loading}
         value={meteoVariables.rainPrecipitation}
         step={5000}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "rainPrecipitation");}}
@@ -207,7 +255,7 @@ function renderOnTestMode(){
 
   return (
           <Drawer anchor="left" open={open} onClose={onClose} classes={styles}>
-            <div style={{position: "absolute", top: "5px", right: "0"}}>
+            <div style={{overflow: "hidden", position: "absolute", top: "5px", right: "0"}}>
             <GradientBtn label={`Switch to ${switchMode === "api" ? "test" : "api"} mode`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
 
             </div>
