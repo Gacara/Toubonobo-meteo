@@ -86,6 +86,10 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     if( type === "setSwitchMode"){
       setSwitchMode(switchModeValue());
     }
+    if( type === "changeScene")
+    {
+      changeScene();
+    }
   }
 
   return (
@@ -128,9 +132,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
 
-      <Html scaleFactor={13} position={[0, 4.5, -13.5]} rotation-z={100}>
-      <GradientBtn label={`Switch to ${switchModeValue()} mode`} onClick={()=> setSwitchMode(switchModeValue())} />
-      </Html>
 {
 /*
  <Html style={{display: switchMode === "test" ? "initial" : "none"}} zIndexRange={[1,5]} scaleFactor={7} position={[7.5, 1, -15]} rotation-z={100}>
@@ -167,7 +168,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       meteoVariables={meteoVariables}
       wearablesVariables={wearablesVariables}
       city={city}
-      open={true}
+      open={openMenu}
       allData={allData}
       onClose={() => setOpenMenu(false)}
       action={onAction}

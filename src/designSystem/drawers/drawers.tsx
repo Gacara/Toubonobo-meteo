@@ -25,8 +25,6 @@ export default function TemporaryDrawer({open, onClose, allData, city, switchMod
   const data = allData ? allData[0] : null;
   const defaultSelectedButton = "Hide";
   const defaultNotSelectedButton = "Show";
-  const [loading, setLoading] = useState<boolean>(false);
-
   const temperatureChart = allData ? TemperatureChart(allData) : mockedCharts;
 
   const styles = makeStyles(() => createStyles({
@@ -85,13 +83,6 @@ function renderOnApiMode(){
 </Grid>);
 }
 
-function setLoadingTimeout(){
-  setLoading(true)
-  setTimeout(() => 
-    setLoading(false),
-    750,
-  )
-}
 
 function renderOnTestMode(){
   return  (<Grid style={{height: "100%", width: "500px", background: "#FFC371", overflow: "hidden", padding: "10px 30px"}} container item sm={12}  justify="center" alignItems="flex-start">
@@ -125,30 +116,27 @@ function renderOnTestMode(){
       <Grid container item sm={6} justify="center">
         <Grid container item sm={12} justify="center">
         <Slider
-        disabled={loading}
         value={meteoVariables.cloudCover}
         step={1}
-        onChange={(_e, value) => {setLoadingTimeout(); action(value, "updateMeteoVariables", "cloudCover") }}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudCover") }}
         min={1}
         max={10}
       />
         </Grid>
         <Grid container item sm={12} justify="center">
         <Slider
-        disabled={loading}
         value={meteoVariables.cloudIntensity}
         step={1}
-        onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudIntensity"); setLoadingTimeout()}}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudIntensity")}}
         min={1}
         max={15}
       />
         </Grid>
         <Grid container item sm={12} justify="center">
         <Slider
-        disabled={loading}
         value={meteoVariables.windSpeed}
         step={1}
-        onChange={(_e, value) => {action(value, "updateMeteoVariables", "windSpeed"); setLoadingTimeout()}}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "windSpeed")}}
         min={1}
         max={20}
       />
@@ -164,10 +152,9 @@ function renderOnTestMode(){
       </Grid>
       <Grid container item sm={6} justify="center">
       <Slider
-        disabled={loading}
         value={meteoVariables.snowPrecipitation}
         step={2500}
-        onChange={(_e, value) => {setLoadingTimeout(); action(value, "updateMeteoVariables", "snowPrecipitation");}}
+        onChange={(_e, value) => { action(value, "updateMeteoVariables", "snowPrecipitation");}}
         min={0}
         max={40000}
       />
@@ -182,10 +169,9 @@ function renderOnTestMode(){
       </Grid>
       <Grid container item sm={6} justify="center">
       <Slider
-        disabled={loading}
         value={meteoVariables.rainPrecipitation}
         step={5000}
-        onChange={(_e, value) => {setLoadingTimeout(); action(value, "updateMeteoVariables", "rainPrecipitation");}}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "rainPrecipitation");}}
         min={0}
         max={80000}
       />
@@ -246,7 +232,7 @@ function renderOnTestMode(){
 
       </Grid>
       <Grid container item sm={12}  direction="column" justify="center" style={{minHeight: "33%"}}>
-      {`${data?.Wind.speed}km/h`}
+      <GradientBtn label={<span role="img" aria-label="scene"> Change scene</span>} onClick={() => action(undefined, "changeScene", "scene")} />
       </Grid>
      
 </Grid>);
