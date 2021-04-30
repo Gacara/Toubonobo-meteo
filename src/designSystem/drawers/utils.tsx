@@ -96,21 +96,23 @@ export const mockedTemperatureCharts = {
   };
   function convertTimeToDay(currentDate: Date){
     const convertedDate = new Date(currentDate).getUTCDay();
+    const day = new Date(currentDate).getUTCDate();
+    const month = new Date(currentDate).getUTCMonth();
     switch (convertedDate) {
       case 1:
-        return "Monday";
+        return `Monday ${day}/${month}`;
       case 2:
-        return "Tuesday";
+        return `Tuesday ${day}/${month}`;
       case 3:
-        return "Wednesday";
+        return `Wednesday ${day}/${month}`;
       case 4:
-        return "Thursday";
+        return `Thursday ${day}/${month}`;
       case 5:
-        return "Friday";
+        return `Friday ${day}/${month}`;
       case 6:
-        return "Saturday";
+        return `Saturday ${day}/${month}`;
       case 7:
-        return "Sunday";
+        return `Sunday ${day}/${month}`;
       default:
         return "";
     }
