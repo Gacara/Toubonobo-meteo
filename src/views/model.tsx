@@ -49,7 +49,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     wearablesVariables,
     updateWearablesVariables,
   } = WearablesHook({data, mode: switchMode});
-  const [sceneNumber, setSceneNumber] = useState<number>(2);
+  const [sceneNumber, setSceneNumber] = useState<number>(4);
 
   const [camera, setCamera] = useState<any>({ far: 2000, position: [5, 1.2, -18] });
 
