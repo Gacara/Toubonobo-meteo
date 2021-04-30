@@ -122,7 +122,7 @@ const [fov, setFov] = useState<number>(50);
       useLayoutEffect(() => {
         if (cameraRef.current) {
           cameraRef.current!.aspect! = size.width / size.height;
-          cameraRef.current.rotation.y = -16;
+          cameraRef.current.rotation.y = -16.1;
           cameraRef.current.position.x = 7;
           cameraRef.current.position.y = 1.2;
           cameraRef.current.position.z = -20;
@@ -167,7 +167,7 @@ const [fov, setFov] = useState<number>(50);
 
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={<Html>loading..</Html>}>
-          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.2]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
+          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation= {[0, 1.37, -0.001]} />
           <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.45, 0]}/>
           <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation= {[0.04, 3.35, 0]}/>
