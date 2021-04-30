@@ -17,8 +17,6 @@ import {
   mockedMeteoData,
 } from './utils';
 
-
-
 interface DrawerInterface {
     open: boolean;
     switchMode: switchModetype;
@@ -66,7 +64,7 @@ function renderOnApiMode(){
 
   <Grid container item sm={4} alignItems="center" justify="center">
     <Grid container item sm={6} justify="center">
-    <span style={{fontSize: "2rem"}} role="img" aria-label="Sun">☀️</span>
+      <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="50px" height="50px" alt="meteo" />
     </Grid>
     <Grid container item sm={6} justify="flex-start">
       {data.weather}
@@ -234,12 +232,8 @@ function renderOnTestMode(){
       />
       </Grid>
       </Grid>
-
-
     </Grid>
-    
   </Grid>
-
 
   <Grid container item sm={12} direction="column" justify="center" style={{minHeight: "33%"}}>
 
@@ -285,7 +279,6 @@ function renderOnTestMode(){
       <GradientBtn label={wearablesVariables.wearUmbrella ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearUmbrella, "updateWearablesVariables", "wearUmbrella")} />
       </Grid>
     </Grid>
-
 
       </Grid>
       <Grid container item sm={12}  direction="column" justify="center" style={{minHeight: "33%"}}>
