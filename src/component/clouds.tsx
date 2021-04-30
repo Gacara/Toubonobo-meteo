@@ -23,9 +23,10 @@ const Cloud = ({ height, position, isVisible, velocity}: positionInterface) => {
   const z = -10;
 
   useFrame(({ clock }) => {
-
+  if (group && group.current){
     if (group.current.position.x >= 30) {group.current.position.x = positionRand(-20, -25)};
     group.current.position.x = (clock.getElapsedTime() * velocity) % 30;
+  } 
   });
 
   return (

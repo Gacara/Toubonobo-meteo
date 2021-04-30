@@ -11,7 +11,7 @@ export interface buttonInterface{
 function GradientBtn({size="medium", label, onClick, disabled}: buttonInterface) {
   const classes = useStyle();
   return (
-        <Button disabled={disabled} onClick={onClick} size={size} classes={classes}>
+        <Button onClick={onClick} size={size} classes={classes} disabled={disabled}>
             {label}
         </Button>
   );
