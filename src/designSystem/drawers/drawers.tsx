@@ -64,7 +64,7 @@ function renderOnApiMode(){
 
   <Grid container item sm={4} alignItems="center" justify="center">
     <Grid container item sm={6} justify="center">
-      <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="50px" height="50px" alt="meteo" />
+      <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="60px" height="60px" alt="meteo" />
     </Grid>
     <Grid container item sm={6} justify="flex-start">
       {data.weather}
