@@ -7,7 +7,7 @@ import { data, forecastInterface } from "../interfaces/utils";
 import { CircularProgress } from '@material-ui/core';
 
 const fetchForecastData = async (city: string) => {
-  return getJSON<data>(`https://api.wtow.xyz/api/data/forecast/${city}`)
+  return getJSON<data>(`https://apdi.wtow.xyz/api/data/forecast/${city}`)
  }
 
 function Home(): React.ReactElement{
@@ -24,7 +24,7 @@ function Home(): React.ReactElement{
   function loadingBeforeTestMode(){
       setTimeout(() => {
         setTestMode("test");
-      }, 3000);
+      }, 0);
       return <div>
       Waiting for data...
       <CircularProgress />

@@ -22,7 +22,7 @@ import useStyles from './modelStyle';
 import TemporaryDrawer from '../designSystem/drawers/drawers';
 import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
-import DayCamp from '../component/nightCamp';
+import DayCamp from '../component/dayCamp';
 import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/meteoHook";
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
 
@@ -49,7 +49,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     wearablesVariables,
     updateWearablesVariables,
   } = WearablesHook({data, mode: switchMode});
-  const [sceneNumber, setSceneNumber] = useState<number>(4);
+  const [sceneNumber, setSceneNumber] = useState<number>(2);
 
   const [camera, setCamera] = useState<any>({ far: 2000, position: [5, 1.2, -18] });
 
@@ -101,18 +101,18 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     >
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
 {
-     // <OrbitControls />
+    <OrbitControls />
 }
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={<Html>loading..</Html>}>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -3.2]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} />
           <NightCamp visible={sceneNumber === 3} position={[3, 0, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.5, 0]}/>
-          <DayCamp visible={sceneNumber === 4} position={[3, 0, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.5, 0]}/>
+          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation= {[0.04, 3.4, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-        <Sun visible={meteoVariables.sun && !meteoVariables.storm} />
+        <Sun visible={meteoVariables.sun && !meteoVariables.storm} color={sceneNumber !== 3 ? "yellow" : "#DCD8AE"}/>
         <ambientLight visible={!meteoVariables.storm} />
         <Rain isVisible={meteoVariables.rain} rainCount={meteoVariables.rainPrecipitation} />
         <Snow isVisible={meteoVariables.snow} snowCount={meteoVariables.snowPrecipitation} />

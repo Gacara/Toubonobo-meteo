@@ -25,7 +25,7 @@ interface DrawerInterface {
     onClose: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
     allData: forecastInterface[] | null;
     city: string;
-    action: (value: any, type: string, action: string) => void;
+    action: (value: unknown, type: string, action: string) => void;
 }
 
 export default function TemporaryDrawer({open, onClose, allData, city, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
