@@ -7,7 +7,6 @@ import { meteoInterface } from '../../component/meteoHook';
 import { wearablesInterface } from '../../component/wearablesHook';
 import { switchModetype } from '../../views/model';
 import GradientBtn from '../button/button';
-import FranceMap from "./../../component/france";
 import {
   TemperatureChart,
   mockedTemperatureCharts,
@@ -94,20 +93,6 @@ function renderOnApiMode(){
   <Grid container item sm={6} justify="center">
   <div>{city}</div>
 
-  <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
-  <GradientBtn disabled={city === "Paris"} label={"Paris"} onClick={()=> action("Paris", "onCityClick", "Paris")} />
-      </Grid>
-      <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
-      <GradientBtn disabled={city === "Lyon"} label={"Lyon"} onClick={()=> action("Lyon", "onCityClick", "Lyon")} />
-      </Grid>
-      <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
-      <GradientBtn disabled={city === "Annecy"} label={"Annecy"} onClick={()=> action("Annecy", "onCityClick", "Annecy")} />
-      </Grid>
-      <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
-      <GradientBtn disabled={city === "Toulouse"} label={"Toulouse"} onClick={()=> action("Toulouse", "onCityClick", "Toulouse")} />
-      </Grid>
-
-      
     </Grid>
   
 
@@ -289,7 +274,7 @@ function renderOnTestMode(){
 
       </Grid>
       <Grid container item sm={12}  direction="column" justify="center" style={{minHeight: "33%"}}>
-      <GradientBtn label={<span role="img" aria-label="scene"> Changer d'environnement</span>} onClick={() => action(undefined, "changeScene", "scene")} />
+      <GradientBtn label={<span role="img" aria-label="scene"> Changer le fond</span>} onClick={() => action(undefined, "changeScene", "scene")} />
       </Grid>
      
 </Grid>);

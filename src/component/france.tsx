@@ -227,10 +227,10 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l3.7-1.5l-2.5,4.2l-3.601,1.3l-5.1-4.8l0.6-3.8h4.5L470.5,525.2z"/>
 
    <path 
-   onClick={() => onRegionClick(paris)}
-   onMouseEnter={() => setCityOnHover(paris)}
+   onClick={() => onRegionClick(rennes)}
+   onMouseEnter={() => setCityOnHover(rennes)}
    onMouseLeave={() => setCityOnHover("")}
-   fill={getColor(paris)}
+   fill={getColor(rennes)}
    style={{cursor: "pointer"}}
    d="M70.5,253.7l4.4-1.4l-5.7-3.8l-3.2,0.4l1,3.7L70.5,253.7z"/>
    <path fill="#EFF6F2" d="M146.7,332.6L146.7,332.6l-0.1,0.1l5,4.5l3.3-1.4l-6.1-3.899L146.7,332.6z"/>
