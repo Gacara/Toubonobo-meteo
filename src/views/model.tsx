@@ -217,7 +217,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         aria-describedby="simple-modal-description"
       >
         <div style={{display: "flex", alignItems: "center", justifyContent:"center", width:"100%", height:"100%"}}>
-          <FranceMap selectedCity={city} onRegionClick={(city) => onCityClick(city)} /> 
+          <FranceMap selectedCity={city} onRegionClick={(city) => {onCityClick(city); setOpenModal(false);}} /> 
         </div>
       </Modal>
         <div style={{width:"max-content"}}>
