@@ -1,6 +1,6 @@
-import React, { MutableRefObject, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Canvas, PerspectiveCameraProps, useFrame, useThree, Vector3 } from '@react-three/fiber';
-import { OrbitControls, Html } from '@react-three/drei'
+import React, { Suspense, useLayoutEffect, useRef, useState } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { Html } from '@react-three/drei'
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
 import Forest from "../component/forest";
@@ -24,8 +24,11 @@ import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/dayCamp';
 import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/meteoHook";
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
-import * as THREE from 'three';
 import { PerspectiveCamera } from 'three';
+import HelpIcon from '@material-ui/icons/Help';
+import ExploreIcon from '@material-ui/icons/Explore';
+import FranceMap from '../component/france';
+import { Modal } from '@material-ui/core';
 
 interface modelInterface{
   data: forecastInterface[] | null;
@@ -35,6 +38,7 @@ interface modelInterface{
 }
 
 export type switchModetype = "api" | "test";
+
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const data = allData ? allData[0] : null;
@@ -50,11 +54,12 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     updateWearablesVariables,
   } = WearablesHook({data, mode: switchMode});
   const [sceneNumber, setSceneNumber] = useState<number>(4);
-const [fov, setFov] = useState<number>(50);
-  const [camera, setCamera] = useState<any>({ position: [10, 1.2, -18] });
+  const [fov, setFov] = useState<number>(50);
 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
+  
   function stormClick() {
     updateMeteoVariables(true, "storm");
     setTimeout(()=>updateMeteoVariables(false, "storm"), 5000);
@@ -136,10 +141,12 @@ const [fov, setFov] = useState<number>(50);
         set({ camera: cameraRef.current as unknown as PerspectiveCamera })
       }, [set])
     
+    
     return <>
     <perspectiveCamera ref={cameraRef} />
-    <Html position={[1, -0.75, -15.5]} rotation-z={100}>
-      {!openMenu && <GradientBtn label="See info" onClick={()=> setOpenMenu(true)} />}
+    <Html position={[1, 4, -15.5]} rotation-z={100}>
+      <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>
+      {!openMenu && !openModal && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
       <TemporaryDrawer
       switchMode={switchMode}
       meteoVariables={meteoVariables}
@@ -163,10 +170,10 @@ const [fov, setFov] = useState<number>(50);
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
     {
     // <OrbitControls />
-}
+    }
 
     <Storm trigger={meteoVariables.storm} />
-      <Suspense fallback={<Html>loading..</Html>}>
+      <Suspense fallback={<Html></Html>}>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation= {[0, 1.37, -0.001]} />
           <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.45, 0]}/>
@@ -189,7 +196,7 @@ const [fov, setFov] = useState<number>(50);
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />
       </Suspense>
-      <Suspense fallback={<Html>Toubonobo is coming..</Html>}>
+      <Suspense fallback={<Html></Html>}>
          <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
       </Suspense>
 
@@ -203,8 +210,18 @@ const [fov, setFov] = useState<number>(50);
     
 
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
+        <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <div style={{display: "flex", alignItems: "center", justifyContent:"center", width:"100%", height:"100%"}}>
+          <FranceMap selectedCity={city} onRegionClick={(city) => onCityClick(city)} /> 
+        </div>
+      </Modal>
         <div style={{width:"max-content"}}>
-        Toubonobo 
+        {!openModal && "Toubonobo"}
         </div>
       </Html>
     </Canvas>

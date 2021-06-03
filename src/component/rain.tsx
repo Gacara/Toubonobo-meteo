@@ -22,7 +22,6 @@ const setInitialPositions = (rainCount: number) => {
       initialAccelerations.push(2);
       initialAccelerations.push(0);
     }
-    console.log([initialPositions, initialVelocities, initialAccelerations]);
 
     return [initialPositions, initialVelocities, initialAccelerations];
   };

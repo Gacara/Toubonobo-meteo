@@ -7,6 +7,7 @@ import { meteoInterface } from '../../component/meteoHook';
 import { wearablesInterface } from '../../component/wearablesHook';
 import { switchModetype } from '../../views/model';
 import GradientBtn from '../button/button';
+import FranceMap from "./../../component/france";
 import {
   TemperatureChart,
   mockedTemperatureCharts,
@@ -30,8 +31,8 @@ interface DrawerInterface {
 
 export default function TemporaryDrawer({open, onClose, allData, city, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
   const data = allData ? allData[0] : mockedMeteoData;
-  const defaultSelectedButton = "Hide";
-  const defaultNotSelectedButton = "Show";
+  const defaultSelectedButton = "Enlever";
+  const defaultNotSelectedButton = "Porter";
   const temperatureChart = allData ? TemperatureChart(allData) : mockedTemperatureCharts;
   const humidityChart = allData ? HumidityChart(allData) : mockedHumidityCharts;
   const cloudChart = allData ? CloudChart(allData) : mockedCloudCharts;
@@ -92,6 +93,7 @@ function renderOnApiMode(){
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "85%"}}>
   <Grid container item sm={6} justify="center">
   <div>{city}</div>
+
   <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
   <GradientBtn disabled={city === "Paris"} label={"Paris"} onClick={()=> action("Paris", "onCityClick", "Paris")} />
       </Grid>
@@ -101,6 +103,11 @@ function renderOnApiMode(){
       <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
       <GradientBtn disabled={city === "Annecy"} label={"Annecy"} onClick={()=> action("Annecy", "onCityClick", "Annecy")} />
       </Grid>
+      <Grid container item sm={12} justify="center" style={{padding: "10px 0"}}>
+      <GradientBtn disabled={city === "Toulouse"} label={"Toulouse"} onClick={()=> action("Toulouse", "onCityClick", "Toulouse")} />
+      </Grid>
+
+      
     </Grid>
   
 
@@ -238,8 +245,8 @@ function renderOnTestMode(){
   <Grid container item sm={12} direction="column" justify="center" style={{minHeight: "33%"}}>
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
-      <Grid container item sm={6} justify="flex-start">
-      Wear Hat
+      <Grid container item sm={6} alignItems="center" justify="flex-start">
+      Porter un chapeau
       </Grid>
       <Grid container item sm={6} justify="center">
       <GradientBtn label={wearablesVariables.wearHat ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearHat, "updateWearablesVariables", "wearHat")} />
@@ -247,24 +254,24 @@ function renderOnTestMode(){
     </Grid>
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
-      <Grid container item sm={6} justify="flex-start">
-      Wear Sunglasses
+      <Grid container item sm={6} alignItems="center" justify="flex-start">
+      Mettre des lunettes
       </Grid>
       <Grid container item sm={6} justify="center">
       <GradientBtn label={wearablesVariables.wearSunglasses ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearSunglasses, "updateWearablesVariables", "wearSunglasses")} />      </Grid>
     </Grid>
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
-      <Grid container item sm={6} justify="flex-start">
-      Wear Mask
+      <Grid container item sm={6} alignItems="center" justify="flex-start">
+      Mettre un masque
       </Grid>
       <Grid container item sm={6} justify="center">
       <GradientBtn label={wearablesVariables.wearMask ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearMask, "updateWearablesVariables", "wearMask")} />      </Grid>
     </Grid>
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
-      <Grid container item sm={6} justify="flex-start">
-      Wear Bottle
+      <Grid container item sm={6} alignItems="center" justify="flex-start">
+      Prendre une bouteille
       </Grid>
       <Grid container item sm={6} justify="center">
       <GradientBtn label={wearablesVariables.wearBottle ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearBottle, "updateWearablesVariables", "wearBottle")} />
@@ -272,8 +279,8 @@ function renderOnTestMode(){
     </Grid>
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
-      <Grid container item sm={6} justify="flex-start">
-      Wear Umbrella
+      <Grid container item sm={6} alignItems="center" justify="flex-start">
+      Prendre un parapluie
       </Grid>
       <Grid container item sm={6} justify="center">
       <GradientBtn label={wearablesVariables.wearUmbrella ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearUmbrella, "updateWearablesVariables", "wearUmbrella")} />
@@ -282,7 +289,7 @@ function renderOnTestMode(){
 
       </Grid>
       <Grid container item sm={12}  direction="column" justify="center" style={{minHeight: "33%"}}>
-      <GradientBtn label={<span role="img" aria-label="scene"> Change scene</span>} onClick={() => action(undefined, "changeScene", "scene")} />
+      <GradientBtn label={<span role="img" aria-label="scene"> Changer d'environnement</span>} onClick={() => action(undefined, "changeScene", "scene")} />
       </Grid>
      
 </Grid>);

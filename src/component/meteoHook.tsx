@@ -30,6 +30,7 @@ interface meteoHookInterface {
 }
 
 export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterface {
+
     const rain = !!((data && data.Precipitation.mode === "rain"));
     const snow = !!(data && data.Precipitation.mode === "snow");
     const cloud = !!((data && data.Cloud.cover > 0) || false);
