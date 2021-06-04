@@ -183,6 +183,9 @@ function renderOnTestMode(){
       <Grid container item sm={6} justify="center">
         <Grid container item sm={12} justify="center">
         <Slider
+                  getAriaValueText={() =>{ return meteoVariables.cloudCover as unknown as string}}
+                  valueLabelDisplay="on"
+
         value={meteoVariables.cloudCover}
         step={1}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudCover") }}
@@ -192,15 +195,9 @@ function renderOnTestMode(){
         </Grid>
         <Grid container item sm={12} justify="center">
         <Slider
-        value={meteoVariables.cloudIntensity}
-        step={1}
-        onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudIntensity")}}
-        min={1}
-        max={15}
-      />
-        </Grid>
-        <Grid container item sm={12} justify="center">
-        <Slider
+                  getAriaValueText={() =>{ return meteoVariables.windSpeed as unknown as string}}
+                  valueLabelDisplay="on"
+
         value={meteoVariables.windSpeed}
         step={1}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "windSpeed")}}

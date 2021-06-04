@@ -222,7 +222,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         isVisible={meteoVariables.snow}
         snowCount={meteoVariables.snowPrecipitation}
         />
-        <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.windSpeed} intensity={meteoVariables.cloudIntensity} number={meteoVariables.cloudCover} />
+        <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.windSpeed} number={meteoVariables.cloudCover} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />

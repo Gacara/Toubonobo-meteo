@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { useFrame } from '@react-three/fiber';
 // import { OrbitControls, MeshDistortMaterial, shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
@@ -12,7 +12,6 @@ interface positionInterface{
 }
 
 interface cloudInterface{
-    intensity: number;
     number: number;
     isVisible: boolean;
     velocity: number;
@@ -24,8 +23,8 @@ const Cloud = ({ height, position, isVisible, velocity}: positionInterface) => {
 
   useFrame(({ clock }) => {
   if (group && group.current){
-    if (group.current.position.x >= 30) {group.current.position.x = positionRand(-20, -25)};
-    group.current.position.x = (clock.getElapsedTime() * velocity) % 30;
+    if (group.current.position.x >= 50) {group.current.position.x = positionRand(10, -10)};
+    group.current.position.x += (clock.getElapsedTime() * velocity/40000) % 30;
   } 
   });
 
@@ -52,22 +51,26 @@ const heightRand = (min: number, max: number) => {
     return Math.random() * (max - min) + min;
   };
 
-function cloudSpawn(number: number, isVisible: boolean, velocity: number){
-    let cloudsDisplay = [];
-
-    for(let i=0; i<number; i++){
-    cloudsDisplay.push( <>
-    <Cloud isVisible={isVisible} velocity={velocity} height={heightRand(3, 4)} position={positionRand(10, -25)} />
-    <Cloud isVisible={isVisible} velocity={velocity} height={heightRand(4, 8)} position={positionRand(10, -25)} />
-    </>);
-    };
-    return cloudsDisplay;
-}
 
 const Clouds = ({number, isVisible, velocity}: cloudInterface) => {
+
+  const CloudSpawn = useMemo(() => {
+    let cloudsDisplay = [];
+  
+    for(let i=0; i<number; i++){
+    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(1, 7)} position={positionRand(-10, -50)} />);
+    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(2, 9)} position={positionRand(-10, -50)} />);
+    };
+
+    console.log(cloudsDisplay)
+    return cloudsDisplay;
+  }, [number, isVisible, velocity]);
+
   return (
-    <group>
-    {cloudSpawn(number, isVisible, velocity)}
+    <group key={number}>
+    {CloudSpawn.map((cloud) => {
+      return (cloud)
+    })}
     </group>
   );
 };
