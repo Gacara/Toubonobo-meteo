@@ -28,6 +28,8 @@ const setInitialPositions = (rainCount: number) => {
 
 const Rain = ({ rainCount, isVisible }: rainInterface) => {
     const [positions, velocities, accelerations] = useMemo(() => {
+      console.log("rainCount", rainCount)
+
       const [
         initialPositions,
         initialVelocities,
@@ -37,7 +39,7 @@ const Rain = ({ rainCount, isVisible }: rainInterface) => {
       const velocities = new Float32Array(initialVelocities);
       const accelerations = new Float32Array(initialAccelerations);
       return [positions, velocities, accelerations];
-    }, [rainCount]);
+    }, [rainCount, isVisible]);
     const uniforms = useMemo(() => ({ time: { value: 1.0 } }), []);
   
     const geom: React.MutableRefObject<any> = useRef<THREE.Group>()

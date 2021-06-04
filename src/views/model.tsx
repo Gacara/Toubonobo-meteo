@@ -214,6 +214,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         <Sun visible={meteoVariables.sun && !meteoVariables.storm} color={sceneNumber !== 3 ? "yellow" : "#DCD8AE"}/>
         <ambientLight visible={!meteoVariables.storm} />
         <Rain
+        // forceUpdate={}
         isVisible={meteoVariables.rain}
         rainCount={meteoVariables.rainPrecipitation}
         />
