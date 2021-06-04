@@ -5,6 +5,7 @@ import { switchModetype } from "../views/model";
 export interface wearablesInterface {
     wearMask: boolean;
     wearHat: boolean;
+    wearWinterhat: boolean;
     wearSunglasses: boolean;
     wearBottle: boolean;
     wearUmbrella: boolean;
@@ -24,6 +25,7 @@ export default function WearablesHook({data, mode}: wearablesHookProps): wearabl
 
     const wearMask = true;
     const wearHat = defineSeason() !== "couvert" && defineSeason() !== "légère pluie";
+    const wearWinterhat = defineSeason() === "couvert";
     const wearSunglasses = defineSeason() === "soleil";
     const wearBottle = defineSeason() === "soleil";
     const wearUmbrella = defineSeason() === "légère pluie";
@@ -48,6 +50,7 @@ export default function WearablesHook({data, mode}: wearablesHookProps): wearabl
     const initMeteoVariables = {
         wearMask,
         wearHat,
+        wearWinterhat,
         wearSunglasses,
         wearBottle,
         wearUmbrella,

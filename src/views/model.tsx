@@ -10,6 +10,7 @@ import Stork from '../component/Stork';
 import Storm from '../component/storm';
 import Clouds from '../component/clouds';
 import Hat from '../component/clothes/hats/Hat';
+import Winterhat from '../component/clothes/hats/Winterhat';
 import Mask from '../component/clothes/masks/Mask';
 import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
 import GradientBtn from "../designSystem/button/button";
@@ -232,6 +233,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
 
       <Suspense fallback={null}>
           <Hat visible={wearablesVariables.wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
+          <Winterhat visible={wearablesVariables.wearWinterhat} position={[3.2, 2.4, -11.7]} rotation= {[0, 1, 0]}/>
           <Mask visible={wearablesVariables.wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
           <Sunglasses visible={wearablesVariables.wearSunglasses} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
           <WaterBottle visible={wearablesVariables.wearBottle} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>

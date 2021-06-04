@@ -260,6 +260,15 @@ function renderOnTestMode(){
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
       <Grid container item sm={6} alignItems="center" justify="flex-start">
+      Porter un bonnet
+      </Grid>
+      <Grid container item sm={6} justify="center">
+      <GradientBtn label={wearablesVariables.wearWinterhat ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearWinterhat, "updateWearablesVariables", "wearWinterhat")} />
+      </Grid>
+    </Grid>
+
+    <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
+      <Grid container item sm={6} alignItems="center" justify="flex-start">
       Mettre des lunettes
       </Grid>
       <Grid container item sm={6} justify="center">
