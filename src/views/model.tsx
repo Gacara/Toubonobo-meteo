@@ -44,7 +44,7 @@ export type switchModetype = "api" | "test";
 
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
-  const [selectedDate, setSelectedDate] = useState<number>(0);
+  const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
 

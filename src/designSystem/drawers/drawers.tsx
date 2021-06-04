@@ -99,7 +99,7 @@ function renderOnApiMode(){
       {data.Temperature.value} °C
     </Grid>
     <Grid container item sm={4} justify="flex-start">
-      {selectedDate !== 0 && compareTemperature(+data.Temperature.value)}
+      {selectedDate !== 1 && compareTemperature(+data.Temperature.value)}
     </Grid>
   </Grid>
   <Grid container item sm={12} alignItems="center" justify="flex-start">
@@ -110,7 +110,7 @@ function renderOnApiMode(){
       {data.humidity} %
     </Grid>
     <Grid container item sm={4} justify="flex-start">
-      {selectedDate !== 0 && compareHumidity(+data.humidity)}
+      {selectedDate !== 1 && compareHumidity(+data.humidity)}
     </Grid>
   </Grid>
     </Grid>

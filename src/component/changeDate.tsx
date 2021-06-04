@@ -22,7 +22,7 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
             <div className={classes.flex}>
                 <div 
                 onClick={onPreviousClick}>
-                    <NavigateBeforeIcon className={classes.chevron} style={{color: dateNumber !== 0 ? "black" : "grey"}} fontSize="large" />
+                    <NavigateBeforeIcon className={classes.chevron} style={{color: dateNumber !== 1 ? "black" : "grey"}} fontSize="large" />
                 </div>
             <div className={classes.label}>
             {label}
