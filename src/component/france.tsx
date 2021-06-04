@@ -38,8 +38,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     viewBox="0 0 597.6 670.7" overflow="visible" enable-background="new 0 0 597.6 670.7" xmlSpace="preserve">
 
 <g>
-	<text fill="white" transform="matrix(1 0 0 1 0 656.25)" font-family="'Ubuntu'" font-size="30">Ville choisie : </text>
-	<text fill="white" transform="matrix(1 0 0 1 175 656.25)" font-family="'Ubuntu'" font-size="30">{cityOnHover}</text>
+	<text fill="white" transform="matrix(1 0 0 1 50 656.25)" font-family="'Ubuntu'" font-size="30">Ville choisie : </text>
+	<text fill="white" transform="matrix(1 0 0 1 225 656.25)" font-family="'Ubuntu'" font-size="30">{cityOnHover}</text>
 </g>
 <g>
    <path 
