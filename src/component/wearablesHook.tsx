@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { forecastInterface } from "../interfaces/utils";
 import { switchModetype } from "../views/model";
 
@@ -22,27 +22,36 @@ interface wearablesHookInterface {
 
 export default function WearablesHook({data, mode}: wearablesHookProps): wearablesHookInterface {
 
-    const initMeteoVariables = {
-        wearMask: true,
-        wearHat: defineSeason() === "summer",
-        wearSunglasses: defineSeason() === "summer",
-        wearBottle: defineSeason() === "summer",
-        wearUmbrella: defineSeason() === "spring",
-    }
+    const wearMask = true;
+    const wearHat = defineSeason() !== "couvert" && defineSeason() !== "légère pluie";
+    const wearSunglasses = defineSeason() === "soleil";
+    const wearBottle = defineSeason() === "soleil";
+    const wearUmbrella = defineSeason() === "légère pluie";
+
 
     function defineSeason(){
-        switch (data) {
-            case data && +data.Temperature.feeling > 1 && data.Precipitation.mode === null:
-                return "summer";
-            case data && +data.Temperature.feeling <= 1 && data.Precipitation.mode === null:
-                return "winter";
-            case data && +data.Temperature.feeling > 1 && data.Precipitation.mode !== null:
-                return "spring";
+        const icon = data ? data.icon : "";
+        switch (icon) {
+            case "10d":
+                return "légère pluie";
+            case "03d":
+                return "partiellement nuageux";
+            case "01d":
+                return "ciel dégagé";
+            case "04d":
+                return "couvert";
             default:
-                return "summer";
+                return "soleil";
         } 
     }
 
+    const initMeteoVariables = {
+        wearMask,
+        wearHat,
+        wearSunglasses,
+        wearBottle,
+        wearUmbrella,
+    }
 
     const [wearablesVariables, setWearablesVariables] = useState<wearablesInterface>(initMeteoVariables);
 

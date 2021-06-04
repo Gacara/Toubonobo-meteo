@@ -94,41 +94,41 @@ export const mockedTemperatureCharts = {
       }
     ]
   };
-  function convertTimeToDay(currentDate: Date){
+  export function convertTimeToDay(currentDate: Date){
     const convertedDate = new Date(currentDate).getUTCDay();
     const day = new Date(currentDate).getUTCDate();
-    const month = new Date(currentDate).getUTCMonth();
+    const month = new Date(currentDate).getUTCMonth() + 1;
     switch (convertedDate) {
       case 1:
-        return `Monday ${day}/${month}`;
+        return `Lundi ${day}/${month}`;
       case 2:
-        return `Tuesday ${day}/${month}`;
+        return `Mardi ${day}/${month}`;
       case 3:
-        return `Wednesday ${day}/${month}`;
+        return `Mercredi ${day}/${month}`;
       case 4:
-        return `Thursday ${day}/${month}`;
+        return `Jeudi ${day}/${month}`;
       case 5:
-        return `Friday ${day}/${month}`;
+        return `Vendredi ${day}/${month}`;
       case 6:
-        return `Saturday ${day}/${month}`;
-      case 7:
-        return `Sunday ${day}/${month}`;
+        return `Samedi ${day}/${month}`;
+      case 0:
+        return `Dimanche ${day}/${month}`;
       default:
         return "";
     }
   }
   export function CloudChart(allData: forecastInterface[]){
     return {
-            labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`],
+            labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[5].dateObj)}`, `${convertTimeToDay(allData[6].dateObj)}`],
             datasets: [
               {
-                label: 'Cloud speed (m/s)',
+                label: 'Vitesse vent (m/s)',
                 backgroundColor: 'rgba(255,99,132,0.2)',
                 borderColor: 'rgba(255,99,132,1)',
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
-                data: [+allData[0].Wind.speed, +allData[1].Wind.speed, +allData[2].Wind.speed, +allData[3].Wind.speed]
+                data: [+allData[0].Wind.speed, +allData[1].Wind.speed, +allData[4].Wind.speed, +allData[6].Wind.speed]
               }
             ],
           }
@@ -136,16 +136,16 @@ export const mockedTemperatureCharts = {
 
   export function HumidityChart(allData: forecastInterface[]){
     return {
-            labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`],
+            labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`, `${convertTimeToDay(allData[6].dateObj)}`],
             datasets: [
               {
-                label: 'Humidity (%)',
+                label: 'Humidité (%)',
                 backgroundColor: 'rgba(255,99,132,0.2)',
                 borderColor: 'rgba(255,99,132,1)',
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
-                data: [+allData[0].humidity, +allData[1].humidity, +allData[2].humidity, +allData[3].humidity]
+                data: [+allData[0].humidity, +allData[1].humidity, +allData[4].humidity, +allData[6].humidity]
               }
             ],
           }
@@ -153,7 +153,7 @@ export const mockedTemperatureCharts = {
 
 export function TemperatureChart(allData: forecastInterface[]){
 return {
-        labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`],
+        labels: [`${convertTimeToDay(allData[0].dateObj)}`, `${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`, `${convertTimeToDay(allData[6].dateObj)}`],
         datasets: [
           {
             label: 'Temperature (°C)',
@@ -162,7 +162,7 @@ return {
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: [+allData[0].Temperature.value, +allData[1].Temperature.value, +allData[2].Temperature.value, +allData[3].Temperature.value]
+            data: [+allData[0].Temperature.value, +allData[1].Temperature.value, +allData[4].Temperature.value, +allData[6].Temperature.value]
           }
         ],
       }
