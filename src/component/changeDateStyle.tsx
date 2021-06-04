@@ -8,7 +8,7 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core";
         width: "fit-content",
         fontSize: "3rem",
         borderRadius: "10%",
-        padding: "10px",
+        padding: "10px 20px",
         backgroundColor: "rgb(255, 95, 109)",
         color: "white"
     },

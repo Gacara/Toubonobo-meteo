@@ -61,7 +61,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [fov, setFov] = useState<number>(50);
 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(true);
 
   function setData(){
     return allData ? allData[selectedDate] : null;
