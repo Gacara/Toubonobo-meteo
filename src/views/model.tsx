@@ -29,6 +29,9 @@ import HelpIcon from '@material-ui/icons/Help';
 import ExploreIcon from '@material-ui/icons/Explore';
 import FranceMap from '../component/france';
 import { Modal } from '@material-ui/core';
+import { convertTimeToDay } from '../designSystem/drawers/utils';
+import ChangeDate from '../component/changeDate';
+
 
 interface modelInterface{
   data: forecastInterface[] | null;
@@ -41,7 +44,8 @@ export type switchModetype = "api" | "test";
 
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
-  const data = allData ? allData[0] : null;
+  const [selectedDate, setSelectedDate] = useState<number>(0);
+  const data = setData();
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
 
   const {
@@ -58,6 +62,32 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  function setData(){
+    return allData ? allData[selectedDate] : null;
+  }
+
+  function nextDate(){
+    if(selectedDate === 6){
+      return;
+    }
+    if(selectedDate === 1){
+      setSelectedDate(5);
+      return;
+    }
+    setSelectedDate(selectedDate + 1);
+  }
+
+  function previousDate(){
+    if(selectedDate === 0){
+      return;
+    }
+    if(selectedDate === 5){
+      setSelectedDate(1);
+      return;
+    }
+    setSelectedDate(selectedDate - 1);
+  }
 
   
   function stormClick() {
@@ -151,8 +181,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       switchMode={switchMode}
       meteoVariables={meteoVariables}
       wearablesVariables={wearablesVariables}
-      city={city}
       open={openMenu}
+      selectedDate={selectedDate}
       allData={allData}
       onClose={() => {setOpenMenu(false); resetFov();}}
       action={zoomOnActions}
@@ -208,6 +238,9 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
     
+      <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>
+        <ChangeDate disabled={openModal} dateNumber={selectedDate} city={city} onPreviousClick={previousDate} onNextClick={nextDate} label={data && convertTimeToDay(data.dateObj)} />
+      </Html>
 
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
         <Modal

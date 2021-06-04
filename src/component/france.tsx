@@ -26,7 +26,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
         console.log("selectedCity", city, selectedCity)
 
         if (city === selectedCity)
-{        return "red";}
+{        return "rgb(255, 95, 109)";}
         if (cityOnHover === city)
 {        return "pink";
 }        return "#FBFAF9";

@@ -24,17 +24,21 @@ interface DrawerInterface {
     wearablesVariables: wearablesInterface;
     onClose: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
     allData: forecastInterface[] | null;
-    city: string;
     action: (value: unknown, type: string, action: string) => void;
+    selectedDate: number;
 }
 
-export default function TemporaryDrawer({open, onClose, allData, city, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
-  const data = allData ? allData[0] : mockedMeteoData;
+export default function TemporaryDrawer({selectedDate, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
+  const data = setData() || mockedMeteoData;
   const defaultSelectedButton = "Enlever";
   const defaultNotSelectedButton = "Porter";
   const temperatureChart = allData ? TemperatureChart(allData) : mockedTemperatureCharts;
   const humidityChart = allData ? HumidityChart(allData) : mockedHumidityCharts;
   const cloudChart = allData ? CloudChart(allData) : mockedCloudCharts;
+
+  function setData(){
+    return allData ? allData[selectedDate] : null;
+  }
 
   const styles = makeStyles(() => createStyles({
     root: {
@@ -56,47 +60,63 @@ export default function TemporaryDrawer({open, onClose, allData, city, switchMod
     },
   }))();
 
+
+  function compareTemperature(value: number){
+    const dataToCompare = allData ? +allData[0].Temperature.value : 1;
+    const evolution = value-dataToCompare;
+    const isPositive = evolution > 0;
+    return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} °C`}</span>;
+  }
+
+  function compareHumidity(value: number){
+    const dataToCompare = allData ? +allData[0].humidity : 1;
+    const evolution = value-dataToCompare;
+    const isPositive = evolution > 0;
+    return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} %`}</span>;
+  }
+
 function renderOnApiMode(){
-  return  (<Grid style={{height: "100%", width: "800px", background: "#FFC371", padding: "25px 30px 0 30px"}} container item sm={12} justify="center">
-
-  <Grid container item sm={12} justify="center" alignItems="center" style={{height: "15%"}}>
+  return  (<Grid style={{height: "100%", width: "700px", background: "#FFC371", padding: "25px 30px 0 30px"}} container item sm={12} justify="center">
 
 
-  <Grid container item sm={4} alignItems="center" justify="center">
-    <Grid container item sm={6} justify="center">
+  <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
+  <Grid container item sm={6} justify="center">
+  <div><h2>Temps actuel :</h2></div>
+  <Grid container item sm={12} alignItems="center" justify="flex-start">
+    <Grid container item sm={4} justify="center">
       <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="60px" height="60px" alt="meteo" />
     </Grid>
-    <Grid container item sm={6} justify="flex-start">
+    <Grid container item sm={4} justify="flex-start">
       {data.weather}
     </Grid>
   </Grid>
 
-  <Grid container item sm={4} alignItems="center" justify="center">
-  <Grid container item sm={6} justify="center">
+  <Grid container item sm={12} alignItems="center" justify="flex-start">
+  <Grid container item sm={4} justify="center">
     <span style={{fontSize: "2rem"}} role="img" aria-label="Temperature">🌡️</span>
     </Grid>
-    <Grid container item sm={6} justify="flex-start">
+    <Grid container item sm={4} justify="flex-start">
       {data.Temperature.value} °C
     </Grid>
+    <Grid container item sm={4} justify="flex-start">
+      {selectedDate !== 0 && compareTemperature(+data.Temperature.value)}
+    </Grid>
   </Grid>
-  <Grid container item sm={4} alignItems="center" justify="center">
-  <Grid container item sm={6} justify="center">
+  <Grid container item sm={12} alignItems="center" justify="flex-start">
+  <Grid container item sm={4} justify="center">
     <span style={{fontSize: "2rem"}} role="img" aria-label="Humidity">💧</span>
     </Grid>
-    <Grid container item sm={6} justify="flex-start">
+    <Grid container item sm={4} justify="flex-start">
       {data.humidity} %
     </Grid>
+    <Grid container item sm={4} justify="flex-start">
+      {selectedDate !== 0 && compareHumidity(+data.humidity)}
+    </Grid>
   </Grid>
-  </Grid>
-
-  <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "85%"}}>
-  <Grid container item sm={6} justify="center">
-  <div>{city}</div>
-
     </Grid>
   
-
-  <Grid container item sm={6} justify="center">
+    
+  <Grid container item sm={6} justify="center" style={{paddingTop: "40px"}} alignItems="flex-end">
       <Bar
       data={temperatureChart}
       width={400}
@@ -283,10 +303,9 @@ function renderOnTestMode(){
 
   return (
           <Drawer anchor="left" open={open} onClose={onClose} classes={styles}>
-            <div style={{overflow: "hidden", position: "absolute", top: "5px", right: "0"}}>
-            <GradientBtn label={`Switch to ${switchMode === "api" ? "test" : "api"} mode`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
-
-            </div>
+            <Grid container item sm={12} justify="center" alignItems="flex-end" style={{maxHeight: "100px", backgroundColor: "#FFC371"}}>
+            <GradientBtn label={`Changer en mode ${switchMode === "api" ? "Jeu" : "Info"}`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
+            </Grid>
 
               {
                 switchMode === "api"

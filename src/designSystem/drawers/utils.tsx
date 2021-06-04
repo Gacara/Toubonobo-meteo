@@ -94,11 +94,10 @@ export const mockedTemperatureCharts = {
       }
     ]
   };
-  function convertTimeToDay(currentDate: Date){
+  export function convertTimeToDay(currentDate: Date){
     const convertedDate = new Date(currentDate).getUTCDay();
     const day = new Date(currentDate).getUTCDate();
     const month = new Date(currentDate).getUTCMonth() + 1;
-    console.log(convertedDate)
     switch (convertedDate) {
       case 1:
         return `Lundi ${day}/${month}`;
