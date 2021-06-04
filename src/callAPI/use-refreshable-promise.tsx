@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import _ from "lodash";
 import { usePromise } from 'react-hook-utils'
 import { data } from "../interfaces/utils";
 
@@ -7,7 +8,8 @@ export default (fetchResult: () => Promise<data>, setResult: (result: T) => any)
   const refresh = async () => {
     return fetchResult()
       .then((result) => {
-        setResult(result)
+        const newResults = _.uniqBy(result as unknown as T[], "dateObj")
+        setResult(newResults);
       })
   };
   const fetchMemo = useMemo(refresh, [])

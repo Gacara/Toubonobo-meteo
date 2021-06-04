@@ -62,14 +62,14 @@ export default function TemporaryDrawer({selectedDate, open, onClose, allData, s
 
 
   function compareTemperature(value: number){
-    const dataToCompare = allData ? +allData[0].Temperature.value : 1;
+    const dataToCompare = allData ? +allData[1].Temperature.value : 1;
     const evolution = value-dataToCompare;
     const isPositive = evolution > 0;
     return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} °C`}</span>;
   }
 
   function compareHumidity(value: number){
-    const dataToCompare = allData ? +allData[0].humidity : 1;
+    const dataToCompare = allData ? +allData[1].humidity : 1;
     const evolution = value-dataToCompare;
     const isPositive = evolution > 0;
     return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} %`}</span>;
@@ -183,9 +183,6 @@ function renderOnTestMode(){
       <Grid container item sm={6} justify="center">
         <Grid container item sm={12} justify="center">
         <Slider
-                  getAriaValueText={() =>{ return meteoVariables.cloudCover as unknown as string}}
-                  valueLabelDisplay="on"
-
         value={meteoVariables.cloudCover}
         step={1}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudCover") }}
@@ -195,9 +192,6 @@ function renderOnTestMode(){
         </Grid>
         <Grid container item sm={12} justify="center">
         <Slider
-                  getAriaValueText={() =>{ return meteoVariables.windSpeed as unknown as string}}
-                  valueLabelDisplay="on"
-
         value={meteoVariables.windSpeed}
         step={1}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "windSpeed")}}

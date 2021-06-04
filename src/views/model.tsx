@@ -60,18 +60,22 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [sceneNumber, setSceneNumber] = useState<number>(4);
   const [fov, setFov] = useState<number>(50);
 
-  const [openMenu, setOpenMenu] = useState<boolean>(true);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(true);
 
   function setData(){
     return allData ? allData[selectedDate] : null;
   }
 
   function nextDate(){
-    if(selectedDate === 6){
+    if(selectedDate === 7){
       return;
     }
     if(selectedDate === 1){
+      setSelectedDate(3);
+      return;
+    }
+    if(selectedDate === 3){
       setSelectedDate(5);
       return;
     }
@@ -79,10 +83,14 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function previousDate(){
-    if(selectedDate === 0){
+    if(selectedDate === 1){
       return;
     }
     if(selectedDate === 5){
+      setSelectedDate(3);
+      return;
+    }
+    if(selectedDate === 3){
       setSelectedDate(1);
       return;
     }

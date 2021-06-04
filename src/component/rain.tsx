@@ -35,7 +35,6 @@ const setInitialPositions = (rainCount: number) => {
   };
 
 function RainPoints({geom, isVisible, positions, velocities, accelerations}: yeahInterface){
-  console.log(geom.current)
 
   const uniforms = useMemo(() => ({ time: { value: 1.0 } }), []);
   const vert = `uniform float time;
