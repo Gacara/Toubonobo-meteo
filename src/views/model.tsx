@@ -60,8 +60,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [sceneNumber, setSceneNumber] = useState<number>(4);
   const [fov, setFov] = useState<number>(50);
 
-  const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(true);
+  const [openMenu, setOpenMenu] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   function setData(){
     return allData ? allData[selectedDate] : null;
