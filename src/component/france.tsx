@@ -23,8 +23,6 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     const [cityOnHover, setCityOnHover] = useState<string>("");
 
     function getColor(city: string){
-        console.log("selectedCity", city, selectedCity)
-
         if (city === selectedCity)
 {        return "rgb(255, 95, 109)";}
         if (cityOnHover === city)
@@ -233,8 +231,23 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    fill={getColor(rennes)}
    style={{cursor: "pointer"}}
    d="M70.5,253.7l4.4-1.4l-5.7-3.8l-3.2,0.4l1,3.7L70.5,253.7z"/>
-   <path fill="#EFF6F2" d="M146.7,332.6L146.7,332.6l-0.1,0.1l5,4.5l3.3-1.4l-6.1-3.899L146.7,332.6z"/>
-   <path fill="#EFF6F2" d="M156.8,350l-5.8-3.8l-1.9,3.1l7.2,12.601l1.5-3.601L156.8,350z"/>
+
+
+   <path 
+   onClick={() => onRegionClick(bordeaux)}
+   onMouseEnter={() => setCityOnHover(bordeaux)}
+   onMouseLeave={() => setCityOnHover("")}
+   fill={getColor(bordeaux)}
+   style={{cursor: "pointer"}}
+   d="M146.7,332.6L146.7,332.6l-0.1,0.1l5,4.5l3.3-1.4l-6.1-3.899L146.7,332.6z"/>
+   
+   <path
+   onClick={() => onRegionClick(bordeaux)}
+   onMouseEnter={() => setCityOnHover(bordeaux)}
+   onMouseLeave={() => setCityOnHover("")}
+   fill={getColor(bordeaux)}
+   style={{cursor: "pointer"}}
+   d="M156.8,350l-5.8-3.8l-1.9,3.1l7.2,12.601l1.5-3.601L156.8,350z"/>
 
 
    <path 

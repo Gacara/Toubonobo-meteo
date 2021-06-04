@@ -22,14 +22,14 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
             <div className={classes.flex}>
                 <div 
                 onClick={onPreviousClick}>
-                    <NavigateBeforeIcon className={classes.chevron} style={{color: dateNumber !== 0 ? "black" : "grey"}} fontSize="large" />
+                    <NavigateBeforeIcon className={classes.chevron} style={{color: dateNumber !== 1 ? "black" : "grey"}} fontSize="large" />
                 </div>
             <div className={classes.label}>
             {label}
             </div>  
                 <div className={classes.flex}
                 onClick={onNextClick}>
-                    <NavigateNextIcon className={classes.chevron} style={{color: dateNumber !== 6 ? "black" : "grey"}} fontSize="large" />
+                    <NavigateNextIcon className={classes.chevron} style={{color: dateNumber !== 7 ? "black" : "grey"}} fontSize="large" />
             </div>
         </div>
 }

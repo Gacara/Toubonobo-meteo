@@ -44,7 +44,7 @@ export type switchModetype = "api" | "test";
 
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
-  const [selectedDate, setSelectedDate] = useState<number>(0);
+  const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
 
@@ -68,10 +68,14 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function nextDate(){
-    if(selectedDate === 6){
+    if(selectedDate === 7){
       return;
     }
     if(selectedDate === 1){
+      setSelectedDate(3);
+      return;
+    }
+    if(selectedDate === 3){
       setSelectedDate(5);
       return;
     }
@@ -79,10 +83,14 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function previousDate(){
-    if(selectedDate === 0){
+    if(selectedDate === 1){
       return;
     }
     if(selectedDate === 5){
+      setSelectedDate(3);
+      return;
+    }
+    if(selectedDate === 3){
       setSelectedDate(1);
       return;
     }
@@ -214,6 +222,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         <Sun visible={meteoVariables.sun && !meteoVariables.storm} color={sceneNumber !== 3 ? "yellow" : "#DCD8AE"}/>
         <ambientLight visible={!meteoVariables.storm} />
         <Rain
+        // forceUpdate={}
         isVisible={meteoVariables.rain}
         rainCount={meteoVariables.rainPrecipitation}
         />
@@ -221,7 +230,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         isVisible={meteoVariables.snow}
         snowCount={meteoVariables.snowPrecipitation}
         />
-        <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.windSpeed} intensity={meteoVariables.cloudIntensity} number={meteoVariables.cloudCover} />
+        <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.windSpeed} number={meteoVariables.cloudCover} />
         <Flamingo scale={[0.3, 0.3, 0.3]} />
         <Parrot scale={[0.3, 0.3, 0.3]} />
         <Stork scale={[0.3, 0.3, 0.3]} />

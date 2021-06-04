@@ -16,7 +16,6 @@ function Home(): React.ReactElement{
   const [city, setCity] = useState<string>(defaultCity);
   const { refresh: refreshData } = useRefreshablePromise(() => fetchForecastData(city), setResultData);
   const [testMode, setTestMode] = useState<switchModetype | undefined>();
-
   useEffect(() => {
     refreshData()
   }, [city]);

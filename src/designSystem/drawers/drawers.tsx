@@ -62,14 +62,14 @@ export default function TemporaryDrawer({selectedDate, open, onClose, allData, s
 
 
   function compareTemperature(value: number){
-    const dataToCompare = allData ? +allData[0].Temperature.value : 1;
+    const dataToCompare = allData ? +allData[1].Temperature.value : 1;
     const evolution = value-dataToCompare;
     const isPositive = evolution > 0;
     return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} °C`}</span>;
   }
 
   function compareHumidity(value: number){
-    const dataToCompare = allData ? +allData[0].humidity : 1;
+    const dataToCompare = allData ? +allData[1].humidity : 1;
     const evolution = value-dataToCompare;
     const isPositive = evolution > 0;
     return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} %`}</span>;
@@ -99,7 +99,7 @@ function renderOnApiMode(){
       {data.Temperature.value} °C
     </Grid>
     <Grid container item sm={4} justify="flex-start">
-      {selectedDate !== 0 && compareTemperature(+data.Temperature.value)}
+      {selectedDate !== 1 && compareTemperature(+data.Temperature.value)}
     </Grid>
   </Grid>
   <Grid container item sm={12} alignItems="center" justify="flex-start">
@@ -110,7 +110,7 @@ function renderOnApiMode(){
       {data.humidity} %
     </Grid>
     <Grid container item sm={4} justify="flex-start">
-      {selectedDate !== 0 && compareHumidity(+data.humidity)}
+      {selectedDate !== 1 && compareHumidity(+data.humidity)}
     </Grid>
   </Grid>
     </Grid>
@@ -188,15 +188,6 @@ function renderOnTestMode(){
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudCover") }}
         min={1}
         max={10}
-      />
-        </Grid>
-        <Grid container item sm={12} justify="center">
-        <Slider
-        value={meteoVariables.cloudIntensity}
-        step={1}
-        onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudIntensity")}}
-        min={1}
-        max={15}
       />
         </Grid>
         <Grid container item sm={12} justify="center">

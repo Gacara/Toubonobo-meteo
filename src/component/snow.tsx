@@ -71,7 +71,7 @@ const Snow = ({ snowCount, isVisible }: rainInterface) => {
     });
   
     return (
-      <points ref={geom} visible={isVisible}>
+      <points key={snowCount} ref={geom} visible={isVisible}>
         <bufferGeometry attach="geometry">
           <bufferAttribute
             attachObject={["attributes", "position"]}
