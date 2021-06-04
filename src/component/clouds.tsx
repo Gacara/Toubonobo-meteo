@@ -23,8 +23,8 @@ const Cloud = ({ height, position, isVisible, velocity}: positionInterface) => {
 
   useFrame(({ clock }) => {
   if (group && group.current){
-    if (group.current.position.x >= 50) {group.current.position.x = positionRand(10, -10)};
-    group.current.position.x += (clock.getElapsedTime() * velocity/40000) % 30;
+    if (group.current.position.x >= 70) {group.current.position.x = positionRand(0, -25)};
+    group.current.position.x = (clock.getElapsedTime() * velocity) % 35;
   } 
   });
 
@@ -58,11 +58,9 @@ const Clouds = ({number, isVisible, velocity}: cloudInterface) => {
     let cloudsDisplay = [];
   
     for(let i=0; i<number; i++){
-    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(1, 7)} position={positionRand(-10, -50)} />);
-    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(2, 9)} position={positionRand(-10, -50)} />);
+    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(1, 7)} position={positionRand(-5, -30)} />);
+    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(2, 9)} position={positionRand(0, -20)} />);
     };
-
-    console.log(cloudsDisplay)
     return cloudsDisplay;
   }, [number, isVisible, velocity]);
 
