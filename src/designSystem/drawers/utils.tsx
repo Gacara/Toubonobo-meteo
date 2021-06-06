@@ -119,7 +119,7 @@ export const mockedTemperatureCharts = {
   }
   export function CloudChart(allData: forecastInterface[]){
     return {
-            labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[5].dateObj)}`, `${convertTimeToDay(allData[6].dateObj)}`, `${convertTimeToDay(allData[7].dateObj)}`],
+            labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`],
             datasets: [
               {
                 label: 'Vitesse vent (m/s)',
@@ -128,7 +128,7 @@ export const mockedTemperatureCharts = {
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
-                data: [+allData[1].Wind.speed, +allData[3].Wind.speed, +allData[5].Wind.speed, +allData[6].Wind.speed, +allData[7].Wind.speed]
+                data: [+allData[1].Wind.speed, +allData[2].Wind.speed, +allData[3].Wind.speed, +allData[4].Wind.speed]
               }
             ],
           }
@@ -136,7 +136,7 @@ export const mockedTemperatureCharts = {
 
   export function HumidityChart(allData: forecastInterface[]){
     return {
-            labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[5].dateObj)}`, `${convertTimeToDay(allData[6].dateObj)}`, `${convertTimeToDay(allData[7].dateObj)}`],
+            labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`],
             datasets: [
               {
                 label: 'Humidité (%)',
@@ -145,7 +145,7 @@ export const mockedTemperatureCharts = {
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
-                data: [+allData[1].humidity, +allData[3].humidity, +allData[5].humidity, +allData[6].humidity, +allData[7].humidity]
+                data: [+allData[1].humidity, +allData[2].humidity, +allData[3].humidity, +allData[4].humidity]
               }
             ],
           }
@@ -153,7 +153,7 @@ export const mockedTemperatureCharts = {
 
 export function TemperatureChart(allData: forecastInterface[]){
 return {
-        labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[5].dateObj)}`, `${convertTimeToDay(allData[6].dateObj)}`, `${convertTimeToDay(allData[7].dateObj)}`],
+        labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`],
         datasets: [
           {
             label: 'Temperature (°C)',
@@ -162,7 +162,7 @@ return {
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: [+allData[1].Temperature.value, +allData[3].Temperature.value, +allData[5].Temperature.value, +allData[6].Temperature.value, +allData[7].Temperature.value]
+            data: [+allData[1].Temperature.value, +allData[2].Temperature.value, +allData[3].Temperature.value, +allData[4].Temperature.value]
           }
         ],
       }

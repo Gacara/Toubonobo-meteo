@@ -68,15 +68,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function nextDate(){
-    if(selectedDate === 7){
-      return;
-    }
-    if(selectedDate === 1){
-      setSelectedDate(3);
-      return;
-    }
-    if(selectedDate === 3){
-      setSelectedDate(5);
+    if(selectedDate === 4){
       return;
     }
     setSelectedDate(selectedDate + 1);
@@ -84,14 +76,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
 
   function previousDate(){
     if(selectedDate === 1){
-      return;
-    }
-    if(selectedDate === 5){
-      setSelectedDate(3);
-      return;
-    }
-    if(selectedDate === 3){
-      setSelectedDate(1);
       return;
     }
     setSelectedDate(selectedDate - 1);
