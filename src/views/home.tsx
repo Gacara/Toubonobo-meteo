@@ -19,6 +19,7 @@ function Home(): React.ReactElement{
   useEffect(() => {
     refreshData()
   }, [city]);
+  console.log(resultData)
 
   function loadingBeforeTestMode(){
       setTimeout(() => {
