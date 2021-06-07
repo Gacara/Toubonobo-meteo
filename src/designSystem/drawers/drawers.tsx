@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import { forecastInterface } from '../../interfaces/utils';
 import { Button, createStyles, Grid, makeStyles, Slider } from '@material-ui/core';
@@ -15,6 +14,7 @@ import {
   CloudChart,
   mockedCloudCharts,
   mockedMeteoData,
+  dateByIndex,
 } from './utils';
 
 interface DrawerInterface {
@@ -82,7 +82,7 @@ function renderOnApiMode(){
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
   <Grid container item sm={12} justify="center">
   <Grid container item sm={12} justify="center">
-  <div><h2>Temps actuel :</h2></div>
+  <div><h2>Temps {dateByIndex(selectedDate)} :</h2></div>
   </Grid>
   <Grid container item sm={4} alignItems="center" justify="flex-start">
     <Grid container item sm={6} justify="center">

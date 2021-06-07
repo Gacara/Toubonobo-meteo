@@ -182,3 +182,16 @@ export const rainMarks = [
       label: '15000',
     },
   ];
+
+export function dateByIndex(date: number){
+  switch (date) {
+    case 2:
+    return "de demain";
+    case 3:
+    return "après demain";
+    case 4:
+    return "dans 3 jours";
+    case 1:
+    default: return "actuel";
+  }
+}
