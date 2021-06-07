@@ -51,7 +51,6 @@ const heightRand = (min: number, max: number) => {
     return Math.random() * (max - min) + min;
   };
 
-
 const Clouds = ({number, isVisible, velocity}: cloudInterface) => {
 
   const CloudSpawn = useMemo(() => {

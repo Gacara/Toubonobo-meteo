@@ -76,22 +76,24 @@ export default function TemporaryDrawer({selectedDate, open, onClose, allData, s
   }
 
 function renderOnApiMode(){
-  return  (<Grid style={{height: "100%", width: "700px", background: "#FFC371", padding: "25px 30px 0 30px"}} container item sm={12} justify="center">
+  return  (<Grid style={{height: "100%", width: "700px", background: "#FFC371", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
 
 
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
-  <Grid container item sm={6} justify="center">
+  <Grid container item sm={12} justify="center">
+  <Grid container item sm={12} justify="center">
   <div><h2>Temps actuel :</h2></div>
-  <Grid container item sm={12} alignItems="center" justify="flex-start">
-    <Grid container item sm={4} justify="center">
+  </Grid>
+  <Grid container item sm={4} alignItems="center" justify="flex-start">
+    <Grid container item sm={6} justify="center">
       <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="60px" height="60px" alt="meteo" />
     </Grid>
-    <Grid container item sm={4} justify="flex-start">
+    <Grid container item sm={6} justify="flex-start">
       {data.weather}
     </Grid>
   </Grid>
 
-  <Grid container item sm={12} alignItems="center" justify="flex-start">
+  <Grid container item sm={4} alignItems="center" justify="flex-start">
   <Grid container item sm={4} justify="center">
     <span style={{fontSize: "2rem"}} role="img" aria-label="Temperature">🌡️</span>
     </Grid>
@@ -102,7 +104,7 @@ function renderOnApiMode(){
       {selectedDate !== 1 && compareTemperature(+data.Temperature.value)}
     </Grid>
   </Grid>
-  <Grid container item sm={12} alignItems="center" justify="flex-start">
+  <Grid container item sm={4} alignItems="center" justify="flex-start">
   <Grid container item sm={4} justify="center">
     <span style={{fontSize: "2rem"}} role="img" aria-label="Humidity">💧</span>
     </Grid>
@@ -116,7 +118,7 @@ function renderOnApiMode(){
     </Grid>
   
     
-  <Grid container item sm={6} justify="center" style={{paddingTop: "40px"}} alignItems="flex-end">
+  <Grid container item sm={12} justify="center" alignItems="flex-end">
       <Bar
       data={temperatureChart}
       width={400}
@@ -126,7 +128,7 @@ function renderOnApiMode(){
       }}
       />
       </Grid>
-      <Grid container item sm={6} justify="center">
+      <Grid container item sm={12} justify="center">
       <Bar
       data={cloudChart}
       width={400}
@@ -136,7 +138,7 @@ function renderOnApiMode(){
       }}
       />
       </Grid>
-      <Grid container item sm={6} justify="center">
+      <Grid container item sm={12} justify="center">
       <Bar
       data={humidityChart}
       width={400}
@@ -294,7 +296,7 @@ function renderOnTestMode(){
 
   return (
           <Drawer anchor="left" open={open} onClose={onClose} classes={styles}>
-            <Grid container item sm={12} justify="center" alignItems="flex-end" style={{maxHeight: "100px", backgroundColor: "#FFC371"}}>
+            <Grid container item sm={12} justify="center" alignItems="flex-end" style={{maxHeight: "80px", backgroundColor: "#FFC371"}}>
             <GradientBtn label={`Changer en mode ${switchMode === "api" ? "Jeu" : "Info"}`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
             </Grid>
 
