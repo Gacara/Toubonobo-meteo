@@ -10,9 +10,10 @@ interface ChangeDataInterface {
     city: string;
     dateNumber: number;
     disabled: boolean;
+    maxDate: number;
 }
 
-export default function ChangeDate({disabled, onNextClick, onPreviousClick, label, city, dateNumber}: ChangeDataInterface) {
+export default function ChangeDate({disabled, onNextClick, onPreviousClick, label, city, dateNumber, maxDate}: ChangeDataInterface) {
     const classes = useStyle();
 
     return (
@@ -29,7 +30,7 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
             </div>  
                 <div className={classes.flex}
                 onClick={onNextClick}>
-                    <NavigateNextIcon className={classes.chevron} style={{color: dateNumber !== 4 ? "black" : "grey"}} fontSize="large" />
+                    <NavigateNextIcon className={classes.chevron} style={{color: dateNumber !== maxDate ? "black" : "grey"}} fontSize="large" />
             </div>
         </div>
 }

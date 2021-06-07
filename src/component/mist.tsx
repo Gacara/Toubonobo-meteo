@@ -45,22 +45,25 @@ const Mist = ({ mistCount, isVisible }: rainInterface) => {
       attribute vec3 acceleration;
       varying float curY;
       void main() {
-          vec3 pos = position;
+          vec3 pos = vec3(position[0], position[1], position[2]);
           
           gl_Position = projectionMatrix 
               * modelViewMatrix
               * vec4(
                   vec3(
-                      mod(30.+pos[0]+time*.6,30.)-5.,
-                      mod(pos[1] + (time * velocity[1] * acceleration[1]),10.),
+                      mod(30.+pos[0]+time*.6,30.)-10.,
+                      mod(pos[1] + (time * velocity[1] * acceleration[2]),8.),
                       pos[2]), 1.0);
-          gl_PointSize = 10.0;
+          gl_PointSize = 5.;
       }`;
   
     const frag = `uniform float time;
       void main() {
+
           float z = 1.0 - gl_FragCoord.z;
-          gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+          float x = 3.0 - gl_FragCoord.x;
+          gl_FragColor = vec4(vec3(0.855,0.795,0.731), 0.1);
+          gl_FragColor.a = 0.5;
       }`;
   
     useFrame(({ clock }) => {
