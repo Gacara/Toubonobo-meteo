@@ -237,6 +237,25 @@ function renderOnTestMode(){
       />
       </Grid>
       </Grid>
+
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
+      <Grid container item sm={6} justify="flex-start">
+      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.mist, "updateMeteoVariables", "mist")}>
+      {<span role="img" aria-label="Mist">🌫️</span>}
+      </Button>
+      </Grid>
+      <Grid container item sm={6} justify="center">
+      <Slider
+        value={meteoVariables.mistOpacity}
+        step={5000}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "mistOpacity");}}
+        min={0}
+        max={80000}
+      />
+      </Grid>
+      </Grid>
+
+
     </Grid>
   </Grid>
 

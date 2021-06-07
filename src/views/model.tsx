@@ -31,6 +31,7 @@ import FranceMap from '../component/france';
 import { Modal } from '@material-ui/core';
 import { convertTimeToDay } from '../designSystem/drawers/utils';
 import ChangeDate from '../component/changeDate';
+import Mist from '../component/mist';
 
 
 interface modelInterface{
@@ -46,7 +47,7 @@ export type switchModetype = "api" | "test";
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
-  const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
+  const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "test");
 
   const {
     meteoVariables,
@@ -60,8 +61,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [sceneNumber, setSceneNumber] = useState<number>(4);
   const [fov, setFov] = useState<number>(50);
 
-  const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(true);
+  const [openMenu, setOpenMenu] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   function setData(){
     return allData ? allData[selectedDate] : null;
@@ -138,7 +139,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       resetFov();
     }
   }
-      
       onAction(value, type, action);
     }
 
@@ -206,9 +206,12 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         <Sun visible={meteoVariables.sun && !meteoVariables.storm} color={sceneNumber !== 3 ? "yellow" : "#DCD8AE"}/>
         <ambientLight visible={!meteoVariables.storm} />
         <Rain
-        // forceUpdate={}
         isVisible={meteoVariables.rain}
         rainCount={meteoVariables.rainPrecipitation}
+        />
+        <Mist
+        isVisible={meteoVariables.mist}
+        mistCount={meteoVariables.mistOpacity}
         />
         <Snow 
         isVisible={meteoVariables.snow}
