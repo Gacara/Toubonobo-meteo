@@ -1,6 +1,6 @@
-import React, { Suspense, useLayoutEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { Html } from '@react-three/drei'
+import { Html, MeshDistortMaterial } from '@react-three/drei'
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
 import Forest from "../component/forest";
@@ -12,7 +12,7 @@ import Clouds from '../component/clouds';
 import Hat from '../component/clothes/hats/Hat';
 import Mask from '../component/clothes/masks/Mask';
 import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
-import GradientBtn from "../designSystem/button/button";
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 import Rain from '../component/rain';
 import Snow from '../component/snow';
 import WaterBottle from '../component/accessories/WaterBottle';
@@ -48,7 +48,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "test");
-
   const {
     meteoVariables,
     updateMeteoVariables,
@@ -69,7 +68,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function nextDate(){
-    if(selectedDate === 4){
+    if(allData && selectedDate === allData.length - 1){
       return;
     }
     setSelectedDate(selectedDate + 1);
@@ -158,7 +157,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
            cameraRef.current!.updateProjectionMatrix()
          }
       }, [size.height, size.width])
-    
+
       useLayoutEffect(() => {
         set({ camera: cameraRef.current as unknown as PerspectiveCamera })
       }, [set])
@@ -184,9 +183,36 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     </>
 }
 
+function returnLuminanceByRain(){
+  if(meteoVariables.rainPrecipitation <= 25000){
+    return 0;
+  } else {
+    return -(meteoVariables.rainPrecipitation / 100000);
+  }
+}
+
+function returnLuminanceSmoothingByRain(){
+  if(meteoVariables.rainPrecipitation <= 25000){
+    return 0;
+  } else {
+    return -(meteoVariables.rainPrecipitation / 100000);
+  }
+}
+
   return (
     <div style={{ height:"100vh", width:"100vw" }}>
     <Canvas>
+      {
+        meteoVariables.rain && meteoVariables.rainPrecipitation >= 35000 && 
+        <EffectComposer>
+        <DepthOfField focusDistance={0} focalLength={0.2} bokehScale={2} height={480} />
+        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={300} />
+        <Noise opacity={0.1} />
+        <Vignette eskil={false} offset={0.1} darkness={1.0} />
+      </EffectComposer>
+      }
+    
+    
     <CustomCamera />
 
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
@@ -235,7 +261,15 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Suspense>
     
       <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>
-        <ChangeDate disabled={openModal} dateNumber={selectedDate} city={city} onPreviousClick={previousDate} onNextClick={nextDate} label={data && convertTimeToDay(data.dateObj)} />
+        <ChangeDate
+        disabled={openModal}
+        dateNumber={selectedDate}
+        city={city}
+        onPreviousClick={previousDate}
+        onNextClick={nextDate}
+        label={data && convertTimeToDay(data.dateObj)}
+        maxDate={allData ? allData.length - 1 : 1}
+        />
       </Html>
 
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
