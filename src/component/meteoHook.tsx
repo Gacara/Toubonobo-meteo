@@ -33,7 +33,7 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
     const rain = !!((data && data.Precipitation.mode === "rain"));
     const snow = !!(data && data.Precipitation.mode === "snow");
     const cloud = !!((data && data.Cloud.cover > 0) || false);
-    const sun = !!((data && data.Cloud.cover > 75));
+    const sun = hasSun();
     const storm = !!(data && +data.Precipitation.value > 10);
     const rainPrecipitation = convertDataRainCoverToNumber();
     const snowPrecipitation = 3000;
@@ -53,6 +53,14 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
         return 50000; 
     }
   }
+
+  function hasSun(){
+    const icon = data ? data.icon : "";
+        if (icon ==="01d" || icon === "03d"){
+          return true;  
+    }
+    return false;
+}
 
   function convertDataCloudCoverToNumber(): number{
     return data?.Cloud.cover ? data.Cloud.cover / 20 : 1;

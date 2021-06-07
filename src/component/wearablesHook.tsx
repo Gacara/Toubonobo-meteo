@@ -38,6 +38,10 @@ export default function WearablesHook({data, mode}: wearablesHookProps): wearabl
                 return "partiellement nuageux";
             case "01d":
                 return "ciel dégagé";
+            case "13d":
+                return "neige";
+            case "50d":
+                return "brouillard";
             case "04d":
                 return "couvert";
             default:
