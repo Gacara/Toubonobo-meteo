@@ -262,7 +262,7 @@ function returnLuminanceSmoothingByRain(){
     
       <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>
         <ChangeDate
-        disabled={openModal}
+        disabled={openModal || switchMode === "test"}
         dateNumber={selectedDate}
         city={city}
         onPreviousClick={previousDate}
