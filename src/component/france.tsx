@@ -30,6 +30,15 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
 }        return "#FBFAF9";
     }
 
+    function getOpacity(city: string){
+        if (city === selectedCity || cityOnHover === city){
+            return "1";
+        }
+
+       return "0.2";
+    }
+    
+
 
    return (
     <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width="597.6" height="670.7"
@@ -41,6 +50,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
 </g>
 <g>
    <path 
+   fillOpacity={getOpacity(strasbourg)}
    onClick={() => onRegionClick(strasbourg)}
    onMouseEnter={() => setCityOnHover(strasbourg)}
    onMouseLeave={() => setCityOnHover("")}
@@ -57,6 +67,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-2.899,1.4l-2.5-4.4l-3.4-1.6l-3.1,1.8l-0.301,3.3l-3.1-0.8l-9-10.3l-1.9-6.5l-3.399-2.3L503.3,105.4z"/>
 
    <path
+    fillOpacity={getOpacity(lille)}
    onClick={() => onRegionClick(lille)}
    onMouseEnter={() => setCityOnHover(lille)}
    onMouseLeave={() => setCityOnHover("")}
@@ -69,6 +80,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l2.301-7.3l-3.101,0.7l-4.6-5.5l-6.8,1.2l-6.101-1.4l-2.5,2.2L386.4,42.7l-6.101-1.5l-1.3-3l-3.2,2.4l-3.6-1.2l-3.4-9.5l0.5-3.4
        l-4.399-4.9l-6.601,0.5l-6.2,4.3l-3.3-1.4l-3.2-5.9H341.9l-1.5-3l1.199-6.4L338.7,2.9L335.6,1z"/>
    <path 
+   fillOpacity={getOpacity(paris)}
    onClick={() => onRegionClick(paris)}
    onMouseEnter={() => setCityOnHover(paris)}
    onMouseLeave={() => setCityOnHover("")}
@@ -79,6 +91,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-3,1.7l10.3,0.8l12.6-3l4.4-6l0.2-6.5l17.3-3.5l-0.5-9.6l3.3-0.8l3.4-5.6l-2.9-1.9l-3.9-9.3l2.801-2.5l0.6-2.3l-10.5-6.7l-4.4-4.7
        l0.7-3.2l-1.899-2.8l-3-0.8l-9.101,3.3l-2.8-1.8l-2.3,2.5l-7.7-1.2L328.3,131.8z"/>
    <path 
+    fillOpacity={getOpacity(dijon)}
    onClick={() => onRegionClick(dijon)}
    onMouseEnter={() => setCityOnHover(dijon)}
    onMouseLeave={() => setCityOnHover("")}
@@ -94,6 +107,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-2.3,2.7l-0.4,9.4l-3.399,1.1l-2.5-2l-7.4,4.4l-1.3,2.8l0,0l3.1-1.9l-3.1,1.9l0,0l-5.4,2.1v-3.2l-3.399-1.7l-10.3-2.3l-2.601-5.4
        l3.101-2.7l-1.101-3.4l-2-2.6l-3.3-0.3l0.4-3.2l-3-1.1l-0.601-3.1l-3.899-0.8v0.1l-4.301-0.6l-5.3,4.4L422.4,215.5z"/>
    <path 
+    fillOpacity={getOpacity(orleans)}
    onClick={() => onRegionClick(orleans)}
    onMouseEnter={() => setCityOnHover(orleans)}
    onMouseLeave={() => setCityOnHover("")}
@@ -107,7 +121,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l5.5,0.2l0,0l3.899-6.7l9.8-1.1l1.9-2.7l-1.9-6l2.5-2.1l9.5-3.2l5.4-4.2h4.5l1.5-10l0.3-6.6l-2.5-2.2l-0.3-6.6l-3.5-8.5l-3.1-2.4
        l1.899-6.5l-2.2-7.3l1.7-2.7l3.2-0.7l-2.5-7.8l-3.4-3.2l5.9-3.7l1.8-2.7l-1.2-3.3l5.2-5.5l-0.5-6.4l-7.5-8.5L344.2,205.3z"/>
 
-   <path 
+   <path
+   fillOpacity={getOpacity(lyon)}
    onClick={() => onRegionClick(lyon)}
    onMouseEnter={() => setCityOnHover(lyon)}
    onMouseLeave={() => setCityOnHover("")}
@@ -127,7 +142,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-2.601,2.1l-0.399,3.4l-6.4,4.3l-2.3-2.4l-9,1.7l-5.8-3.6v-3.4l4.199-5.2l0.5-6.2l-1.8-2.7l-8.8-3.3l-7.6-15.1l-6.7,6.7l-4.8-4.1
        l-3.2,1.9l-7.2-0.2l-6.5-7.1h-4.5l-5.4,4.2L342.6,304.3z M464.6,461.5l-2.699,4l-4.5,1.4l-2.2-2.5l1.399-3.4l3-2.5L464.6,461.5z"/>
 
-   <path 
+   <path
+   fillOpacity={getOpacity(bordeaux)} 
    onClick={() => onRegionClick(bordeaux)}
    onMouseEnter={() => setCityOnHover(bordeaux)}
    onMouseLeave={() => setCityOnHover("")}
@@ -146,7 +162,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l0.3-3.801l2.601-2.199l-2-2.5l8.5-10.7l0.699-3.9l7,2.3l-2.199-15.6l2-2.8l-1.4-6.2l-5-6.2l10.5-9.7l-2.6-7.6l0.6-4.6l-4.1-9.3
        c-2.7-1.9-5.5-3.7-8.301-5.5L326.4,322.9z M206.3,536.9l0.1,3.1l-2.5-1.8L206.3,536.9z"/>
 
-   <path 
+   <path
+   fillOpacity={getOpacity(caen)} 
    onClick={() => onRegionClick(caen)}
    onMouseEnter={() => setCityOnHover(caen)}
    onMouseLeave={() => setCityOnHover("")}
@@ -160,7 +177,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-12.2,8.5l-24.8,6.2l-16,8.6l-6.5,14.2l1.9,2.5l9.9,2.2l0.2,0.1l-1.7,0.7l-7.9,1.8l-5.4,4.7l-10.9,3.1l-9.5-4l-14-1.6L178.5,114z"
        />
     
-   <path 
+   <path
+   fillOpacity={getOpacity(rennes)} 
    onClick={() => onRegionClick(rennes)}
    onMouseEnter={() => setCityOnHover(rennes)}
    onMouseLeave={() => setCityOnHover("")}
@@ -177,7 +195,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l1.8-3.2l10.1-4.4l7.7,4l0.5-2.4l4-9.7l6.2-2.5l-2.1-19.5l1.7-2.6l0.1-13.6l-6.1-2.6l-8,5.3l-3-1l-5.3-10.7h-13l0.3-6.3l-3.6,0.8
        l-4.5,4.3l2.9,6.3l-2.6-2.1l-2-5h-3.2v2.1l-4.6,0.4l-1.1-3.5l-3.4,1.6L114,161.8z"/>
 
-   <path 
+   <path
+   fillOpacity={getOpacity(nantes)} 
    onClick={() => onRegionClick(nantes)}
    onMouseEnter={() => setCityOnHover(nantes)}
    onMouseLeave={() => setCityOnHover("")}
@@ -191,7 +210,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-2.2-6.8l-3.1-0.3l-0.8,3.1h-10.2l-7.6,3.7l-2.8-1.9l-2.7,1.8l-3.7-4.2l-9.7-0.9l-0.1,13.6l-1.7,2.6l2.1,19.5l-6.2,2.5l-4,9.7
        l-0.5,2.4l-7.7-4L144.2,225.8z"/>
 
-   <path 
+   <path
+   fillOpacity={getOpacity(perpignan)} 
    onClick={() => onRegionClick(perpignan)}
    onMouseEnter={() => setCityOnHover(perpignan)}
    onMouseLeave={() => setCityOnHover("")}
@@ -208,7 +228,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-7.2-1.399l-1.7-6.4l-2.5-1.9l-8.7,7.5l-2-2.5l-7.8,17.801l-2.899-5.7l0.6-3.4l-2.7-1.8L354.4,430l-5.9-4.5l-5.3,4.8l-3.4,10.101
        l-4.3,5.5l-7.1-1.8l-5.801,3.6l-3.699-5.6l2-6.4l-4.301-6.8l-1.1-6.101l-7.6-0.199L302,425.601z"/>
 
-   <path 
+   <path
+   fillOpacity={getOpacity(nice)}
    onClick={() => onRegionClick(nice)}
    onMouseEnter={() => setCityOnHover(nice)}
    onMouseLeave={() => setCityOnHover("")}
@@ -224,7 +245,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
        l-10.3-5.5l-7.1-1.4l-6.9-8.3l-0.2-0.1l2.2-5.601l-4.4-6.1l2.5-2l1.5-6.7v-0.1l0.2-0.2l2-2.4l4,0.101L558.1,425.4z M470.5,525.2
        l3.7-1.5l-2.5,4.2l-3.601,1.3l-5.1-4.8l0.6-3.8h4.5L470.5,525.2z"/>
 
-   <path 
+   <path
+   fillOpacity={getOpacity(rennes)}
    onClick={() => onRegionClick(rennes)}
    onMouseEnter={() => setCityOnHover(rennes)}
    onMouseLeave={() => setCityOnHover("")}
@@ -233,7 +255,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    d="M70.5,253.7l4.4-1.4l-5.7-3.8l-3.2,0.4l1,3.7L70.5,253.7z"/>
 
 
-   <path 
+   <path
+   fillOpacity={getOpacity(bordeaux)}
    onClick={() => onRegionClick(bordeaux)}
    onMouseEnter={() => setCityOnHover(bordeaux)}
    onMouseLeave={() => setCityOnHover("")}
@@ -242,6 +265,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    d="M146.7,332.6L146.7,332.6l-0.1,0.1l5,4.5l3.3-1.4l-6.1-3.899L146.7,332.6z"/>
    
    <path
+   fillOpacity={getOpacity(bordeaux)}
    onClick={() => onRegionClick(bordeaux)}
    onMouseEnter={() => setCityOnHover(bordeaux)}
    onMouseLeave={() => setCityOnHover("")}
@@ -250,7 +274,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    d="M156.8,350l-5.8-3.8l-1.9,3.1l7.2,12.601l1.5-3.601L156.8,350z"/>
 
 
-   <path 
+   <path
+   fillOpacity={getOpacity(ajaccio)}
    onClick={() => onRegionClick(ajaccio)}
    onMouseEnter={() => setCityOnHover(ajaccio)}
    onMouseLeave={() => setCityOnHover("")}
