@@ -27,6 +27,7 @@ import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/mete
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
 import { PerspectiveCamera } from 'three';
 import HelpIcon from '@material-ui/icons/Help';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import ExploreIcon from '@material-ui/icons/Explore';
 import FranceMap from '../component/france';
 import { Modal } from '@material-ui/core';
@@ -74,7 +75,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     updateWearablesVariables,
   } = WearablesHook({data, mode: switchMode});
   const [sceneNumber, setSceneNumber] = useState<number>(4);
-  const [aze, setAze] = useState<boolean>(false);
+  const [cameraTrigger, setCameraTrigger] = useState<boolean>(false);
   const [wearableTrigger, setWearableTrigger] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -145,28 +146,15 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       
       if (cameraRef.current) {
         if(type === "updateWearablesVariables"){
-          console.log(value, cameraOptions.fov)
-          if(value===true){
             if(cameraOptions.fov >= 35){
               setWearableTrigger(true);
             }
-          }else {
-            if(cameraOptions.fov <= 35){
-              setWearableTrigger(true);
-            }
-          }
-    }else {
-      resetFov();
+    }else if(cameraOptions.fov <= 35) {
+      setWearableTrigger(true);
     }
   }
       onAction(value, type, action);
     }
-
-    function resetFov(){
-      setCameraOptions({...cameraOptions, fov: 50 });
-    }
-
-     setTimeout(()=> setAze(true), 5000)
 
       useLayoutEffect(() => {
         if (cameraRef.current) {
@@ -193,8 +181,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     return <>
     <perspectiveCamera ref={cameraRef} />
     <Html position={[1, 4, -15.5]} rotation-z={100}>
-      <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>
-      {!openMenu && !openModal && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
+      {!cameraTrigger && <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
+      {!openMenu &&!cameraTrigger && !openModal && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
+      
+      {!openMenu &&!cameraTrigger && !openModal && <CameraAltIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
+
       <TemporaryDrawer
       disableButton={wearableTrigger}
       switchMode={switchMode}
@@ -203,7 +194,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       open={openMenu}
       selectedDate={selectedDate}
       allData={allData}
-      onClose={() => {setOpenMenu(false); resetFov();}}
+      onClose={() => {setOpenMenu(false); if(cameraOptions.fov <= 35){setWearableTrigger(true)}}}
       action={zoomOnActions}
       />
       </Html>
@@ -295,9 +286,8 @@ function returnLuminanceSmoothingByRain(){
       <IntervalCamera
       frequency={50}
       max={rotationValue*2}
-      trigger={false}
+      trigger={cameraTrigger}
       callback={(coef)=> {
-        console.log(coef);
         if(coef < rotationValue ){
           setCameraOptions(
             {
@@ -316,7 +306,7 @@ function returnLuminanceSmoothingByRain(){
           );
         }
       }}
-      reset={() => {}}
+      reset={() => {setCameraTrigger(false)}}
       />
       {
         //return umbrella
@@ -345,7 +335,7 @@ function returnLuminanceSmoothingByRain(){
       reset={() => setWearableTrigger(false)}
       />
         <ChangeDate
-        disabled={openModal}
+        disabled={openModal || cameraTrigger || switchMode === "test"}
         dateNumber={selectedDate}
         city={city}
         onPreviousClick={previousDate}
