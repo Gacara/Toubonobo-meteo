@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "fsevents": "*",
     "@types/chart.js": "^2.9.31",
     "@types/lodash": "^4.14.170",
     "@types/three": "^0.127.1",
