@@ -12,11 +12,13 @@ export interface meteoInterface {
     snowPrecipitation: number;
     cloudCover: number;
     windSpeed: number;
+    mist: boolean;
+    mistOpacity: number;
 }
 export type meteoVariablesType = number | boolean;
 
 type OnlyBoolean = Omit<meteoInterface, Precipitation>;
-type Precipitation = "rainPrecipitation" | "snowPrecipitation" | "cloudCover" | "windSpeed";
+type Precipitation = "rainPrecipitation" | "snowPrecipitation" | "cloudCover" | "windSpeed" | "mistOpacity";
 
 interface meteoHookProps {
     data: forecastInterface | null;
@@ -32,8 +34,10 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
 
     const rain = !!((data && data.Precipitation.mode === "rain"));
     const snow = !!(data && data.Precipitation.mode === "snow");
+    const mist = !!(data && data.Precipitation.mode === "mist");
+    const mistOpacity = data ? +data.Precipitation.value : 0;
     const cloud = !!((data && data.Cloud.cover > 0) || false);
-    const sun = !!((data && data.Cloud.cover > 75));
+    const sun = hasSun();
     const storm = !!(data && +data.Precipitation.value > 10);
     const rainPrecipitation = convertDataRainCoverToNumber();
     const snowPrecipitation = 3000;
@@ -54,6 +58,14 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
     }
   }
 
+  function hasSun(){
+    const icon = data ? data.icon : "";
+        if (icon ==="01d" || icon === "03d"){
+          return true;  
+    }
+    return false;
+}
+
   function convertDataCloudCoverToNumber(): number{
     return data?.Cloud.cover ? data.Cloud.cover / 20 : 1;
   }
@@ -72,6 +84,8 @@ export default function MeteoHook({data, mode}: meteoHookProps): meteoHookInterf
       snowPrecipitation,
       cloudCover,
       windSpeed,
+      mist,
+      mistOpacity,
     }
 
     const [meteoVariables, setMeteoVariables] = useState<meteoInterface>(initMeteoVariables);

@@ -15,11 +15,10 @@ function Home(): React.ReactElement{
   const defaultCity = "Paris";
   const [city, setCity] = useState<string>(defaultCity);
   const { refresh: refreshData } = useRefreshablePromise(() => fetchForecastData(city), setResultData);
-  const [testMode, setTestMode] = useState<switchModetype | undefined>();
+  const [testMode, setTestMode] = useState<switchModetype | undefined>(undefined);
   useEffect(() => {
     refreshData()
   }, [city]);
-  console.log(resultData)
 
   function loadingBeforeTestMode(){
       setTimeout(() => {

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import { forecastInterface } from '../../interfaces/utils';
 import { Button, createStyles, Grid, makeStyles, Slider } from '@material-ui/core';
@@ -15,6 +14,7 @@ import {
   CloudChart,
   mockedCloudCharts,
   mockedMeteoData,
+  dateByIndex,
 } from './utils';
 
 interface DrawerInterface {
@@ -26,9 +26,10 @@ interface DrawerInterface {
     allData: forecastInterface[] | null;
     action: (value: unknown, type: string, action: string) => void;
     selectedDate: number;
+    disableButton: boolean;
 }
 
-export default function TemporaryDrawer({selectedDate, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
+export default function TemporaryDrawer({selectedDate, disableButton, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
   const data = setData() || mockedMeteoData;
   const defaultSelectedButton = "Enlever";
   const defaultNotSelectedButton = "Porter";
@@ -45,7 +46,7 @@ export default function TemporaryDrawer({selectedDate, open, onClose, allData, s
       position: "relative",
       overflow: "hidden",
       "& .MuiButton-root": {
-        fontSize: "1.5rem",
+        fontSize: "2rem",
       },
       "& .MuiBackdrop-root": {
         backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -54,7 +55,7 @@ export default function TemporaryDrawer({selectedDate, open, onClose, allData, s
         height: "40px",
         minWidth: "45px",
         maxWidth: "45px",
-        background: "white",
+        // background: "white",
         borderRadius: "5px",
       }
     },
@@ -76,22 +77,24 @@ export default function TemporaryDrawer({selectedDate, open, onClose, allData, s
   }
 
 function renderOnApiMode(){
-  return  (<Grid style={{height: "100%", width: "700px", background: "#FFC371", padding: "25px 30px 0 30px"}} container item sm={12} justify="center">
+  return  (<Grid style={{height: "100%", width: "700px", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
 
 
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
-  <Grid container item sm={6} justify="center">
-  <div><h2>Temps actuel :</h2></div>
-  <Grid container item sm={12} alignItems="center" justify="flex-start">
-    <Grid container item sm={4} justify="center">
+  <Grid container item sm={12} justify="center">
+  <Grid container item sm={12} justify="center">
+  <div><h2>Temps {dateByIndex(selectedDate)} :</h2></div>
+  </Grid>
+  <Grid container item sm={4} alignItems="center" justify="flex-start">
+    <Grid container item sm={6} justify="center">
       <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="60px" height="60px" alt="meteo" />
     </Grid>
-    <Grid container item sm={4} justify="flex-start">
+    <Grid container item sm={6} justify="flex-start">
       {data.weather}
     </Grid>
   </Grid>
 
-  <Grid container item sm={12} alignItems="center" justify="flex-start">
+  <Grid container item sm={4} alignItems="center" justify="flex-start">
   <Grid container item sm={4} justify="center">
     <span style={{fontSize: "2rem"}} role="img" aria-label="Temperature">🌡️</span>
     </Grid>
@@ -102,7 +105,7 @@ function renderOnApiMode(){
       {selectedDate !== 1 && compareTemperature(+data.Temperature.value)}
     </Grid>
   </Grid>
-  <Grid container item sm={12} alignItems="center" justify="flex-start">
+  <Grid container item sm={4} alignItems="center" justify="flex-start">
   <Grid container item sm={4} justify="center">
     <span style={{fontSize: "2rem"}} role="img" aria-label="Humidity">💧</span>
     </Grid>
@@ -116,7 +119,7 @@ function renderOnApiMode(){
     </Grid>
   
     
-  <Grid container item sm={6} justify="center" style={{paddingTop: "40px"}} alignItems="flex-end">
+  <Grid container item sm={12} justify="center" alignItems="flex-end">
       <Bar
       data={temperatureChart}
       width={400}
@@ -126,7 +129,7 @@ function renderOnApiMode(){
       }}
       />
       </Grid>
-      <Grid container item sm={6} justify="center">
+      <Grid container item sm={12} justify="center">
       <Bar
       data={cloudChart}
       width={400}
@@ -136,7 +139,7 @@ function renderOnApiMode(){
       }}
       />
       </Grid>
-      <Grid container item sm={6} justify="center">
+      <Grid container item sm={12} justify="center">
       <Bar
       data={humidityChart}
       width={400}
@@ -153,7 +156,7 @@ function renderOnApiMode(){
 
 
 function renderOnTestMode(){
-  return  (<Grid style={{height: "100%", width: "500px", background: "#FFC371", overflow: "hidden", padding: "10px 30px"}} container item sm={12}  justify="center" alignItems="flex-start">
+  return  (<Grid style={{height: "100%", width: "500px", background: "#f9e4b7", overflow: "hidden", padding: "10px 30px"}} container item sm={12}  justify="center" alignItems="flex-start">
   
   <Grid container item sm={12} direction="column" justify="center" style={{minHeight: "33%"}}>
   
@@ -161,13 +164,13 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "40px 0 10px 0"}}>
       <Grid container item sm={6} justify="center">
-      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
+      <Button disabled={disableButton} className="iconButton" color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
       {<span role="img" aria-label="Sun">☀️</span>}
       </Button>
       </Grid>
     
       <Grid container item sm={6} justify="center">
-      <Button className="iconButton" color="primary" onClick={() => action(undefined, "stormClick", "storm")}>
+      <Button disabled={disableButton} className="iconButton" color="primary" onClick={() => action(undefined, "stormClick", "storm")}>
       {<span role="img" aria-label="storm">⚡</span>}
       </Button>
       </Grid>
@@ -175,7 +178,7 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
+      <Button disabled={disableButton} className="iconButton" color="primary" onClick={() => action(!meteoVariables.cloud, "updateMeteoVariables", "cloud")}>
       {<span role="img" aria-label="Clouds">☁️</span>}
       </Button>
       </Grid>    
@@ -183,6 +186,7 @@ function renderOnTestMode(){
       <Grid container item sm={6} justify="center">
         <Grid container item sm={12} justify="center">
         <Slider
+        disabled={disableButton}
         value={meteoVariables.cloudCover}
         step={1}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "cloudCover") }}
@@ -192,6 +196,7 @@ function renderOnTestMode(){
         </Grid>
         <Grid container item sm={12} justify="center">
         <Slider
+        disabled={disableButton}
         value={meteoVariables.windSpeed}
         step={1}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "windSpeed")}}
@@ -204,12 +209,13 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button className="iconButton" color="primary" onClick={() => {action(!meteoVariables.snow, "updateMeteoVariables", "snow")}}>
+      <Button disabled={disableButton} className="iconButton" color="primary" onClick={() => {action(!meteoVariables.snow, "updateMeteoVariables", "snow")}}>
       {<span role="img" aria-label="Snow">❄️</span>}
       </Button>
       </Grid>
       <Grid container item sm={6} justify="center">
       <Slider
+        disabled={disableButton}
         value={meteoVariables.snowPrecipitation}
         step={2500}
         onChange={(_e, value) => { action(value, "updateMeteoVariables", "snowPrecipitation");}}
@@ -221,12 +227,13 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
       <Grid container item sm={6} justify="flex-start">
-      <Button className="iconButton" color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
+      <Button disabled={disableButton} className="iconButton" color="primary" onClick={() => action(!meteoVariables.rain, "updateMeteoVariables", "rain")}>
       {<span role="img" aria-label="Rain">⛆</span>}
       </Button>
       </Grid>
       <Grid container item sm={6} justify="center">
       <Slider
+        disabled={disableButton}
         value={meteoVariables.rainPrecipitation}
         step={5000}
         onChange={(_e, value) => {action(value, "updateMeteoVariables", "rainPrecipitation");}}
@@ -235,6 +242,26 @@ function renderOnTestMode(){
       />
       </Grid>
       </Grid>
+
+      <Grid container item sm={12} justify="space-between" alignItems="center" style={{padding: "10px 0"}}>
+      <Grid container item sm={6} justify="flex-start">
+      <Button disabled={disableButton} className="iconButton" color="primary" onClick={() => action(!meteoVariables.mist, "updateMeteoVariables", "mist")}>
+      {<span role="img" aria-label="Mist">🌫️</span>}
+      </Button>
+      </Grid>
+      <Grid container item sm={6} justify="center">
+      <Slider
+        disabled={disableButton}
+        value={meteoVariables.mistOpacity}
+        step={5000}
+        onChange={(_e, value) => {action(value, "updateMeteoVariables", "mistOpacity");}}
+        min={0}
+        max={80000}
+      />
+      </Grid>
+      </Grid>
+
+
     </Grid>
   </Grid>
 
@@ -245,7 +272,7 @@ function renderOnTestMode(){
       Porter un chapeau
       </Grid>
       <Grid container item sm={6} justify="center">
-      <GradientBtn label={wearablesVariables.wearHat ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearHat, "updateWearablesVariables", "wearHat")} />
+      <GradientBtn disabled={disableButton} label={wearablesVariables.wearHat ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearHat, "updateWearablesVariables", "wearHat")} />
       </Grid>
     </Grid>
 
@@ -254,7 +281,7 @@ function renderOnTestMode(){
       Mettre des lunettes
       </Grid>
       <Grid container item sm={6} justify="center">
-      <GradientBtn label={wearablesVariables.wearSunglasses ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearSunglasses, "updateWearablesVariables", "wearSunglasses")} />      </Grid>
+      <GradientBtn disabled={disableButton} label={wearablesVariables.wearSunglasses ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearSunglasses, "updateWearablesVariables", "wearSunglasses")} />      </Grid>
     </Grid>
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
@@ -262,7 +289,7 @@ function renderOnTestMode(){
       Mettre un masque
       </Grid>
       <Grid container item sm={6} justify="center">
-      <GradientBtn label={wearablesVariables.wearMask ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearMask, "updateWearablesVariables", "wearMask")} />      </Grid>
+      <GradientBtn disabled={disableButton} label={wearablesVariables.wearMask ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearMask, "updateWearablesVariables", "wearMask")} />      </Grid>
     </Grid>
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
@@ -270,7 +297,7 @@ function renderOnTestMode(){
       Prendre une bouteille
       </Grid>
       <Grid container item sm={6} justify="center">
-      <GradientBtn label={wearablesVariables.wearBottle ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearBottle, "updateWearablesVariables", "wearBottle")} />
+      <GradientBtn disabled={disableButton} label={wearablesVariables.wearBottle ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearBottle, "updateWearablesVariables", "wearBottle")} />
       </Grid>
     </Grid>
 
@@ -279,13 +306,13 @@ function renderOnTestMode(){
       Prendre un parapluie
       </Grid>
       <Grid container item sm={6} justify="center">
-      <GradientBtn label={wearablesVariables.wearUmbrella ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearUmbrella, "updateWearablesVariables", "wearUmbrella")} />
+      <GradientBtn disabled={disableButton} label={wearablesVariables.wearUmbrella ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearUmbrella, "updateWearablesVariables", "wearUmbrella")} />
       </Grid>
     </Grid>
 
       </Grid>
       <Grid container item sm={12}  direction="column" justify="center" style={{minHeight: "33%"}}>
-      <GradientBtn label={<span role="img" aria-label="scene"> Changer le fond</span>} onClick={() => action(undefined, "changeScene", "scene")} />
+      <GradientBtn disabled={disableButton} label={<span role="img" aria-label="scene"> Changer le fond</span>} onClick={() => action(undefined, "changeScene", "scene")} />
       </Grid>
      
 </Grid>);
@@ -294,8 +321,8 @@ function renderOnTestMode(){
 
   return (
           <Drawer anchor="left" open={open} onClose={onClose} classes={styles}>
-            <Grid container item sm={12} justify="center" alignItems="flex-end" style={{maxHeight: "100px", backgroundColor: "#FFC371"}}>
-            <GradientBtn label={`Changer en mode ${switchMode === "api" ? "Jeu" : "Info"}`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
+            <Grid container item sm={12} justify="center" alignItems="flex-end" style={{maxHeight: "80px", backgroundColor: "#f9e4b7"}}>
+            <GradientBtn disabled={disableButton} label={`Changer en mode ${switchMode === "api" ? "Jeu" : "Info"}`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
             </Grid>
 
               {
