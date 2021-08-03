@@ -3,15 +3,15 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from "three";
 
 interface rainInterface{
-    snowCount: number;
+    mistCount: number;
     isVisible: boolean;
 }
 
-const setInitialPositions = (snowCount: number) => {
+const setInitialPositions = (mistCount: number) => {
     const initialPositions = [];
     const initialVelocities = [];
     const initialAccelerations = [];
-    for (let i = 0; i < snowCount; i++) {
+    for (let i = 0; i < mistCount; i++) {
       initialPositions.push(-12 + Math.random() * 40);
       initialPositions.push(Math.random() * 10);
       initialPositions.push(-19.5 + Math.random() * 5);
@@ -25,18 +25,18 @@ const setInitialPositions = (snowCount: number) => {
     return [initialPositions, initialVelocities, initialAccelerations];
   };
 
-const Snow = ({ snowCount, isVisible }: rainInterface) => {
+const Mist = ({ mistCount, isVisible }: rainInterface) => {
     const [positions, velocities, accelerations] = useMemo(() => {
       const [
         initialPositions,
         initialVelocities,
         initialAccelerations
-      ] = setInitialPositions(snowCount);
+      ] = setInitialPositions(mistCount);
       const positions = new Float32Array(initialPositions);
       const velocities = new Float32Array(initialVelocities);
       const accelerations = new Float32Array(initialAccelerations);
       return [positions, velocities, accelerations];
-    }, [snowCount]);
+    }, [mistCount]);
     const uniforms = useMemo(() => ({ time: { value: 1.0 } }), []);
   
     const geom: React.MutableRefObject<any> = useRef<THREE.Group>()
@@ -45,22 +45,25 @@ const Snow = ({ snowCount, isVisible }: rainInterface) => {
       attribute vec3 acceleration;
       varying float curY;
       void main() {
-          vec3 pos = position;
+          vec3 pos = vec3(position[0], position[1], position[2]);
           
           gl_Position = projectionMatrix 
               * modelViewMatrix
               * vec4(
                   vec3(
-                      mod(30.+pos[0]+time*.6,30.)-5.,
-                      mod(pos[1] + (time * velocity[1] * acceleration[1]),10.),
+                      mod(30.+pos[0]+time*.6,30.)-10.,
+                      mod(pos[1] + (time * velocity[1] * acceleration[2]),8.),
                       pos[2]), 1.0);
-          gl_PointSize = 5.0;
+          gl_PointSize = 5.;
       }`;
   
     const frag = `uniform float time;
       void main() {
+
           float z = 1.0 - gl_FragCoord.z;
-          gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+          float x = 3.0 - gl_FragCoord.x;
+          gl_FragColor = vec4(vec3(0.855,0.795,0.731), 0.07);
+          gl_FragColor.a = 0.5;
       }`;
   
     useFrame(({ clock }) => {
@@ -71,7 +74,7 @@ const Snow = ({ snowCount, isVisible }: rainInterface) => {
     });
   
     return (
-      <points key={snowCount} ref={geom} visible={isVisible}>
+      <points key={mistCount} ref={geom} visible={isVisible}>
         <bufferGeometry attach="geometry">
           <bufferAttribute
             attachObject={["attributes", "position"]}
@@ -102,4 +105,4 @@ const Snow = ({ snowCount, isVisible }: rainInterface) => {
       </points>
     );
   };
-  export default Snow;
+  export default Mist;

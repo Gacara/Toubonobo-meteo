@@ -1,6 +1,6 @@
-import React, { Suspense, useLayoutEffect, useRef, useState } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
-import { Html } from '@react-three/drei'
+import React, { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Html, MeshDistortMaterial, OrbitControls } from '@react-three/drei'
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
 import Forest from "../component/forest";
@@ -12,13 +12,14 @@ import Clouds from '../component/clouds';
 import Hat from '../component/clothes/hats/Hat';
 import Mask from '../component/clothes/masks/Mask';
 import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
-import GradientBtn from "../designSystem/button/button";
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 import Rain from '../component/rain';
 import Snow from '../component/snow';
 import WaterBottle from '../component/accessories/WaterBottle';
 import Umbrella from '../component/accessories/umbrella';
 import { forecastInterface } from "../interfaces/utils";
 import TemporaryDrawer from '../designSystem/drawers/drawers';
+import IntervalCamera from "../component/interval";
 import LowPoly from '../component/lowPolyBackground';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/dayCamp';
@@ -26,11 +27,13 @@ import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/mete
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
 import { PerspectiveCamera } from 'three';
 import HelpIcon from '@material-ui/icons/Help';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import ExploreIcon from '@material-ui/icons/Explore';
 import FranceMap from '../component/france';
 import { Modal } from '@material-ui/core';
 import { convertTimeToDay } from '../designSystem/drawers/utils';
 import ChangeDate from '../component/changeDate';
+import Mist from '../component/mist';
 
 
 interface modelInterface{
@@ -40,13 +43,27 @@ interface modelInterface{
   city: string;
 }
 
-export type switchModetype = "api" | "test";
+interface cameraOptionsInferface{
+  position: number[];
+  rotation: number[];
+  fov: number;
+}
 
+export type switchModetype = "api" | "test";
+const defaultCameraRotation = [0,-16.1,0];
+const defaultCameraPosition = [7,1.2,-21];
+const defaultFov = 50;
+const rotationValue = 400;
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
+  const [cameraOptions, setCameraOptions] = useState<cameraOptionsInferface>({
+    position: defaultCameraPosition,
+    rotation: defaultCameraRotation,
+    fov: defaultFov,
+  });
 
   const {
     meteoVariables,
@@ -58,17 +75,17 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     updateWearablesVariables,
   } = WearablesHook({data, mode: switchMode});
   const [sceneNumber, setSceneNumber] = useState<number>(4);
-  const [fov, setFov] = useState<number>(50);
-
+  const [cameraTrigger, setCameraTrigger] = useState<boolean>(false);
+  const [wearableTrigger, setWearableTrigger] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   function setData(){
     return allData ? allData[selectedDate] : null;
   }
 
   function nextDate(){
-    if(selectedDate === 4){
+    if(allData && selectedDate === allData.length - 1){
       return;
     }
     setSelectedDate(selectedDate + 1);
@@ -129,36 +146,33 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       
       if (cameraRef.current) {
         if(type === "updateWearablesVariables"){
-          if (action === "wearUmbrella") {
-            setFov(35);
-          } else {
-          setFov(20);
-        }
-    }else {
-      resetFov();
+            if(cameraOptions.fov >= 35){
+              setWearableTrigger(true);
+            }
+    }else if(cameraOptions.fov <= 35) {
+      setWearableTrigger(true);
     }
   }
-      
       onAction(value, type, action);
     }
-
-    function resetFov(){
-      setFov(50);
-      }
 
       useLayoutEffect(() => {
         if (cameraRef.current) {
           cameraRef.current!.aspect! = size.width / size.height;
-          cameraRef.current.rotation.y = -16.1;
-          cameraRef.current.position.x = 7;
-          cameraRef.current.position.y = 1.2;
-          cameraRef.current.position.z = -20;
-          cameraRef.current.fov = fov;
+    
+          cameraRef.current.rotation.x = cameraOptions.rotation[0];
+          cameraRef.current.rotation.y = cameraOptions.rotation[1];
+          cameraRef.current.rotation.z = cameraOptions.rotation[2];
+
+          cameraRef.current.position.x = cameraOptions.position[0];
+          cameraRef.current.position.y = cameraOptions.position[1];
+          cameraRef.current.position.z = cameraOptions.position[2];
+          cameraRef.current.fov = cameraOptions.fov;
            // cameraRef.current!.fov! = 20;
-           cameraRef.current!.updateProjectionMatrix()
+          cameraRef.current!.updateProjectionMatrix()
          }
       }, [size.height, size.width])
-    
+
       useLayoutEffect(() => {
         set({ camera: cameraRef.current as unknown as PerspectiveCamera })
       }, [set])
@@ -167,16 +181,20 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     return <>
     <perspectiveCamera ref={cameraRef} />
     <Html position={[1, 4, -15.5]} rotation-z={100}>
-      <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>
-      {!openMenu && !openModal && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
+      {!cameraTrigger && <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
+      {!openMenu &&!cameraTrigger && !openModal && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
+      
+      {!openMenu &&!cameraTrigger && !openModal && <CameraAltIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
+
       <TemporaryDrawer
+      disableButton={wearableTrigger}
       switchMode={switchMode}
       meteoVariables={meteoVariables}
       wearablesVariables={wearablesVariables}
       open={openMenu}
       selectedDate={selectedDate}
       allData={allData}
-      onClose={() => {setOpenMenu(false); resetFov();}}
+      onClose={() => {setOpenMenu(false); if(cameraOptions.fov <= 35){setWearableTrigger(true)}}}
       action={zoomOnActions}
       />
       </Html>
@@ -184,31 +202,64 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     </>
 }
 
+function returnLuminanceByRain(){
+  if(meteoVariables.rainPrecipitation <= 25000){
+    return 0;
+  } else {
+    return -(meteoVariables.rainPrecipitation / 100000);
+  }
+}
+
+function returnLuminanceSmoothingByRain(){
+  if(meteoVariables.rainPrecipitation <= 25000){
+    return 0;
+  } else {
+    return -(meteoVariables.rainPrecipitation / 100000);
+  }
+}
+
   return (
     <div style={{ height:"100vh", width:"100vw" }}>
     <Canvas>
+      {
+        meteoVariables.rain && meteoVariables.rainPrecipitation >= 35000 && 
+        <EffectComposer>
+        <DepthOfField focusDistance={0} focalLength={0.2} bokehScale={2} height={480} />
+        <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={300} />
+        <Noise opacity={0.1} />
+        <Vignette eskil={false} offset={0.1} darkness={1.0} />
+      </EffectComposer>
+      }
+    
     <CustomCamera />
 
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
     {
-    // <OrbitControls />
+     // <OrbitControls />
     }
 
     <Storm trigger={meteoVariables.storm} />
-      <Suspense fallback={<Html></Html>}>
-          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation= {[0, 0.1, 0]} />
-          <Forest visible={sceneNumber === 2} rotation= {[0, 1.37, -0.001]} />
-          <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -11]} scale={[1.75,1.75,1.75]} rotation= {[0, 3.45, 0]}/>
-          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation= {[0.04, 3.35, 0]}/>
+      <Suspense fallback={
+      <Html>
+
+      </Html>
+      }>
+          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
+          <Forest visible={sceneNumber === 2} rotation={[0, 1.37, -0.001]} />
+          <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -12]} scale={[1.75,1.75,1.75]} rotation={[0, 3.40, 0]} />
+          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
       </Suspense>
 
       <Suspense fallback={null}>
         <Sun visible={meteoVariables.sun && !meteoVariables.storm} color={sceneNumber !== 3 ? "yellow" : "#DCD8AE"}/>
         <ambientLight visible={!meteoVariables.storm} />
         <Rain
-        // forceUpdate={}
         isVisible={meteoVariables.rain}
         rainCount={meteoVariables.rainPrecipitation}
+        />
+        <Mist
+        isVisible={meteoVariables.mist}
+        mistCount={meteoVariables.mistOpacity}
         />
         <Snow 
         isVisible={meteoVariables.snow}
@@ -232,7 +283,66 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       </Suspense>
     
       <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>
-        <ChangeDate disabled={openModal} dateNumber={selectedDate} city={city} onPreviousClick={previousDate} onNextClick={nextDate} label={data && convertTimeToDay(data.dateObj)} />
+      <IntervalCamera
+      frequency={50}
+      max={rotationValue*2}
+      trigger={cameraTrigger}
+      callback={(coef)=> {
+        if(coef < rotationValue ){
+          setCameraOptions(
+            {
+              ...cameraOptions,
+              rotation: [defaultCameraRotation[0]+coef/10000, defaultCameraRotation[1]+coef/1000, defaultCameraRotation[2]],
+              position: [defaultCameraPosition[0]-coef/100, defaultCameraPosition[1], defaultCameraPosition[2]+coef/100],
+            }
+          );
+        }else {
+          setCameraOptions(
+            {
+              ...cameraOptions,
+              rotation: [defaultCameraRotation[0]+rotationValue/10000-(coef-rotationValue)/10000, defaultCameraRotation[1]+rotationValue/1000-(coef-rotationValue)/1000, defaultCameraRotation[2]],
+              position: [defaultCameraPosition[0]-rotationValue/100+(coef-rotationValue)/100, defaultCameraPosition[1], defaultCameraPosition[2]+rotationValue/100-(coef-rotationValue)/100],
+            }
+          );
+        }
+      }}
+      reset={() => {setCameraTrigger(false)}}
+      />
+      {
+        //return umbrella
+      }
+      <IntervalCamera
+      frequency={50}
+      max={(defaultFov-35)}
+      trigger={wearableTrigger}
+      callback={(coef)=> {
+        if(cameraOptions.fov > 35){
+          setCameraOptions(
+            {
+              ...cameraOptions,
+              fov: cameraOptions.fov-coef,
+            }
+          );
+        } else {
+          setCameraOptions(
+            {
+              ...cameraOptions,
+              fov: cameraOptions.fov+coef,
+            }
+          );
+        }
+      }}
+      reset={() => setWearableTrigger(false)}
+      />
+        <ChangeDate
+        disabled={openModal || cameraTrigger || switchMode === "test"}
+        dateNumber={selectedDate}
+        city={city}
+        onPreviousClick={previousDate}
+        onNextClick={nextDate}
+        label={data && convertTimeToDay(data.dateObj)}
+        maxDate={allData ? allData.length - 1 : 1}
+        />
       </Html>
 
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>

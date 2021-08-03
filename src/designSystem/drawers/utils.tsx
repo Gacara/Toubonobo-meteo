@@ -117,9 +117,26 @@ export const mockedTemperatureCharts = {
         return "";
     }
   }
+
+  function renderConvertedTime(allData: forecastInterface[]){
+    return allData.filter((_data, index) => index !== 0).map((data) => `${convertTimeToDay(data.dateObj)}`)
+  }
+
+  function renderWindSpeed(allData: forecastInterface[]){
+    return allData.filter((_data, index) => index !== 0).map((data) => +data.Wind.speed)
+  }
+
+  function renderHumidyValue(allData: forecastInterface[]){
+    return allData.filter((_data, index) => index !== 0).map((data) => +data.humidity)
+  }
+
+  function renderTemperatureValue(allData: forecastInterface[]){
+    return allData.filter((_data, index) => index !== 0).map((data) => +data.Temperature.value)
+  }
+
   export function CloudChart(allData: forecastInterface[]){
     return {
-            labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`],
+            labels: renderConvertedTime(allData),
             datasets: [
               {
                 label: 'Vitesse vent (m/s)',
@@ -128,7 +145,7 @@ export const mockedTemperatureCharts = {
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
-                data: [+allData[1].Wind.speed, +allData[2].Wind.speed, +allData[3].Wind.speed, +allData[4].Wind.speed]
+                data: renderWindSpeed(allData)
               }
             ],
           }
@@ -136,7 +153,7 @@ export const mockedTemperatureCharts = {
 
   export function HumidityChart(allData: forecastInterface[]){
     return {
-            labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`],
+            labels: renderConvertedTime(allData),
             datasets: [
               {
                 label: 'Humidité (%)',
@@ -145,7 +162,7 @@ export const mockedTemperatureCharts = {
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255,99,132,0.4)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
-                data: [+allData[1].humidity, +allData[2].humidity, +allData[3].humidity, +allData[4].humidity]
+                data: renderHumidyValue(allData)
               }
             ],
           }
@@ -153,7 +170,7 @@ export const mockedTemperatureCharts = {
 
 export function TemperatureChart(allData: forecastInterface[]){
 return {
-        labels: [`${convertTimeToDay(allData[1].dateObj)}`, `${convertTimeToDay(allData[2].dateObj)}`, `${convertTimeToDay(allData[3].dateObj)}`, `${convertTimeToDay(allData[4].dateObj)}`],
+        labels: renderConvertedTime(allData),
         datasets: [
           {
             label: 'Temperature (°C)',
@@ -162,7 +179,7 @@ return {
             borderWidth: 1,
             hoverBackgroundColor: 'rgba(255,99,132,0.4)',
             hoverBorderColor: 'rgba(255,99,132,1)',
-            data: [+allData[1].Temperature.value, +allData[2].Temperature.value, +allData[3].Temperature.value, +allData[4].Temperature.value]
+            data: renderTemperatureValue(allData)
           }
         ],
       }
@@ -182,3 +199,16 @@ export const rainMarks = [
       label: '15000',
     },
   ];
+
+export function dateByIndex(date: number){
+  switch (date) {
+    case 2:
+    return "de demain";
+    case 3:
+    return "après demain";
+    case 4:
+    return "dans 3 jours";
+    case 1:
+    default: return "actuel";
+  }
+}
