@@ -15,7 +15,7 @@ function Home(): React.ReactElement{
   const defaultCity = "Paris";
   const [city, setCity] = useState<string>(defaultCity);
   const { refresh: refreshData } = useRefreshablePromise(() => fetchForecastData(city), setResultData);
-  const [testMode, setTestMode] = useState<switchModetype | undefined>("test");
+  const [testMode, setTestMode] = useState<switchModetype | undefined>(undefined);
   useEffect(() => {
     refreshData()
   }, [city]);
@@ -23,7 +23,7 @@ function Home(): React.ReactElement{
   function loadingBeforeTestMode(){
       setTimeout(() => {
         setTestMode("test");
-      }, 0);
+      }, 3000);
       return <div>
       Waiting for data...
       <CircularProgress />

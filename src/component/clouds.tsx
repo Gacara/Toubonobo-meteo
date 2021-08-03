@@ -57,8 +57,8 @@ const Clouds = ({number, isVisible, velocity}: cloudInterface) => {
     let cloudsDisplay = [];
   
     for(let i=0; i<number; i++){
-    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(1, 7)} position={positionRand(-5, -30)} />);
-    cloudsDisplay.push(<Cloud isVisible={isVisible} velocity={velocity} height={heightRand(2, 9)} position={positionRand(0, -20)} />);
+    cloudsDisplay.push(<Cloud key={i+velocity} isVisible={isVisible} velocity={velocity} height={heightRand(1, 7)} position={positionRand(-5, -30)} />);
+    cloudsDisplay.push(<Cloud key={i-velocity} isVisible={isVisible} velocity={velocity} height={heightRand(2, 9)} position={positionRand(0, -20)} />);
     };
     return cloudsDisplay;
   }, [number, isVisible, velocity]);

@@ -14,7 +14,7 @@ const setInitialPositions = (mistCount: number) => {
     for (let i = 0; i < mistCount; i++) {
       initialPositions.push(-12 + Math.random() * 40);
       initialPositions.push(Math.random() * 10);
-      initialPositions.push(-18.5 + Math.random() * 5);
+      initialPositions.push(-19.5 + Math.random() * 5);
       initialVelocities.push(0);
       initialVelocities.push(-0.5);
       initialVelocities.push(0);
@@ -62,7 +62,7 @@ const Mist = ({ mistCount, isVisible }: rainInterface) => {
 
           float z = 1.0 - gl_FragCoord.z;
           float x = 3.0 - gl_FragCoord.x;
-          gl_FragColor = vec4(vec3(0.855,0.795,0.731), 0.1);
+          gl_FragColor = vec4(vec3(0.855,0.795,0.731), 0.07);
           gl_FragColor.a = 0.5;
       }`;
   
