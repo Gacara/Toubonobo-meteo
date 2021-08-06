@@ -29,11 +29,13 @@ import { PerspectiveCamera } from 'three';
 import HelpIcon from '@material-ui/icons/Help';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import ExploreIcon from '@material-ui/icons/Explore';
+import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import FranceMap from '../component/france';
 import { Modal } from '@material-ui/core';
 import { convertTimeToDay } from '../designSystem/drawers/utils';
 import ChangeDate from '../component/changeDate';
 import Mist from '../component/mist';
+import { useEffect } from 'react';
 
 
 interface modelInterface{
@@ -54,6 +56,8 @@ const defaultCameraRotation = [0,-16.1,0];
 const defaultCameraPosition = [7,1.2,-21];
 const defaultFov = 50;
 const rotationValue = 400;
+const huntValue = 200;
+
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const [selectedDate, setSelectedDate] = useState<number>(1);
@@ -81,6 +85,8 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const [birdCounter, setBirdCounter] = useState<number>(0);
+  const [huntMode, setHuntMode] = useState<boolean>(false);
+  const [huntTrigger, setHuntTrigger] = useState<boolean>(false);
 
   function setData(){
     return allData ? allData[selectedDate] : null;
@@ -140,15 +146,20 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function cameraTriggerEvent(){
-    return wearableTrigger || cameraTrigger;
+    return wearableTrigger || cameraTrigger || huntTrigger;
   }
 
   function maxValue(){
     if(cameraTrigger) return rotationValue*2;
     if(wearableTrigger) return defaultFov-35;
+    if(huntTrigger) return huntValue;
     return 10;
   }
-
+/*
+  useEffect(()=>{
+    if(huntTrigger)setHuntMode(huntTrigger);
+  }, [huntTrigger])
+*/
   function CameraSwitch(coef: number){
     if (cameraTrigger){
       if(coef < rotationValue ){
@@ -186,6 +197,25 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         );
       }
     }
+    if (huntTrigger){
+      if(!huntMode){
+        setCameraOptions(
+          {
+            ...cameraOptions,
+            rotation: [defaultCameraRotation[0]+coef/3000, defaultCameraRotation[1], defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0], defaultCameraPosition[1]+coef/70, defaultCameraPosition[2]+coef/150],
+          }
+        );
+      } else {
+        setCameraOptions(
+          {
+            ...cameraOptions,
+            rotation: [defaultCameraRotation[0]+huntValue/3000-coef/3000, defaultCameraRotation[1], defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0], defaultCameraPosition[1]+huntValue/70-coef/70, defaultCameraPosition[2]+huntValue/150-coef/150],
+          }
+        );
+      }
+    }
   }
 
   function CameraReset(){
@@ -195,11 +225,15 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     if (wearableTrigger){
       setWearableTrigger(false);
     }
+    if (huntTrigger){
+      setHuntTrigger(false);
+      setHuntMode(!huntMode);
+    }
   }
 
   function birdy(){
     if(birdCounter >= 30 && birdCounter < 50){
-      return <span>Bravo à vous, duck hunt n'a qu'à bien se tenir</span>
+      return <span>Bravo, duck hunt n'a qu'à bien se tenir</span>
     }
     if(birdCounter >= 50){
       return <span>ça fait beaucoup là non ??</span>
@@ -252,11 +286,27 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     return <>
     <perspectiveCamera ref={cameraRef} />
     <Html position={[1, 4, -15.5]} rotation-z={100}>
-      {!cameraTrigger && <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
-      {!openMenu &&!cameraTrigger && !openModal && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
-      
-      {!openMenu &&!cameraTrigger && !openModal && <CameraAltIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
-      
+      {!cameraTrigger
+      && !huntTrigger
+      && !huntMode
+      && <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
+      {!openMenu
+      &&!cameraTrigger
+      && !huntTrigger
+      && !huntMode
+      && !openModal
+      && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
+      {!openMenu
+      &&!cameraTrigger
+      && !huntTrigger
+      && !openModal
+      && !huntMode
+      && <CameraAltIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
+      {!openMenu
+      &&!cameraTrigger
+      && !openModal
+      && <GpsFixedIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
+
       <TemporaryDrawer
       disableButton={wearableTrigger}
       switchMode={switchMode}
@@ -293,12 +343,19 @@ function returnLuminanceSmoothingByRain(){
     <div style={{ height:"100vh", width:"100vw" }}>
     <Canvas>
       {
-        meteoVariables.rain && meteoVariables.rainPrecipitation >= 35000 && 
+        (meteoVariables.rain && meteoVariables.rainPrecipitation >= 35000) && 
         <EffectComposer>
         <DepthOfField focusDistance={0} focalLength={0.2} bokehScale={2} height={480} />
         <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} height={300} />
         <Noise opacity={0.1} />
         <Vignette eskil={false} offset={0.1} darkness={1.0} />
+      </EffectComposer>
+      }
+     {
+        !huntTrigger &&
+        huntMode && 
+        <EffectComposer>
+        <Vignette eskil={false} offset={0.2} darkness={1.5} />
       </EffectComposer>
       }
     
@@ -362,7 +419,7 @@ function returnLuminanceSmoothingByRain(){
       reset={CameraReset}
       />
         <ChangeDate
-        disabled={openModal || cameraTrigger || switchMode === "test"}
+        disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
         dateNumber={selectedDate}
         city={city}
         onPreviousClick={previousDate}
@@ -372,10 +429,18 @@ function returnLuminanceSmoothingByRain(){
         />
       </Html>
 
-      <Html style={{color: "black", background: "white", width: "50px", borderRadius:"10px"}} position={[-7, -3, -13.5]} rotation-z={100}>
+      <Html
+      style={{display: !huntTrigger ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}}
+      position={huntMode ? [-28, 16, 0] : [-26, 12.75, 0]}
+      rotation-z={100}
+      >
         <span>{birdCounter}</span>
       </Html>
-      <Html style={{display: birdCounter >= 30 ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem"}} position={[-3, -3, -13.5]} rotation-z={100}>
+      <Html 
+      style={{display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem"}}
+      position={[-22, -8, 0]}
+      rotation-z={100}
+      >
         {
           birdy()
         }
