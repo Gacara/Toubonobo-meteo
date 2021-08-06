@@ -20,12 +20,12 @@ type GLTFResult = GLTF & {
 type ActionName = 'KeyAction'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Flamingo({props, callback}: birdInterface) {
+export default function Flamingo({props, callback, birdSpeed}: birdInterface) {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const gltf = useLoader(GLTFLoader, "/birds/Flamingo.glb");
   const { nodes, materials, animations } = gltf as GLTFResult
-  const factor = 3;
-  const speed = 3;
+  const factor = 3 + birdSpeed/10;
+  const speed = 3 + birdSpeed/50;
   const actions = useRef<GLTFActions>()
   const [yRatio, setYRatio] = useState<boolean>(false);
   const [mixer] = useState(() => new THREE.AnimationMixer(null as any))

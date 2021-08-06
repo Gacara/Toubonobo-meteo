@@ -20,12 +20,12 @@ type GLTFResult = GLTF & {
 type ActionName = 'KeyAction'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Stork({props, callback}: birdInterface) {
+export default function Stork({props, callback, birdSpeed}: birdInterface) {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const gltf = useLoader(GLTFLoader, "/birds/Stork.glb");
   const { nodes, materials, animations } = gltf as GLTFResult
-  const factor = 3.5;
-  const speed = 1.25;
+  const factor = 3.5 + birdSpeed/10;
+  const speed = 1.25 + birdSpeed/50;
   const actions = useRef<GLTFActions>();
   const [yRatio, setYRatio] = useState<boolean>(false);
   const [pointer, setPointer] = useState<boolean>(false);
