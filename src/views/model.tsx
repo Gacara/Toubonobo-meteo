@@ -80,6 +80,10 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
+  const [birdCounter, setBirdCounter] = useState<number>(0);
+
+  const [elementObject, setElementObject] = useState<number>(0);
+
   function setData(){
     return allData ? allData[selectedDate] : null;
   }
@@ -137,6 +141,75 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     }
   }
 
+  function cameraTriggerEvent(){
+    return wearableTrigger || cameraTrigger;
+  }
+
+  function maxValue(){
+    if(cameraTrigger) return rotationValue*2;
+    if(wearableTrigger) return defaultFov-35;
+    return 10;
+  }
+
+  function CameraSwitch(coef: number){
+    if (cameraTrigger){
+      if(coef < rotationValue ){
+        setCameraOptions(
+          {
+            ...cameraOptions,
+            rotation: [defaultCameraRotation[0]+coef/10000, defaultCameraRotation[1]+coef/1000, defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0]-coef/125, defaultCameraPosition[1], defaultCameraPosition[2]+coef/100],
+          }
+        );
+      }else {
+        setCameraOptions(
+          {
+            ...cameraOptions,
+            rotation: [defaultCameraRotation[0]+rotationValue/10000-(coef-rotationValue)/10000, defaultCameraRotation[1]+rotationValue/1000-(coef-rotationValue)/1000, defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0]-rotationValue/125+(coef-rotationValue)/100, defaultCameraPosition[1], defaultCameraPosition[2]+rotationValue/100-(coef-rotationValue)/100],
+          }
+        );
+      }
+    }
+    if (wearableTrigger){
+      if(cameraOptions.fov > 35){
+        setCameraOptions(
+          {
+            ...cameraOptions,
+            fov: cameraOptions.fov-coef,
+          }
+        );
+      } else {
+        setCameraOptions(
+          {
+            ...cameraOptions,
+            fov: cameraOptions.fov+coef,
+          }
+        );
+      }
+    }
+  }
+
+  function CameraReset(){
+    if (cameraTrigger){
+      setCameraTrigger(false);
+    }
+    if (wearableTrigger){
+      setWearableTrigger(false);
+    }
+  }
+
+  function birdy(){
+    if(birdCounter >= 30 && birdCounter < 50){
+      return <span>Bravo à vous, duck hunt n'a qu'à bien se tenir</span>
+    }
+    if(birdCounter >= 50){
+      return <span>ça fait beaucoup là non ??</span>
+    }
+    return <></>
+  }
+
+
   function CustomCamera(props: any) {
     const cameraRef: React.MutableRefObject<PerspectiveCamera | undefined>= useRef()
     const set = useThree(({ set }) => set)
@@ -185,7 +258,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       {!openMenu &&!cameraTrigger && !openModal && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
       
       {!openMenu &&!cameraTrigger && !openModal && <CameraAltIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
-
+      
       <TemporaryDrawer
       disableButton={wearableTrigger}
       switchMode={switchMode}
@@ -247,7 +320,7 @@ function returnLuminanceSmoothingByRain(){
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation={[0, 1.37, -0.001]} />
           <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -12]} scale={[1.75,1.75,1.75]} rotation={[0, 3.40, 0]} />
-          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
+          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} elementObject={elementObject} />
       </Suspense>
 
       <Suspense fallback={null}>
@@ -266,9 +339,9 @@ function returnLuminanceSmoothingByRain(){
         snowCount={meteoVariables.snowPrecipitation}
         />
         <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.windSpeed} number={meteoVariables.cloudCover} />
-        <Flamingo scale={[0.3, 0.3, 0.3]} />
-        <Parrot scale={[0.3, 0.3, 0.3]} />
-        <Stork scale={[0.3, 0.3, 0.3]} />
+        <Flamingo props={{scale:[0.3, 0.3, 0.3]}} callback={() => setBirdCounter(birdCounter+2)} />
+        <Parrot props={{scale:[0.3, 0.3, 0.3]}} callback={() => setBirdCounter(birdCounter+5)} />
+        <Stork props={{scale:[0.3, 0.3, 0.3]}} callback={() => setBirdCounter(birdCounter+10)} />
       </Suspense>
       <Suspense fallback={<Html></Html>}>
          <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
@@ -285,54 +358,10 @@ function returnLuminanceSmoothingByRain(){
       <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>
       <IntervalCamera
       frequency={50}
-      max={rotationValue*2}
-      trigger={cameraTrigger}
-      callback={(coef)=> {
-        if(coef < rotationValue ){
-          setCameraOptions(
-            {
-              ...cameraOptions,
-              rotation: [defaultCameraRotation[0]+coef/10000, defaultCameraRotation[1]+coef/1000, defaultCameraRotation[2]],
-              position: [defaultCameraPosition[0]-coef/100, defaultCameraPosition[1], defaultCameraPosition[2]+coef/100],
-            }
-          );
-        }else {
-          setCameraOptions(
-            {
-              ...cameraOptions,
-              rotation: [defaultCameraRotation[0]+rotationValue/10000-(coef-rotationValue)/10000, defaultCameraRotation[1]+rotationValue/1000-(coef-rotationValue)/1000, defaultCameraRotation[2]],
-              position: [defaultCameraPosition[0]-rotationValue/100+(coef-rotationValue)/100, defaultCameraPosition[1], defaultCameraPosition[2]+rotationValue/100-(coef-rotationValue)/100],
-            }
-          );
-        }
-      }}
-      reset={() => {setCameraTrigger(false)}}
-      />
-      {
-        //return umbrella
-      }
-      <IntervalCamera
-      frequency={50}
-      max={(defaultFov-35)}
-      trigger={wearableTrigger}
-      callback={(coef)=> {
-        if(cameraOptions.fov > 35){
-          setCameraOptions(
-            {
-              ...cameraOptions,
-              fov: cameraOptions.fov-coef,
-            }
-          );
-        } else {
-          setCameraOptions(
-            {
-              ...cameraOptions,
-              fov: cameraOptions.fov+coef,
-            }
-          );
-        }
-      }}
-      reset={() => setWearableTrigger(false)}
+      max={maxValue()}
+      trigger={cameraTriggerEvent()}
+      callback={CameraSwitch}
+      reset={CameraReset}
       />
         <ChangeDate
         disabled={openModal || cameraTrigger || switchMode === "test"}
@@ -343,6 +372,15 @@ function returnLuminanceSmoothingByRain(){
         label={data && convertTimeToDay(data.dateObj)}
         maxDate={allData ? allData.length - 1 : 1}
         />
+      </Html>
+
+      <Html style={{color: "black", background: "white", width: "50px", borderRadius:"10px"}} position={[-7, -3, -13.5]} rotation-z={100}>
+        <span>{birdCounter}</span>
+      </Html>
+      <Html style={{display: birdCounter >= 30 ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem"}} position={[-3, -3, -13.5]} rotation-z={100}>
+        {
+          birdy()
+        }
       </Html>
 
       <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
