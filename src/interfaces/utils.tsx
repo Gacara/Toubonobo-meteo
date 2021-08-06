@@ -67,4 +67,5 @@ interface windInterface{
 export interface birdInterface {
   props: JSX.IntrinsicElements['group'];
   callback: () => void;
+  birdSpeed: number;
 }

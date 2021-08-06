@@ -235,10 +235,13 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     if(birdCounter >= 30 && birdCounter < 50){
       return <span>Bravo, duck hunt n'a qu'à bien se tenir</span>
     }
-    if(birdCounter >= 50){
+    if(birdCounter >= 50 && birdCounter < 100){
       return <span>ça fait beaucoup là non ??</span>
     }
-    return <></>
+    if(birdCounter >= 100){
+      return <a target="_blank" href="https://www.instagram.com/rom.goulet/?hl=fr" rel="noreferrer">Félicitations, vous gagnez mon insta </a>
+    }
+    return  <></>
   }
 
 
@@ -394,9 +397,9 @@ function returnLuminanceSmoothingByRain(){
         snowCount={meteoVariables.snowPrecipitation}
         />
         <Clouds isVisible={meteoVariables.cloud} velocity={meteoVariables.windSpeed} number={meteoVariables.cloudCover} />
-        <Flamingo props={{scale:[0.3, 0.3, 0.3]}} callback={() => setBirdCounter(birdCounter+2)} />
-        <Parrot props={{scale:[0.3, 0.3, 0.3]}} callback={() => setBirdCounter(birdCounter+5)} />
-        <Stork props={{scale:[0.3, 0.3, 0.3]}} callback={() => setBirdCounter(birdCounter+10)} />
+        <Flamingo props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+2)} />
+        <Parrot props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+5)} />
+        <Stork props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+10)} />
       </Suspense>
       <Suspense fallback={<Html></Html>}>
          <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
@@ -437,7 +440,7 @@ function returnLuminanceSmoothingByRain(){
         <span>{birdCounter}</span>
       </Html>
       <Html 
-      style={{display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem"}}
+      style={{display: (birdCounter >= 0 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem"}}
       position={[-22, -8, 0]}
       rotation-z={100}
       >
