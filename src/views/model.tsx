@@ -433,7 +433,7 @@ function returnLuminanceSmoothingByRain(){
       </Html>
 
       <Html
-      style={{display: (!huntTrigger && birdCounter > 0) ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}}
+      style={{display: (!huntTrigger && birdCounter >= 30) ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}}
       position={huntMode ? [-28, 16, 0] : [-26, 12.75, 0]}
       rotation-z={100}
       >
