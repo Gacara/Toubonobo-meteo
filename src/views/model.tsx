@@ -202,16 +202,16 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         setCameraOptions(
           {
             ...cameraOptions,
-            rotation: [defaultCameraRotation[0]-coef/4000, defaultCameraRotation[1], defaultCameraRotation[2]],
-            position: [defaultCameraPosition[0], defaultCameraPosition[1]+coef/80, defaultCameraPosition[2]+coef/150],
+            rotation: [defaultCameraRotation[0]+coef/3000, defaultCameraRotation[1], defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0], defaultCameraPosition[1]+coef/70, defaultCameraPosition[2]+coef/150],
           }
         );
       } else {
         setCameraOptions(
           {
             ...cameraOptions,
-            rotation: [defaultCameraRotation[0]-huntValue/4000+coef/4000, defaultCameraRotation[1], defaultCameraRotation[2]],
-            position: [defaultCameraPosition[0], defaultCameraPosition[1]+huntValue/80-coef/80, defaultCameraPosition[2]+huntValue/150-coef/150],
+            rotation: [defaultCameraRotation[0]+huntValue/3000-coef/3000, defaultCameraRotation[1], defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0], defaultCameraPosition[1]+huntValue/70-coef/70, defaultCameraPosition[2]+huntValue/150-coef/150],
           }
         );
       }
@@ -429,12 +429,16 @@ function returnLuminanceSmoothingByRain(){
         />
       </Html>
 
-      <Html style={{display: !huntTrigger ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}} position={huntMode ? [-28, 17, 0] : [-26, 12.75, 0]} rotation-z={100}>
+      <Html
+      style={{display: !huntTrigger ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}}
+      position={huntMode ? [-28, 16, 0] : [-26, 12.75, 0]}
+      rotation-z={100}
+      >
         <span>{birdCounter}</span>
       </Html>
       <Html 
       style={{display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem"}}
-      position={[-22, -6, 0]}
+      position={[-22, -8, 0]}
       rotation-z={100}
       >
         {
