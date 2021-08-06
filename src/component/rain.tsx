@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import { PointsProps, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from "three";
 
 interface rainInterface{

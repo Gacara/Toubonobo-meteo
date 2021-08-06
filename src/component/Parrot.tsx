@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { useFrame, useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import { birdInterface } from '../interfaces/utils';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -19,29 +20,62 @@ type GLTFResult = GLTF & {
 type ActionName = 'KeyAction'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Parrot(props: JSX.IntrinsicElements['group']) {
+export default function Parrot({props, callback}: birdInterface) {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const gltf = useLoader(GLTFLoader, "/birds/Parrot.glb");
   const { nodes, materials, animations } = gltf as GLTFResult
   const factor = 2.5;
   const speed = 3;
-  const actions = useRef<GLTFActions>()
+  const actions = useRef<GLTFActions>();
+  const [yRatio, setYRatio] = useState<boolean>(false);
   const [mixer] = useState(() => new THREE.AnimationMixer(null as any))
+  const [pointer, setPointer] = useState<boolean>(false);
+
   useFrame((state, delta) => {
     const x = Math.sin((delta * factor) / 2) * Math.cos((delta * factor) / 2) * 1.5;
     if (group.current.position.x <= -10) {group.current.position.x = 20};
     group.current.position.x -= x;
+    if(yRatio){
+      group.current.position.y -= x;
+      group.current.rotation.y += x;
+    }
+    if (group.current.position.y <= 0){
+      group.current.position.x = 20; 
+      group.current.position.y = 4;
+      group.current.position.z = -13.5;
+      group.current.rotation.y = 0.5;
+      setYRatio(false);
+    };
     mixer.update(delta * speed);
+
   })
+
   useEffect(() => {
     actions.current = {
       KeyAction: mixer.clipAction(animations[0], group.current).play(),
     }
+    if(yRatio){
+      actions.current = {
+        KeyAction: mixer.clipAction(animations[0], group.current).stop(),
+      }
+      group.current.rotation.z = 1.5;
+    } else {
+      group.current.rotation.z = 0;
+    }
     return () => animations.forEach((clip) => mixer.uncacheClip(clip))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+
+  }, [animations, mixer, yRatio])
+
+  useEffect(()=>{
+    const element = document.querySelector("body");
+    if(element){
+      if(pointer)element.style.cursor = "crosshair";
+      if(!pointer)element.style.cursor = "auto";
+    }
+  }, [pointer])
+
   return (
-    <group ref={group} position={[20, 4, -13.5]} {...props}>
+    <group onClick={() => {setYRatio(true); callback();}} ref={group}  onPointerEnter={() => setPointer(true)} onPointerLeave={() => setPointer(false)} position={[20, 4, -13.5]} {...props}>
       <mesh
         material={materials.Material_0_COLOR_0}
         geometry={nodes.Object_0.geometry}

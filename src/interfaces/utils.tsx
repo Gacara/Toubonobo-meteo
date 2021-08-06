@@ -63,3 +63,8 @@ interface windInterface{
     createdAt: Date,
     updatedAt: Date
 }
+
+export interface birdInterface {
+  props: JSX.IntrinsicElements['group'];
+  callback: () => void;
+}
