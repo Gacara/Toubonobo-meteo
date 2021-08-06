@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { forecastInterface } from "../interfaces/utils";
 import { switchModetype } from "../views/model";
 

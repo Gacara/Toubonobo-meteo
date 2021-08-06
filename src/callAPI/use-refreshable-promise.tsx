@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { useMemo } from 'react'
 import _ from "lodash";
 import { usePromise } from 'react-hook-utils'

@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Html, MeshDistortMaterial, OrbitControls } from '@react-three/drei'
+import React, { Suspense, useLayoutEffect, useRef, useState } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { Html, OrbitControls } from '@react-three/drei'
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
 import Forest from "../component/forest";
@@ -81,8 +81,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const [birdCounter, setBirdCounter] = useState<number>(0);
-
-  const [elementObject, setElementObject] = useState<number>(0);
 
   function setData(){
     return allData ? allData[selectedDate] : null;
@@ -320,7 +318,7 @@ function returnLuminanceSmoothingByRain(){
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation={[0, 1.37, -0.001]} />
           <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -12]} scale={[1.75,1.75,1.75]} rotation={[0, 3.40, 0]} />
-          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} elementObject={elementObject} />
+          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
       </Suspense>
 
       <Suspense fallback={null}>

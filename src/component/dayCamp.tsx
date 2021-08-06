@@ -1,7 +1,6 @@
-import { PrimitiveProps, useGraph, useLoader, useThree } from '@react-three/fiber';
+import { PrimitiveProps, useLoader } from '@react-three/fiber';
 import { useLayoutEffect } from 'react';
 import { useRef } from 'react';
-import { Mesh, Object3D } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 function DayCamp(props: any) {
@@ -10,10 +9,10 @@ const group: React.MutableRefObject<PrimitiveProps | undefined> = useRef();
 
 useLayoutEffect(() =>{
   if(group.current){
-    const test = group.current.children[0].children[0].children[props.elementObject] as Object3D;
+    //const test = group.current.children[0].children[0].children[props.elementObject] as Object3D;
    
 
-    test.scale.set(1, 2, 3);
+   // test.scale.set(1, 2, 3);
     const tent = group.current.children[0].children[0].children[5];
 /*
     tent.addEventListener("click", ()=> {
