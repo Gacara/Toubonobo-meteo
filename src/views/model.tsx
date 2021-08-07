@@ -31,11 +31,10 @@ import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import ExploreIcon from '@material-ui/icons/Explore';
 import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import FranceMap from '../component/france';
-import { Modal } from '@material-ui/core';
+import { Modal, CircularProgress } from '@material-ui/core';
 import { convertTimeToDay } from '../designSystem/drawers/utils';
 import ChangeDate from '../component/changeDate';
 import Mist from '../component/mist';
-import { useEffect } from 'react';
 
 
 interface modelInterface{
@@ -155,11 +154,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     if(huntTrigger) return huntValue;
     return 10;
   }
-/*
-  useEffect(()=>{
-    if(huntTrigger)setHuntMode(huntTrigger);
-  }, [huntTrigger])
-*/
+
   function CameraSwitch(coef: number){
     if (cameraTrigger){
       if(coef < rotationValue ){
@@ -343,7 +338,7 @@ function returnLuminanceSmoothingByRain(){
 }
 
   return (
-    <div style={{ height:"100vh", width:"100vw" }}>
+    <div style={{ height:"100vh", width:"100vw", position: "relative" }}>
     <Canvas>
       {
         (meteoVariables.rain && meteoVariables.rainPrecipitation >= 35000) && 
@@ -368,12 +363,16 @@ function returnLuminanceSmoothingByRain(){
     {
      // <OrbitControls />
     }
-
     <Storm trigger={meteoVariables.storm} />
-      <Suspense fallback={
-      <Html>
 
-      </Html>
+      <Suspense fallback={
+      <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
+      <div style={{ height: "150px", width: "350px", position: "absolute", top: "35%", left: "30%"}}>
+      <div  style={{paddingBottom: "30px"}}> Toubonobo se prépare...</div>
+      <CircularProgress size="3rem" />
+      </div>
+      
+    </Html>
       }>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation={[0, 1.37, -0.001]} />
