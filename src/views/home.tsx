@@ -4,7 +4,7 @@ import { getJSON } from '../callAPI/fetch-json'
 import useRefreshablePromise from '../callAPI/use-refreshable-promise'
 import Model, { switchModetype } from "./model";
 import { data, forecastInterface } from "../interfaces/utils";
-import { CircularProgress } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 
 const fetchForecastData = async (city: string) => {
   return getJSON<data>(`https://api.wtow.xyz/api/data/forecast/${city}`)
@@ -16,6 +16,8 @@ function Home(): React.ReactElement{
   const [city, setCity] = useState<string>(defaultCity);
   const { refresh: refreshData } = useRefreshablePromise(() => fetchForecastData(city), setResultData);
   const [testMode, setTestMode] = useState<switchModetype | undefined>(undefined);
+  const [validateEnter, setValidateEnter] = useState<boolean>(false);
+
   useEffect(() => {
     refreshData()
   }, [city]);
@@ -24,21 +26,34 @@ function Home(): React.ReactElement{
       setTimeout(() => {
         setTestMode("test");
       }, 3000);
-      return <div>
-      Waiting for data...
-      <CircularProgress />
+
+      return <div style={{color: "black", width: "100%", height: "100%", background: "#f9e4b7", display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <div>
+        <div>
+      Bienvenue dans What To Wear !
+      </div>
+      <div>
+        Découvrez comment vous habiller grâce à Toubonobo 
+      </div>
+      <div>
+      <Button style={{background: "white", fontSize:"1.5rem", marginTop: "20px" }} onClick={() => setValidateEnter(true)} >
+        Entrer
+      </Button>
+      </div>
+        </div>
+     
     </div>;
   }
 
   return (
     <>
     {
-      resultData ?
+      resultData && validateEnter ?
       <Model data={resultData} city={city} onCityClick={(city) => setCity(city)} />
       :
       <>
       {
-        testMode ?
+        testMode && validateEnter ?
         <Model mode={testMode} city={city} data={null} onCityClick={(city) => setCity(city)} />
       :
       loadingBeforeTestMode()
