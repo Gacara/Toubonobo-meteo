@@ -27,7 +27,7 @@ function Home(): React.ReactElement{
         setTestMode("test");
       }, 3000);
 
-      return <div style={{color: "black", width: "100%", height: "100%", background: "#f9e4b7", display: "flex", alignItems: "center", justifyContent: "center"}}>
+      return <div style={{color: "black", width: "100%", height: "100vh", background: "#f9e4b7", display: "flex", alignItems: "center", justifyContent: "center"}}>
         <div>
         <div>
       Bienvenue dans What To Wear !
