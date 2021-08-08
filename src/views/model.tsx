@@ -367,19 +367,22 @@ function returnLuminanceSmoothingByRain(){
     <Storm trigger={meteoVariables.storm} />
 
       <Suspense fallback={
-       <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
-          <div style={{ height: "150px", width: "1000px", position: "absolute", top: "30%", left: "18%"}}>
-          <CircularProgress size="3rem" />
-          <div style={{paddingTop: "30px"}}>
-          <WaitingScene />
-          </div>
-          </div>
-        </Html>
+          <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
+            <div style={{ height: "150px", width: "1000px", position: "absolute", top: "30%", left: "18%"}}>
+            <CircularProgress size="3rem" />
+            <div style={{paddingTop: "30px"}}>
+            <WaitingScene />
+            </div>
+            </div>
+          </Html>
       }>
+          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
+      </Suspense>
+
+      <Suspense fallback={null}>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation={[0, 1.37, -0.001]} />
           <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -12]} scale={[1.75,1.75,1.75]} rotation={[0, 3.40, 0]} />
-          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
       </Suspense>
 
       <Suspense fallback={null}>
