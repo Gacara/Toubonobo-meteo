@@ -366,14 +366,16 @@ function returnLuminanceSmoothingByRain(){
     }
     <Storm trigger={meteoVariables.storm} />
 
-      <Suspense fallback={
-          <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
-          <div style={{ height: "150px", width: "1000px", position: "absolute", top: "35%", left: "18%"}}>
-          <div style={{paddingBottom: "30px"}}>
+    <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
+          <div style={{ height: "150px", width: "1000px", position: "absolute", top: "30%", left: "18%"}}>
+          <CircularProgress size="3rem" />
+          <div style={{paddingTop: "30px"}}>
           <WaitingScene />
           </div>
-          <CircularProgress size="3rem" />
           </div>
+        </Html>
+      <Suspense fallback={
+          <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
         </Html>
       }>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
