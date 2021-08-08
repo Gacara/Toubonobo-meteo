@@ -21,6 +21,7 @@ import { forecastInterface } from "../interfaces/utils";
 import TemporaryDrawer from '../designSystem/drawers/drawers';
 import IntervalCamera from "../component/interval";
 import LowPoly from '../component/lowPolyBackground';
+import WaitingScene from '../component/waitingScene';
 import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/dayCamp';
 import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/meteoHook";
@@ -366,13 +367,14 @@ function returnLuminanceSmoothingByRain(){
     <Storm trigger={meteoVariables.storm} />
 
       <Suspense fallback={
-      <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
-      <div style={{ height: "150px", width: "350px", position: "absolute", top: "35%", left: "30%"}}>
-      <div  style={{paddingBottom: "30px"}}> Toubonobo se prépare...</div>
-      <CircularProgress size="3rem" />
-      </div>
-      
-    </Html>
+          <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
+          <div style={{ height: "150px", width: "1000px", position: "absolute", top: "35%", left: "18%"}}>
+          <div style={{paddingBottom: "30px"}}>
+          <WaitingScene />
+          </div>
+          <CircularProgress size="3rem" />
+          </div>
+        </Html>
       }>
           <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation={[0, 1.37, -0.001]} />

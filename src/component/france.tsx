@@ -19,6 +19,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     const bordeaux = "Bordeaux";
     const nantes = "Nantes";
 
+    const [mouseY, setMouseY] = useState<number>(0);
+    const [mouseX, setMouseX] = useState<number>(0);
 
     const [cityOnHover, setCityOnHover] = useState<string>("");
 
@@ -45,14 +47,11 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     viewBox="0 0 597.6 670.7" overflow="visible" enable-background="new 0 0 597.6 670.7" xmlSpace="preserve">
 
 <g>
-	<text fill="white" transform="matrix(1 0 0 1 50 656.25)" font-family="'Ubuntu'" font-size="30">Ville choisie : </text>
-	<text fill="white" transform="matrix(1 0 0 1 225 656.25)" font-family="'Ubuntu'" font-size="30">{cityOnHover}</text>
-</g>
-<g>
+
    <path 
    fillOpacity={getOpacity(strasbourg)}
    onClick={() => onRegionClick(strasbourg)}
-   onMouseEnter={() => setCityOnHover(strasbourg)}
+   onMouseEnter={(e) => {setCityOnHover(strasbourg); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(strasbourg)}
    style={{cursor: "pointer"}}
@@ -69,7 +68,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
     fillOpacity={getOpacity(lille)}
    onClick={() => onRegionClick(lille)}
-   onMouseEnter={() => setCityOnHover(lille)}
+   onMouseEnter={(e) => {setCityOnHover(lille); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(lille)}
    style={{cursor: "pointer"}}
@@ -82,7 +81,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path 
    fillOpacity={getOpacity(paris)}
    onClick={() => onRegionClick(paris)}
-   onMouseEnter={() => setCityOnHover(paris)}
+   onMouseEnter={(e) => {setCityOnHover(paris); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(paris)}
    style={{cursor: "pointer"}}
@@ -93,7 +92,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path 
     fillOpacity={getOpacity(dijon)}
    onClick={() => onRegionClick(dijon)}
-   onMouseEnter={() => setCityOnHover(dijon)}
+   onMouseEnter={(e) => {setCityOnHover(dijon); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(dijon)}
    style={{cursor: "pointer"}}
@@ -109,7 +108,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path 
     fillOpacity={getOpacity(orleans)}
    onClick={() => onRegionClick(orleans)}
-   onMouseEnter={() => setCityOnHover(orleans)}
+   onMouseEnter={(e) => {setCityOnHover(orleans); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(orleans)}
    style={{cursor: "pointer"}}
@@ -124,7 +123,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(lyon)}
    onClick={() => onRegionClick(lyon)}
-   onMouseEnter={() => setCityOnHover(lyon)}
+   onMouseEnter={(e) => {setCityOnHover(lyon); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(lyon)}
    style={{cursor: "pointer"}}
@@ -145,7 +144,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(bordeaux)} 
    onClick={() => onRegionClick(bordeaux)}
-   onMouseEnter={() => setCityOnHover(bordeaux)}
+   onMouseEnter={(e) => {setCityOnHover(bordeaux); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(bordeaux)}
    style={{cursor: "pointer"}}
@@ -165,7 +164,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(caen)} 
    onClick={() => onRegionClick(caen)}
-   onMouseEnter={() => setCityOnHover(caen)}
+   onMouseEnter={(e) => {setCityOnHover(caen); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(caen)}
    style={{cursor: "pointer"}}
@@ -180,7 +179,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(rennes)} 
    onClick={() => onRegionClick(rennes)}
-   onMouseEnter={() => setCityOnHover(rennes)}
+   onMouseEnter={(e) => {setCityOnHover(rennes); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(rennes)}
    style={{cursor: "pointer"}}
@@ -198,7 +197,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(nantes)} 
    onClick={() => onRegionClick(nantes)}
-   onMouseEnter={() => setCityOnHover(nantes)}
+   onMouseEnter={(e) => {setCityOnHover(nantes); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(nantes)}
    style={{cursor: "pointer"}}
@@ -213,7 +212,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(perpignan)} 
    onClick={() => onRegionClick(perpignan)}
-   onMouseEnter={() => setCityOnHover(perpignan)}
+   onMouseEnter={(e) => {setCityOnHover(perpignan); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(perpignan)}
    style={{cursor: "pointer"}}
@@ -231,7 +230,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(nice)}
    onClick={() => onRegionClick(nice)}
-   onMouseEnter={() => setCityOnHover(nice)}
+   onMouseEnter={(e) => {setCityOnHover(nice); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(nice)}
    style={{cursor: "pointer"}}
@@ -248,7 +247,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(rennes)}
    onClick={() => onRegionClick(rennes)}
-   onMouseEnter={() => setCityOnHover(rennes)}
+   onMouseEnter={(e) => {setCityOnHover(rennes); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(rennes)}
    style={{cursor: "pointer"}}
@@ -258,7 +257,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(bordeaux)}
    onClick={() => onRegionClick(bordeaux)}
-   onMouseEnter={() => setCityOnHover(bordeaux)}
+   onMouseEnter={(e) => {setCityOnHover(bordeaux); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(bordeaux)}
    style={{cursor: "pointer"}}
@@ -267,7 +266,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(bordeaux)}
    onClick={() => onRegionClick(bordeaux)}
-   onMouseEnter={() => setCityOnHover(bordeaux)}
+   onMouseEnter={(e) => {setCityOnHover(bordeaux); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(bordeaux)}
    style={{cursor: "pointer"}}
@@ -277,7 +276,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    <path
    fillOpacity={getOpacity(ajaccio)}
    onClick={() => onRegionClick(ajaccio)}
-   onMouseEnter={() => setCityOnHover(ajaccio)}
+   onMouseEnter={(e) => {setCityOnHover(ajaccio); setMouseX(e.clientX); setMouseY(e.clientY);}}
    onMouseLeave={() => setCityOnHover("")}
    fill={getColor(ajaccio)}
    style={{cursor: "pointer"}}
@@ -495,6 +494,9 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
            c0.101,0,0.101,0,0.101,0c0.1,0,0.1,0,0.1,0.1c0,0,0,0,0.1,0.101v0.1c0,0.1,0,0.1,0,0.2c-0.1,0-0.1,0-0.1,0.1h-0.1H529.3h-0.1
            c-0.101,0-0.101,0-0.101-0.1V549l0,0v-0.1c0.101,0,0.101,0,0.101,0C529.3,548.9,529.3,548.9,529.3,548.9z"/>
    </g>
+</g>
+<g>
+	<text style={{fontWeight: "bolder"}} fill="dark" transform={`matrix(1 0 0 1 ${mouseX-625} ${mouseY-160})`} fontFamily="'Segoe UI'" font-size="40">{cityOnHover}</text>
 </g>
 </svg>
     );
