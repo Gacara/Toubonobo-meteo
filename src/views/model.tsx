@@ -231,11 +231,14 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     if(birdCounter >= 30 && birdCounter < 50){
       return <span>Bravo, duck hunt n'a qu'à bien se tenir</span>
     }
-    if(birdCounter >= 50 && birdCounter < 100){
-      return <span>ça fait beaucoup là non ??</span>
+    if(birdCounter >= 50 && birdCounter < 75){
+      return <span>Attention, ça va de plus en plus vite !</span>
+    }
+    if(birdCounter >= 75 && birdCounter < 100){
+      return <span>Ça fait beaucoup là non ??</span>
     }
     if(birdCounter >= 100){
-      return <a target="_blank" href="https://www.instagram.com/rom.goulet/?hl=fr" rel="noreferrer">Félicitations, vous gagnez mon insta </a>
+      return <a target="_blank" href="https://www.instagram.com/rom.goulet/?hl=fr" rel="noreferrer">Félicitations, tu gagnes mon insta </a>
     }
     return <></>
   }
@@ -442,7 +445,7 @@ function returnLuminanceSmoothingByRain(){
         <span>{birdCounter}</span>
       </Html>
       <Html 
-      style={{display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem"}}
+      style={{display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem", padding: "5px 15px"}}
       position={[-22, -8, 0]}
       rotation-z={100}
       >

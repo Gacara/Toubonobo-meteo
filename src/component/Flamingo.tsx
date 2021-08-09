@@ -24,7 +24,7 @@ export default function Flamingo({props, callback, birdSpeed}: birdInterface) {
   const group: React.MutableRefObject<any> = useRef<THREE.Group>()
   const gltf = useLoader(GLTFLoader, "/birds/Flamingo.glb");
   const { nodes, materials, animations } = gltf as GLTFResult
-  const factor = 3 + birdSpeed/10;
+  const factor = 3 + birdSpeed/15;
   const speed = 3 + birdSpeed/50;
   const actions = useRef<GLTFActions>()
   const [yRatio, setYRatio] = useState<boolean>(false);
