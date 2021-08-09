@@ -323,7 +323,20 @@ function returnLuminanceSmoothingByRain(){
 
   return (
     <div style={{ height:"100vh", width:"100vw", position: "relative" }}>
-      <div style={{position: "fixed", top:"25px", right:"50px", zIndex: 99999999999, display: "flex", flexDirection: "column"}}>
+    <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 99999999998, display: "flex", justifyContent:"center"}}>
+    <div style={{width: "400px", color: "black"}}>
+      <ChangeDate
+        disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
+        dateNumber={selectedDate}
+        city={city}
+        onPreviousClick={previousDate}
+        onNextClick={nextDate}
+        label={data && convertTimeToDay(data.dateObj)}
+        maxDate={allData ? allData.length - 1 : 1}
+        />
+    </div>
+    </div>
+    <div style={{position: "fixed", top:"25px", right:"50px", zIndex: 99999999999, display: "flex", flexDirection: "column"}}>
         {!cameraTrigger
         && !huntTrigger
         && !huntMode
@@ -344,17 +357,6 @@ function returnLuminanceSmoothingByRain(){
         &&!cameraTrigger
         && !openModal
         && <GpsFixedIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
-    </div>
-    <div style={{width: "400px", color: "black", position: "fixed", top:"50px", left:"300px", zIndex: 99999999999, display: "flex", flexDirection: "column"}}>
-      <ChangeDate
-        disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
-        dateNumber={selectedDate}
-        city={city}
-        onPreviousClick={previousDate}
-        onNextClick={nextDate}
-        label={data && convertTimeToDay(data.dateObj)}
-        maxDate={allData ? allData.length - 1 : 1}
-        />
     </div>
     <Canvas>
       {
