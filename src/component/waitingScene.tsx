@@ -20,7 +20,7 @@ export default function WaitingScene(){
 
     function renderPhrase(t: string, index: number){
         return (
-        <div key={index}>
+        <div key={index} style={{color: "black"}}>
             {
                 index < phrase ?
                  <span>{t} ✔️</span>

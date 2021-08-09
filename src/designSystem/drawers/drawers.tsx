@@ -77,7 +77,7 @@ export default function TemporaryDrawer({selectedDate, disableButton, open, onCl
   }
 
 function renderOnApiMode(){
-  return  (<Grid style={{height: "100%", width: "700px", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
+  return  (<Grid style={{height: "100%", width: "800px", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
 
 
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
