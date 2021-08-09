@@ -345,7 +345,7 @@ function returnLuminanceSmoothingByRain(){
         && !openModal
         && <GpsFixedIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
     </div>
-    <div style={{position: "fixed", top:"50px", left:"50%", zIndex: 99999999999, display: "flex", flexDirection: "column"}}>
+    <div style={{width: "400px", color: "black", position: "fixed", top:"50px", left:"300px", zIndex: 99999999999, display: "flex", flexDirection: "column"}}>
       <ChangeDate
         disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
         dateNumber={selectedDate}
