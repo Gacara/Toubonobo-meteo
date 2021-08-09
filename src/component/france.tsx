@@ -496,7 +496,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    </g>
 </g>
 <g>
-	<text style={{fontWeight: "bolder"}} fill="dark" transform={`matrix(1 0 0 1 ${mouseX-625} ${mouseY-160})`} fontFamily="'Segoe UI'" font-size="40">{cityOnHover}</text>
+	<text style={{fontWeight: "bolder"}} fill="white" transform={`matrix(1 0 0 1 ${mouseX-625} ${mouseY-160})`} fontFamily="'Segoe UI'" font-size="40">{cityOnHover}</text>
 </g>
 </svg>
     );
