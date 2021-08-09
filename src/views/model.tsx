@@ -25,7 +25,7 @@ import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/mete
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
 import { PerspectiveCamera } from 'three';
 import HelpIcon from '@material-ui/icons/Help';
-import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import MovieIcon from '@material-ui/icons/Movie';
 import ExploreIcon from '@material-ui/icons/Explore';
 import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import FranceMap from '../component/france';
@@ -242,6 +242,16 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     }
     return <></>
   }
+  function zoomOnActions(value: unknown, type: string, action: string){
+    if(type === "updateWearablesVariables"){
+        if(cameraOptions.fov >= 35){
+            setWearableTrigger(true);
+          }
+  }else if(cameraOptions.fov <= 35) {
+    setWearableTrigger(true);
+  }
+    onAction(value, type, action);
+  }
 
 
   function CustomCamera(props: any) {
@@ -249,19 +259,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     const set = useThree(({ set }) => set)
     const size = useThree(({ size }) => size)
     
-    function zoomOnActions(value: unknown, type: string, action: string){
-      
-      if (cameraRef.current) {
-        if(type === "updateWearablesVariables"){
-            if(cameraOptions.fov >= 35){
-              setWearableTrigger(true);
-            }
-    }else if(cameraOptions.fov <= 35) {
-      setWearableTrigger(true);
-    }
-  }
-      onAction(value, type, action);
-    }
+
 
       useLayoutEffect(() => {
         if (cameraRef.current) {
@@ -287,20 +285,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     
     return <>
     <perspectiveCamera ref={cameraRef} />
-    <Html position={[1, 4, -15.5]} rotation-z={100}>
-
-      <TemporaryDrawer
-      disableButton={wearableTrigger}
-      switchMode={switchMode}
-      meteoVariables={meteoVariables}
-      wearablesVariables={wearablesVariables}
-      open={openMenu}
-      selectedDate={selectedDate}
-      allData={allData}
-      onClose={() => {setOpenMenu(false); if(cameraOptions.fov <= 35){setWearableTrigger(true)}}}
-      action={zoomOnActions}
-      />
-      </Html>
   
     </>
 }
@@ -323,7 +307,7 @@ function returnLuminanceSmoothingByRain(){
 
   return (
     <div style={{ height:"100vh", width:"100vw", position: "relative" }}>
-    <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 99999999998, display: "flex", justifyContent:"center"}}>
+    <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 999, display: "flex", justifyContent:"center"}}>
     <div style={{width: "400px", color: "black"}}>
       <ChangeDate
         disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
@@ -352,12 +336,24 @@ function returnLuminanceSmoothingByRain(){
         && !huntTrigger
         && !openModal
         && !huntMode
-        && <CameraAltIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
+        && <MovieIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
         {!openMenu
         &&!cameraTrigger
         && !openModal
         && <GpsFixedIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
     </div>
+
+    <TemporaryDrawer
+      disableButton={wearableTrigger}
+      switchMode={switchMode}
+      meteoVariables={meteoVariables}
+      wearablesVariables={wearablesVariables}
+      open={openMenu}
+      selectedDate={selectedDate}
+      allData={allData}
+      onClose={() => {setOpenMenu(false); if(cameraOptions.fov <= 35){setWearableTrigger(true)}}}
+      action={zoomOnActions}
+      />
     <Canvas>
       {
         (meteoVariables.rain && meteoVariables.rainPrecipitation >= 35000) && 
@@ -444,8 +440,8 @@ function returnLuminanceSmoothingByRain(){
       </Html>
 
       <Html
-      style={{display: (!huntTrigger && birdCounter > 0) ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}}
-      position={huntMode ? [-28, 16, 0] : [-26, 12.75, 0]}
+      style={{display: (!huntTrigger && !cameraTrigger && birdCounter > 0) ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}}
+      position={huntMode ? [-28, -6, 0] : [-26, -10, 0]}
       rotation-z={100}
       >
         <span>{birdCounter}</span>
@@ -472,7 +468,7 @@ function returnLuminanceSmoothingByRain(){
         </div>
       </Modal>
         <div style={{width:"max-content"}}>
-        {!openModal && "Toubonobo"}
+        {!openModal && !openMenu && "Toubonobo"}
         </div>
       </Html>
     </Canvas>
