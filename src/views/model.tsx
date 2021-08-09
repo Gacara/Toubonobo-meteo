@@ -1,9 +1,8 @@
-import React, { Suspense, useLayoutEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { Html, OrbitControls } from '@react-three/drei'
+import { Html, OrbitControls } from '@react-three/drei';
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
-import Forest from "../component/forest";
 import Flamingo from '../component/Flamingo';
 import Parrot from '../component/Parrot';
 import Stork from '../component/Stork';
@@ -20,9 +19,7 @@ import Umbrella from '../component/accessories/umbrella';
 import { forecastInterface } from "../interfaces/utils";
 import TemporaryDrawer from '../designSystem/drawers/drawers';
 import IntervalCamera from "../component/interval";
-import LowPoly from '../component/lowPolyBackground';
 import WaitingScene from '../component/waitingScene';
-import NightCamp from '../component/nightCamp';
 import DayCamp from '../component/dayCamp';
 import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/meteoHook";
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
@@ -60,6 +57,10 @@ const huntValue = 200;
 
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
+  const LowPoly = lazy(() => import('../component/lowPolyBackground'));
+  const NightCamp = lazy(() => import('../component/nightCamp'));
+  const Forest = lazy(() => import('../component/forest'));
+
   const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
   const [switchMode, setSwitchMode] = useState<switchModetype>(mode || "api");
@@ -83,7 +84,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [wearableTrigger, setWearableTrigger] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-
   const [birdCounter, setBirdCounter] = useState<number>(0);
   const [huntMode, setHuntMode] = useState<boolean>(false);
   const [huntTrigger, setHuntTrigger] = useState<boolean>(false);
@@ -376,7 +376,16 @@ function returnLuminanceSmoothingByRain(){
             </div>
           </Html>
       }>
-          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
+          
+            <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
+          
+          {
+            /*
+            <Scene 
+          props={[{visible: sceneNumber === 4}, {position: [8, 6.37, -5]}, {scale: [35,35,35]}, {rotation: [0.04, 3.35, 0]}]}
+          scene={gltf.scene}
+          />  */
+          }
       </Suspense>
 
       <Suspense fallback={null}>
