@@ -376,16 +376,8 @@ function returnLuminanceSmoothingByRain(){
             </div>
           </Html>
       }>
-          
-            <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
-          
-          {
-            /*
-            <Scene 
-          props={[{visible: sceneNumber === 4}, {position: [8, 6.37, -5]}, {scale: [35,35,35]}, {rotation: [0.04, 3.35, 0]}]}
-          scene={gltf.scene}
-          />  */
-          }
+          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
+          <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
@@ -413,9 +405,6 @@ function returnLuminanceSmoothingByRain(){
         <Flamingo props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+2)} />
         <Parrot props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+5)} />
         <Stork props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+10)} />
-      </Suspense>
-      <Suspense fallback={<Html></Html>}>
-         <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
