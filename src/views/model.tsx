@@ -288,26 +288,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     return <>
     <perspectiveCamera ref={cameraRef} />
     <Html position={[1, 4, -15.5]} rotation-z={100}>
-      {!cameraTrigger
-      && !huntTrigger
-      && !huntMode
-      && <ExploreIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
-      {!openMenu
-      &&!cameraTrigger
-      && !huntTrigger
-      && !huntMode
-      && !openModal
-      && <HelpIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
-      {!openMenu
-      &&!cameraTrigger
-      && !huntTrigger
-      && !openModal
-      && !huntMode
-      && <CameraAltIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
-      {!openMenu
-      &&!cameraTrigger
-      && !openModal
-      && <GpsFixedIcon style= {{ color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
 
       <TemporaryDrawer
       disableButton={wearableTrigger}
@@ -343,6 +323,41 @@ function returnLuminanceSmoothingByRain(){
 
   return (
     <div style={{ height:"100vh", width:"100vw", position: "relative" }}>
+    <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 99999999998, display: "flex", justifyContent:"center"}}>
+    <div style={{width: "400px", color: "black"}}>
+      <ChangeDate
+        disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
+        dateNumber={selectedDate}
+        city={city}
+        onPreviousClick={previousDate}
+        onNextClick={nextDate}
+        label={data && convertTimeToDay(data.dateObj)}
+        maxDate={allData ? allData.length - 1 : 1}
+        />
+    </div>
+    </div>
+    <div style={{position: "fixed", top:"25px", right:"50px", zIndex: 99999999999, display: "flex", flexDirection: "column"}}>
+        {!cameraTrigger
+        && !huntTrigger
+        && !huntMode
+        && <ExploreIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
+        {!openMenu
+        &&!cameraTrigger
+        && !huntTrigger
+        && !huntMode
+        && !openModal
+        && <HelpIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
+        {!openMenu
+        &&!cameraTrigger
+        && !huntTrigger
+        && !openModal
+        && !huntMode
+        && <CameraAltIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
+        {!openMenu
+        &&!cameraTrigger
+        && !openModal
+        && <GpsFixedIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
+    </div>
     <Canvas>
       {
         (meteoVariables.rain && meteoVariables.rainPrecipitation >= 35000) && 
@@ -426,15 +441,6 @@ function returnLuminanceSmoothingByRain(){
       callback={CameraSwitch}
       reset={CameraReset}
       />
-        <ChangeDate
-        disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
-        dateNumber={selectedDate}
-        city={city}
-        onPreviousClick={previousDate}
-        onNextClick={nextDate}
-        label={data && convertTimeToDay(data.dateObj)}
-        maxDate={allData ? allData.length - 1 : 1}
-        />
       </Html>
 
       <Html
