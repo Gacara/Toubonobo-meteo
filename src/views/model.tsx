@@ -79,10 +79,11 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     wearablesVariables,
     updateWearablesVariables,
   } = WearablesHook({data, mode: switchMode});
-  const [sceneNumber, setSceneNumber] = useState<number>(4);
+  const [sceneNumber, setSceneNumber] = useState<number>(1);
   const [cameraTrigger, setCameraTrigger] = useState<boolean>(false);
   const [wearableTrigger, setWearableTrigger] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [pageLoaded, setPageLoaded] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [birdCounter, setBirdCounter] = useState<number>(0);
   const [huntMode, setHuntMode] = useState<boolean>(false);
@@ -307,7 +308,10 @@ function returnLuminanceSmoothingByRain(){
 
   return (
     <div style={{ height:"100vh", width:"100vw", position: "relative" }}>
-    <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 999, display: "flex", justifyContent:"center"}}>
+      {
+        pageLoaded &&
+        <>
+        <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 999, display: "flex", justifyContent:"center"}}>
     <div style={{width: "400px", color: "black"}}>
       <ChangeDate
         disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
@@ -342,6 +346,8 @@ function returnLuminanceSmoothingByRain(){
         && !openModal
         && <GpsFixedIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
     </div>
+        </>
+      }
 
     <TemporaryDrawer
       disableButton={wearableTrigger}
@@ -390,12 +396,12 @@ function returnLuminanceSmoothingByRain(){
             </div>
           </Html>
       }>
-          <DayCamp visible={sceneNumber === 4} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
+          <DayCamp callback={()=> setPageLoaded(true)} visible={sceneNumber === 1} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
           <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-          <LowPoly visible={sceneNumber === 1} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
+          <LowPoly visible={sceneNumber === 4} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />
           <Forest visible={sceneNumber === 2} rotation={[0, 1.37, -0.001]} />
           <NightCamp visible={sceneNumber === 3} position={[3, -0.18, -12]} scale={[1.75,1.75,1.75]} rotation={[0, 3.40, 0]} />
       </Suspense>
