@@ -55,11 +55,11 @@ const defaultFov = 50;
 const rotationValue = 400;
 const huntValue = 200;
 
+const LowPoly = lazy(() => import('../component/lowPolyBackground'));
+const NightCamp = lazy(() => import('../component/nightCamp'));
+const Forest = lazy(() => import('../component/forest'));
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
-  const LowPoly = lazy(() => import('../component/lowPolyBackground'));
-  const NightCamp = lazy(() => import('../component/nightCamp'));
-  const Forest = lazy(() => import('../component/forest'));
 
   const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
@@ -198,16 +198,16 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
         setCameraOptions(
           {
             ...cameraOptions,
-            rotation: [defaultCameraRotation[0]+coef/3000, defaultCameraRotation[1], defaultCameraRotation[2]],
-            position: [defaultCameraPosition[0], defaultCameraPosition[1]+coef/70, defaultCameraPosition[2]+coef/150],
+            rotation: [defaultCameraRotation[0]+coef/2500, defaultCameraRotation[1], defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0], defaultCameraPosition[1]+coef/50, defaultCameraPosition[2]+coef/125],
           }
         );
       } else {
         setCameraOptions(
           {
             ...cameraOptions,
-            rotation: [defaultCameraRotation[0]+huntValue/3000-coef/3000, defaultCameraRotation[1], defaultCameraRotation[2]],
-            position: [defaultCameraPosition[0], defaultCameraPosition[1]+huntValue/70-coef/70, defaultCameraPosition[2]+huntValue/150-coef/150],
+            rotation: [defaultCameraRotation[0]+huntValue/2500-coef/2500, defaultCameraRotation[1], defaultCameraRotation[2]],
+            position: [defaultCameraPosition[0], defaultCameraPosition[1]+huntValue/50-coef/50, defaultCameraPosition[2]+huntValue/125-coef/125],
           }
         );
       }
@@ -354,7 +354,7 @@ function returnLuminanceSmoothingByRain(){
         !huntTrigger &&
         huntMode && 
         <EffectComposer>
-        <Vignette eskil={false} offset={0.2} darkness={1.5} />
+        <Vignette eskil={false} offset={0.8} darkness={1.1} />
       </EffectComposer>
       }
     
