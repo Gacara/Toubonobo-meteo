@@ -6,6 +6,7 @@ import { meteoInterface } from '../../component/meteoHook';
 import { wearablesInterface } from '../../component/wearablesHook';
 import { switchModetype } from '../../views/model';
 import GradientBtn from '../button/button';
+import CloseIcon from '@material-ui/icons/Close';
 import {
   TemperatureChart,
   mockedTemperatureCharts,
@@ -81,7 +82,7 @@ export default function TemporaryDrawer({selectedDate, disableButton, open, onCl
   }
 
 function renderOnApiMode(){
-  return  (<Grid style={{height: "100%", width: width>960 ? "800px" : "400px", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
+  return  (<Grid style={{height: "100%", width: width>960 ? "800px" : "100vw", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
 
 
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
@@ -143,7 +144,7 @@ function renderOnApiMode(){
       }}
       />
       </Grid>
-      <Grid container item sm={12} justify="center">
+      <Grid container item sm={12} justify="center" style={{paddingBottom: "12px"}}>
       <Bar
       data={humidityChart}
       width={400}
@@ -160,7 +161,7 @@ function renderOnApiMode(){
 
 
 function renderOnTestMode(){
-  return  (<Grid style={{height: "100%", width: switchViewWidth ? "500px" : "300px", background: "#f9e4b7", overflow: "auto", padding: "10px 15px"}} container item sm={12}  justify="center" alignItems="flex-start">
+  return  (<Grid style={{height: "100%", width: switchViewWidth ? "500px" : "100vw", background: "#f9e4b7", overflow: "auto", padding: "10px 15px"}} container item sm={12}  justify="center" alignItems="flex-start">
   
   <Grid container item sm={12} direction="column" justify="center" style={{minHeight: "33%"}}>
   
@@ -326,7 +327,10 @@ function renderOnTestMode(){
 
   return (
           <Drawer anchor="left" open={open} onClose={onClose} classes={styles}>
-            <Grid container item sm={12} justify="center" alignItems="center" style={{maxHeight: "80px", backgroundColor: "#f9e4b7"}}>
+            <Grid container item sm={12} justify="center" alignItems="center" style={{maxHeight: "80px", padding: "15px 0", backgroundColor: "#f9e4b7", position: "relative"}}>
+            {
+              !switchViewWidth && <CloseIcon fontSize="large" style={{position: "absolute", top: "15px", left: "15px"}} onClick={()=> action(false, "openMenu", "openMenu")}/>
+            }
             <GradientBtn disabled={disableButton} label={`Changer en mode ${switchMode === "api" ? "Jeu" : "Info"}`} onClick={()=> action(undefined, "setSwitchMode", "switch")} />
             </Grid>
 
