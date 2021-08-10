@@ -4,7 +4,7 @@ import { getJSON } from '../callAPI/fetch-json'
 import useRefreshablePromise from '../callAPI/use-refreshable-promise'
 import Model, { switchModetype } from "./model";
 import { data, forecastInterface } from "../interfaces/utils";
-import { Button, CircularProgress } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import FranceMap from '../component/france';
 
 const fetchForecastData = async (city: string) => {
@@ -47,8 +47,7 @@ function Home(): React.ReactElement{
         Entrer
       </Button>
       </div>
-        </div>
-     
+      </div>
     </div>;
   }
 

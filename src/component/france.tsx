@@ -20,7 +20,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     const bordeaux = "Bordeaux";
     const nantes = "Nantes";
 
-    const { height, width } = useWindowDimensions();
+    const { width } = useWindowDimensions();
     const [mouseY, setMouseY] = useState<number>(0);
     const [mouseX, setMouseX] = useState<number>(0);
 
