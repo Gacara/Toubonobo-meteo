@@ -33,6 +33,7 @@ import { Modal, CircularProgress } from '@material-ui/core';
 import { convertTimeToDay } from '../designSystem/drawers/utils';
 import ChangeDate from '../component/changeDate';
 import Mist from '../component/mist';
+import useWindowDimensions from '../component/useWindowDimensions';
 
 
 interface modelInterface{
@@ -60,6 +61,8 @@ const NightCamp = lazy(() => import('../component/nightCamp'));
 const Forest = lazy(() => import('../component/forest'));
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
+  const { height, width } = useWindowDimensions();
+  const smallScreen = width <= 650;
 
   const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
@@ -125,6 +128,9 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   }
 
   function onAction(value: unknown, type: string, action: string){
+    if (type === "openMenu"){
+      setOpenMenu(value as boolean);
+    }
     if (type === "stormClick"){
       stormClick();
     }
@@ -324,7 +330,18 @@ function returnLuminanceSmoothingByRain(){
         />
     </div>
     </div>
-    <div style={{position: "fixed", top:"25px", right:"50px", zIndex: 99999999999, display: "flex", flexDirection: "column"}}>
+    <div 
+    style={
+      (smallScreen) ? 
+      {
+        position: "fixed", bottom:"25px", right:"25px", zIndex: 99999999999, display: (smallScreen && openMenu) ? "none" : "flex", flexDirection: "column",
+      }
+      :
+      {
+        position: "fixed", top:"25px", right:"50px", zIndex: 99999999999, display: openMenu ? "none" : "flex", flexDirection: "column",
+      }
+    }
+    >
         {!cameraTrigger
         && !huntTrigger
         && !huntMode
