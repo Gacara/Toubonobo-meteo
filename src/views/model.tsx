@@ -312,23 +312,36 @@ function returnLuminanceSmoothingByRain(){
   }
 }
 
+function renderLoadingScreen(){
+  return (
+    <div style={{ width: "100%", height: "100%", zIndex: 9999999999999999999, top: 0, left: 0, paddingTop: `${height/2.75}px`, color: "black", background: "#f9e4b7", position: "fixed", display: "flex", alignItems: "flex-start", justifyContent: "center"}}>
+    <div style={{ height: "150px", width: "1000px" }}>
+      <CircularProgress size="3rem" />
+      <div style={{paddingTop: "30px"}}>
+        <WaitingScene />
+      </div>
+    </div>
+</div>
+  );
+}
+
   return (
     <div style={{ height:"100vh", width:"100vw", position: "relative" }}>
       {
-        pageLoaded &&
+        pageLoaded ? 
         <>
         <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 999, display: "flex", justifyContent:"center"}}>
-    <div style={{width: "400px", color: "black"}}>
-      <ChangeDate
-        disabled={openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
-        dateNumber={selectedDate}
-        city={city}
-        onPreviousClick={previousDate}
-        onNextClick={nextDate}
-        label={data && convertTimeToDay(data.dateObj)}
-        maxDate={allData ? allData.length - 1 : 1}
-        />
-    </div>
+          <div style={{width: "400px", color: "black"}}>
+            <ChangeDate
+              disabled={openMenu || openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
+              dateNumber={selectedDate}
+              city={city}
+              onPreviousClick={previousDate}
+              onNextClick={nextDate}
+              label={data && convertTimeToDay(data.dateObj)}
+              maxDate={allData ? allData.length - 1 : 1}
+              />
+          </div>
     </div>
     <div 
     style={
@@ -364,6 +377,8 @@ function returnLuminanceSmoothingByRain(){
         && <GpsFixedIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
     </div>
         </>
+        :
+        renderLoadingScreen()
       }
 
     <TemporaryDrawer
@@ -372,10 +387,14 @@ function returnLuminanceSmoothingByRain(){
       meteoVariables={meteoVariables}
       wearablesVariables={wearablesVariables}
       open={openMenu}
+      onPreviousClick={previousDate}
+      onNextClick={nextDate}
       selectedDate={selectedDate}
       allData={allData}
       onClose={() => {setOpenMenu(false); if(cameraOptions.fov <= 35){setWearableTrigger(true)}}}
       action={zoomOnActions}
+      maxDate={allData ? allData.length - 1 : 1}
+      city={city}
       />
     <Canvas>
       {
@@ -402,17 +421,7 @@ function returnLuminanceSmoothingByRain(){
      // <OrbitControls />
     }
     <Storm trigger={meteoVariables.storm} />
-
-      <Suspense fallback={
-          <Html position={[4.5, -0.2, -13.6]} fullscreen style={{ height: "150vh", width: "150vw", background: "#f9e4b7", top: "-750px" }}>
-            <div style={{ height: "150px", width: "1000px", position: "absolute", top: "30%", left: "18%"}}>
-            <CircularProgress size="3rem" />
-            <div style={{paddingTop: "30px"}}>
-            <WaitingScene />
-            </div>
-            </div>
-          </Html>
-      }>
+      <Suspense fallback={null}>
           <DayCamp callback={()=> setPageLoaded(true)} visible={sceneNumber === 1} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
           <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
       </Suspense>
