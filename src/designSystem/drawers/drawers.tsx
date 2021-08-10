@@ -34,6 +34,8 @@ interface DrawerInterface {
 export default function TemporaryDrawer({selectedDate, disableButton, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
   const { height, width } = useWindowDimensions();
   const switchViewWidth = width > 960;
+  const switchMenuWidth = width > 700;
+
 
   const data = setData() || mockedMeteoData;
   const defaultSelectedButton = "Enlever";
@@ -82,29 +84,30 @@ export default function TemporaryDrawer({selectedDate, disableButton, open, onCl
   }
 
 function renderOnApiMode(){
-  return  (<Grid style={{height: "100%", width: width>960 ? "800px" : "100vw", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
+  return  (<Grid style={{height: "100%", width: switchMenuWidth ? "700px" : "100vw", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
 
 
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
   <Grid container item sm={12} justify="center">
   <Grid container item sm={12} justify="center">
-  <div><h2>Temps {dateByIndex(selectedDate)} :</h2></div>
+  <div><h4>Temps {dateByIndex(selectedDate)} :</h4></div>
   </Grid>
   <Grid container item xs={12} md={4} alignItems="center" justify="flex-start">
     <Grid container item xs={4} justify="center">
       <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="60px" height="60px" alt="meteo" />
     </Grid>
     <Grid container item xs={4} justify="flex-start">
-      {data.weather}
+    <h3>{data.weather}</h3>
     </Grid>
   </Grid>
 
   <Grid container item xs={12} md={4} alignItems="center" justify="flex-start" style={{paddingTop: "12px"}}>
   <Grid container item xs={4} justify="center">
-    <span style={{fontSize: "2rem"}} role="img" aria-label="Temperature">🌡️</span>
+    <span style={{fontSize: "2.4rem"}} role="img" aria-label="Temperature">🌡️</span>
     </Grid>
     <Grid container item xs={4} justify="flex-start">
-      {data.Temperature.value} °C
+    <h3>{data.Temperature.value} °C</h3>
+      
     </Grid>
     <Grid container item xs={4} justify="flex-start">
       {selectedDate !== 1 && compareTemperature(+data.Temperature.value)}
@@ -112,10 +115,10 @@ function renderOnApiMode(){
   </Grid>
   <Grid container item xs={12} md={4} alignItems="center" justify="flex-start" style={{paddingTop: "22px"}}>
   <Grid container item xs={4} justify="center">
-    <span style={{fontSize: "2rem"}} role="img" aria-label="Humidity">💧</span>
+    <span style={{fontSize: "2.4rem"}} role="img" aria-label="Humidity">💧</span>
     </Grid>
     <Grid container item xs={4} justify="flex-start">
-      {data.humidity} %
+      <h3>{data.humidity} %</h3>
     </Grid>
     <Grid container item xs={4} justify="flex-start">
       {selectedDate !== 1 && compareHumidity(+data.humidity)}
@@ -161,7 +164,7 @@ function renderOnApiMode(){
 
 
 function renderOnTestMode(){
-  return  (<Grid style={{height: "100%", width: switchViewWidth ? "500px" : "100vw", background: "#f9e4b7", overflow: "auto", padding: "10px 15px"}} container item sm={12}  justify="center" alignItems="flex-start">
+  return  (<Grid style={{height: "100%", width: switchMenuWidth ? "500px" : "100vw", background: "#f9e4b7", overflow: "auto", padding: "10px 15px"}} container item sm={12}  justify="center" alignItems="flex-start">
   
   <Grid container item sm={12} direction="column" justify="center" style={{minHeight: "33%"}}>
   
