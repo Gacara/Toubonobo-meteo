@@ -39,7 +39,7 @@ interface DrawerInterface {
 }
 
 export default function TemporaryDrawer({city, maxDate, onPreviousClick, onNextClick, selectedDate, disableButton, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const classes = useStyle();
 
   const switchViewWidth = width > 960;
