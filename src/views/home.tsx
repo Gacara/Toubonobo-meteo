@@ -43,7 +43,7 @@ function Home(): React.ReactElement{
           <FranceMap selectedCity={city} onRegionClick={(city) => {setCity(city)}} /> 
         </div>
       <div>
-      <Button style={{background: "white", fontSize:"1.5rem", marginTop: "20px" }} onClick={() => setValidateEnter(true)} >
+      <Button style={{background: "white", fontSize:"1.5rem", marginTop: "10px" }} onClick={() => setValidateEnter(true)} >
         Entrer
       </Button>
       </div>

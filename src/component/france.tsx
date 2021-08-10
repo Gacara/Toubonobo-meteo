@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useWindowDimensions from "./useWindowDimensions";
 
 interface franceInterface {
     selectedCity: string;
@@ -19,6 +20,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     const bordeaux = "Bordeaux";
     const nantes = "Nantes";
 
+    const { height, width } = useWindowDimensions();
     const [mouseY, setMouseY] = useState<number>(0);
     const [mouseX, setMouseX] = useState<number>(0);
 
@@ -43,7 +45,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
 
 
    return (
-    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width="597.6" height="670.7"
+    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={width < 800 ? width*0.85 : 600} height={width < 600 ? width : 650}
     viewBox="0 0 597.6 670.7" overflow="visible" enable-background="new 0 0 597.6 670.7" xmlSpace="preserve">
 
 <g>
