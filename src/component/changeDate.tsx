@@ -25,7 +25,7 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
         {
             !disabled &&
             <>
-            <div style={{fontSize: dateResponsive ? "1rem" : "3rem"}} className={classes.title}>{city}</div>
+            <div style={{fontSize: dateResponsive ? "1rem" : "3rem", userSelect: "none"}} className={classes.title}>{city}</div>
 
                 <div className={classes.flex}>
                     <div
@@ -33,7 +33,7 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
                     onClick={onPreviousClick}>
                         <NavigateBeforeIcon className={classes.chevron} style={{color: dateNumber !== 1 ? "black" : "grey", fontSize: dateResponsive ? "1.5rem" : "3rem"}} fontSize="large" />
                     </div>
-                <div style={{height: dateResponsive ? "20px" : "55px", fontSize: dateResponsive ? "0.75rem" : "1.5rem"}} className={classes.label}>
+                <div style={{height: dateResponsive ? "20px" : "55px", fontSize: dateResponsive ? "0.75rem" : "1.5rem", userSelect: "none"}} className={classes.label}>
                 {label}
                 </div>  
                     <div 

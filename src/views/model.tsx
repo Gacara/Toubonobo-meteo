@@ -174,7 +174,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
 
   function CameraSwitch(coef: number){
     if (cameraTrigger){
-      if(coef < rotationValue ){
+      if(coef-1 < rotationValue ){
         setCameraOptions(
           {
             ...cameraOptions,
@@ -187,7 +187,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           {
             ...cameraOptions,
             rotation: [defaultCameraRotation[0]+rotationValue/10000-(coef-rotationValue)/10000, defaultCameraRotation[1]+rotationValue/1000-(coef-rotationValue)/1000, defaultCameraRotation[2]],
-            position: [defaultCameraPosition[0]-rotationValue/125+(coef-rotationValue)/100, defaultCameraPosition[1], defaultCameraPosition[2]+rotationValue/100-(coef-rotationValue)/100],
+            position: [defaultCameraPosition[0]-rotationValue/125+(coef-rotationValue)/125, defaultCameraPosition[1], defaultCameraPosition[2]+rotationValue/100-(coef-rotationValue)/100],
           }
         );
       }
@@ -432,7 +432,7 @@ function renderLoadingScreen(){
     }
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={null}>
-          <DayCamp callback={()=> setPageLoaded(true)} visible={sceneNumber === 1} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
+          <DayCamp callback={()=> setPageLoaded(true)} visible={sceneNumber === 1} position={[8, 7.25, -3.40]} rotation={[0.042, 3.4, 0]} />
           <Monkey visible={!huntMode || (huntTrigger && huntMode)} position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
 {          
     //<MonkeyBis position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
@@ -500,10 +500,10 @@ function renderLoadingScreen(){
       position={huntMode ? [-28, -6, 0] : [-26, -10, 0]}
       rotation-z={100}
       >
-        <span>{birdCounter}</span>
+        <span style={{userSelect: "none"}}>{birdCounter}</span>
       </Html>
       <Html 
-      style={{display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem", padding: "5px 15px"}}
+      style={{userSelect: "none", display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem", padding: "5px 15px"}}
       position={[-22, -8, 0]}
       rotation-z={100}
       >
@@ -512,7 +512,7 @@ function renderLoadingScreen(){
         }
       </Html>
 
-      <Html position={[4.5, -0.2, -13.5]} rotation-z={100}>
+      <Html position={[5.3, -0.1, -13.5]} rotation-z={100}>
         <Modal
         open={openModal}
         onClose={() => setOpenModal(false)}
@@ -523,7 +523,7 @@ function renderLoadingScreen(){
           <FranceMap selectedCity={city} onRegionClick={(city) => {onCityClick(city); setOpenModal(false);}} /> 
         </div>
       </Modal>
-        <div style={{width:"max-content"}}>
+        <div style={{width:"max-content", userSelect: "none", pointerEvents: "none"}}>
         {!openModal && !openMenu && "Toubonobo"}
         </div>
       </Html>
@@ -533,3 +533,22 @@ function renderLoadingScreen(){
 }
 
 export default ModelViewer;
+
+/*
+      <Html
+      style={{display: (!huntTrigger && !cameraTrigger && birdCounter > 0) ? "block" : "none", color: "black", background: "white", width: "50px", borderRadius:"10px"}}
+      position={huntMode ? [-28, -6, 0] : [-26, -10, 0]}
+      rotation-z={100}
+      >
+        <span style={{userSelect: "none"}}>{birdCounter}</span>
+      </Html>
+      <Html 
+      style={{userSelect: "none", display: (birdCounter >= 30 && huntMode) && !huntTrigger ? "flex" : "none", alignItems: "center", width: "250px", height: "50px", color: "black", background: "white", borderRadius:"10px", fontSize:"1rem", padding: "5px 15px"}}
+      position={[-22, -8, 0]}
+      rotation-z={100}
+      >
+        {
+          birdy()
+        }
+      </Html>
+      */

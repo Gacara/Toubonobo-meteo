@@ -12,11 +12,15 @@ export default function WaitingScene(){
     ];
     const [phrase, setPhrase] = useState<number>(0);
 
-   setTimeout(()=>{
-        if(phrase < phrases.length -1){
-            setPhrase(phrase+1);
-        }
-    }, 3500);
+  
+    React.useEffect(() => {
+        const timeout =  setTimeout(()=>{
+            if(phrase < phrases.length -1){
+                setPhrase(phrase+1);
+            }
+        }, 3500);
+        return () => clearTimeout(timeout);
+      });
 
     function renderPhrase(t: string, index: number){
         return (
