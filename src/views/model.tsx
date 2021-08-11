@@ -27,6 +27,7 @@ import { convertTimeToDay } from '../designSystem/drawers/utils';
 import ChangeDate from '../component/changeDate';
 import Mist from '../component/mist';
 import useWindowDimensions from '../component/useWindowDimensions';
+import MonkeyBis from '../component/monkeyBis';
 
 
 interface modelInterface{
@@ -63,7 +64,7 @@ const Sunglasses = lazy(() => import('../component/clothes/sunglasses/Sunglasses
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const { height, width } = useWindowDimensions();
-  const smallScreen = width <= 650;
+  const smallScreen = width <= 850;
 
   const [selectedDate, setSelectedDate] = useState<number>(1);
   const data = setData();
@@ -97,6 +98,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const realHeight = height > screen.availHeight ? screen.availHeight : height;
   const realWidth = width > screen.availWidth ? screen.availWidth : width;
   const dateResponsive = realHeight < 800;
+  const realDateResponsive = realHeight < 800 && realHeight < width;
   const dateTopPosition = dateResponsive ? "5px" : "25px";
 
   function setData(){
@@ -354,7 +356,7 @@ function renderLoadingScreen(){
     style={
       (smallScreen) ? 
       {
-        position: "fixed", bottom:"25px", right:"25px", zIndex: 99999999999, display: (smallScreen && openMenu) ? "none" : "flex", flexDirection: "column",
+        position: "fixed", bottom:"25px", right:"30px", zIndex: 99999999999, display: (smallScreen && openMenu) ? "none" : "flex", flexDirection: "column",
       }
       :
       {
@@ -365,24 +367,24 @@ function renderLoadingScreen(){
         {!cameraTrigger
         && !huntTrigger
         && !huntMode
-        && <ExploreIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
+        && <ExploreIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: smallScreen ? "5px" : "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenModal(!openModal)}/>}
         {!openMenu
         &&!cameraTrigger
         && !huntTrigger
         && !huntMode
         && !openModal
-        && <HelpIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
+        && <HelpIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: smallScreen ? "5px" : "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setOpenMenu(true)} />}
         {!openMenu
         &&!cameraTrigger
         && !huntTrigger
         && !openModal
         && !huntMode
-        && <MovieIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
+        && <MovieIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: smallScreen ? "5px" : "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setCameraTrigger(true)} />}
         {!openMenu
         &&!cameraTrigger
         && !openModal
         && !huntTrigger
-        && <SportsEsportsIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
+        && <SportsEsportsIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: smallScreen ? "5px" : "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
     </div>
         </>
         :
@@ -426,13 +428,16 @@ function renderLoadingScreen(){
 
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
     {
-     // <OrbitControls />
+      // <OrbitControls />
     }
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={null}>
           <DayCamp callback={()=> setPageLoaded(true)} visible={sceneNumber === 1} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
-          <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
-      </Suspense>
+          <Monkey visible={!huntMode || (huntTrigger && huntMode)} position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
+{          
+    //<MonkeyBis position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
+}      
+</Suspense>
 
       <Suspense fallback={null}>
           <LowPoly visible={sceneNumber === 4} position={[14, 3.95, -4.3]} scale={[0.005,0.005,0.005]} rotation={[0, 0.1, 0]} />

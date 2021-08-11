@@ -20,7 +20,6 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
     const { height, width } = useWindowDimensions();
     const realHeight = height > screen.availHeight ? screen.availHeight : height;
     const dateResponsive = realHeight < 800 && realHeight < width;
-    const dateTopPosition = dateResponsive ? "5px" : "25px";
     return (
         <>
         {
@@ -32,7 +31,7 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
                     <div
                     style={{pointerEvents: "all"}}
                     onClick={onPreviousClick}>
-                        <NavigateBeforeIcon className={classes.chevron} style={{color: dateNumber !== 1 ? "black" : "grey", fontSize: dateResponsive ? "1rem" : "3rem"}} fontSize="large" />
+                        <NavigateBeforeIcon className={classes.chevron} style={{color: dateNumber !== 1 ? "black" : "grey", fontSize: dateResponsive ? "1.5rem" : "3rem"}} fontSize="large" />
                     </div>
                 <div style={{height: dateResponsive ? "20px" : "55px", fontSize: dateResponsive ? "0.75rem" : "1.5rem"}} className={classes.label}>
                 {label}
@@ -41,7 +40,7 @@ export default function ChangeDate({disabled, onNextClick, onPreviousClick, labe
                     style={{pointerEvents: "all"}}
                     className={classes.flex}
                     onClick={onNextClick}>
-                        <NavigateNextIcon className={classes.chevron} style={{color: dateNumber !== maxDate ? "black" : "grey", fontSize: dateResponsive ? "1rem" : "3rem"}} fontSize="large" />
+                        <NavigateNextIcon className={classes.chevron} style={{color: dateNumber !== maxDate ? "black" : "grey", fontSize: dateResponsive ? "1.5rem" : "3rem"}} fontSize="large" />
                 </div>
             </div>
     </>
