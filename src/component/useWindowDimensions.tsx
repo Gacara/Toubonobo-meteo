@@ -15,6 +15,9 @@ export default function useWindowDimensions() {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
+    // eslint-disable-next-line no-restricted-globals
+    //window.addEventListener('orientationchange', ()=> console.log(screen.availWidth));
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

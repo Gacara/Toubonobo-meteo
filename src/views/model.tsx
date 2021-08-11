@@ -1,21 +1,14 @@
+/* eslint-disable no-restricted-globals */
 import React, { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Html, OrbitControls } from '@react-three/drei';
 import Monkey from '../component/monkey';
 import Sun from "../component/sun";
-import Flamingo from '../component/Flamingo';
-import Parrot from '../component/Parrot';
-import Stork from '../component/Stork';
 import Storm from '../component/storm';
 import Clouds from '../component/clouds';
-import Hat from '../component/clothes/hats/Hat';
-import Mask from '../component/clothes/masks/Mask';
-import Sunglasses from '../component/clothes/sunglasses/Sunglasses';
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 import Rain from '../component/rain';
 import Snow from '../component/snow';
-import WaterBottle from '../component/accessories/WaterBottle';
-import Umbrella from '../component/accessories/umbrella';
 import { forecastInterface } from "../interfaces/utils";
 import TemporaryDrawer from '../designSystem/drawers/drawers';
 import IntervalCamera from "../component/interval";
@@ -59,6 +52,14 @@ const huntValue = 200;
 const LowPoly = lazy(() => import('../component/lowPolyBackground'));
 const NightCamp = lazy(() => import('../component/nightCamp'));
 const Forest = lazy(() => import('../component/forest'));
+const Flamingo = lazy(() => import('../component/Flamingo'));
+const Parrot = lazy(() => import('../component/Parrot'));
+const Stork = lazy(() => import('../component/Stork'));
+const Hat = lazy(() => import('../component/clothes/hats/Hat'));
+const Mask = lazy(() => import('../component/clothes/masks/Mask'));
+const WaterBottle = lazy(() => import('../component/accessories/WaterBottle'));
+const Umbrella = lazy(() => import('../component/accessories/umbrella'));
+const Sunglasses = lazy(() => import('../component/clothes/sunglasses/Sunglasses'));
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const { height, width } = useWindowDimensions();
@@ -91,6 +92,12 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
   const [birdCounter, setBirdCounter] = useState<number>(0);
   const [huntMode, setHuntMode] = useState<boolean>(false);
   const [huntTrigger, setHuntTrigger] = useState<boolean>(false);
+
+  const dateWidth = screen.availWidth > screen.availHeight ? screen.availWidth/4 : screen.availWidth*0.90;
+  const realHeight = height > screen.availHeight ? screen.availHeight : height;
+  const realWidth = width > screen.availWidth ? screen.availWidth : width;
+  const dateResponsive = realHeight < 800;
+  const dateTopPosition = dateResponsive ? "5px" : "25px";
 
   function setData(){
     return allData ? allData[selectedDate] : null;
@@ -330,8 +337,8 @@ function renderLoadingScreen(){
       {
         pageLoaded ? 
         <>
-        <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top:"50px", left: 0, zIndex: 999, display: "flex", justifyContent:"center"}}>
-          <div style={{width: "400px", color: "black"}}>
+        <div style={{pointerEvents: "none",width: "100%", color: "black", position: "fixed", top: dateTopPosition, left: 0, zIndex: 999, display: "flex", justifyContent:"center"}}>
+          <div style={{width: dateWidth, color: "black"}}>
             <ChangeDate
               disabled={openMenu || openModal || huntMode || huntTrigger || cameraTrigger || switchMode === "test"}
               dateNumber={selectedDate}
