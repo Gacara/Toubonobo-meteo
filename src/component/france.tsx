@@ -24,6 +24,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     const [mouseY, setMouseY] = useState<number>(0);
     const [mouseX, setMouseX] = useState<number>(0);
 
+    const absoluteSize = height > width ? height : width;
+
     const [cityOnHover, setCityOnHover] = useState<string>("");
 
     function getColor(city: string){
@@ -45,7 +47,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
 
 
    return (
-    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={width < 800 ? width*0.85 : 600} height={width < 600 ? width : 650}
+    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={absoluteSize < 800 ? absoluteSize*0.85 : 600} height={absoluteSize < 600 ? absoluteSize : 650}
     viewBox="0 0 597.6 670.7" overflow="visible" enable-background="new 0 0 597.6 670.7" xmlSpace="preserve">
 
 <g>
