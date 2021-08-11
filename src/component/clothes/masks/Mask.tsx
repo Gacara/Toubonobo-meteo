@@ -5,6 +5,7 @@ import React, { useRef } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import { getRandomColor } from '../../dayCamp';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -25,10 +26,10 @@ type GLTFResult = GLTF & {
 export default function Mask(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
   const gltf = useLoader(GLTFLoader, "/masks/mask.glb");
-  const { nodes, materials } = gltf as GLTFResult
+  const { nodes, materials } = gltf as GLTFResult;
 
   return (
-    <group ref={group} {...props} scale={[0.025,0.025,0.025]} dispose={null}>
+    <group ref={group} {...props} scale={[0.025,0.025,0.025]} onClick={(e) => {e.stopPropagation(); getRandomColor(nodes.mesh_7.material as THREE.MeshStandardMaterial)}} dispose={null}>
       <mesh
         material={nodes.mesh_0.material}
         geometry={nodes.mesh_0.geometry}

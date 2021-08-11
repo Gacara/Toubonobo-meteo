@@ -114,6 +114,15 @@ type GLTFResult = GLTF & {
   }
 }
 
+ export function getRandomColor(material: MeshStandardMaterial) {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    material.setValues({color});
+  }
+
 export default function DayCamp(props: any) {
 
   const group = useRef<THREE.Group>();
@@ -122,14 +131,6 @@ export default function DayCamp(props: any) {
   const [pointerOnTent, setPointerOnTent] = useState<boolean>(false);
   const [pointerOnFire, setPointerOnFire] = useState<boolean>(false);
 
-  function getRandomColor(material: MeshStandardMaterial) {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    material.setValues({color});
-  }
 
   function changeSomething() {
     const allMaterial = Object.entries(materials).map(([key]) => key);
