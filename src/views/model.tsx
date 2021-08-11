@@ -465,13 +465,24 @@ function renderLoadingScreen(){
         <Parrot props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+5)} />
         <Stork props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+10)} />
       </Suspense>
+      <Suspense fallback={null}>
+      <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
+      </Suspense>
+
+      <Suspense fallback={null}>
+          <Mask visible={wearablesVariables.wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
+      </Suspense>
 
       <Suspense fallback={null}>
           <Hat visible={wearablesVariables.wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
-          <Mask visible={wearablesVariables.wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
+      </Suspense>
+
+      <Suspense fallback={null}>
           <Sunglasses visible={wearablesVariables.wearSunglasses} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
+      </Suspense>
+
+      <Suspense fallback={null}>
           <WaterBottle visible={wearablesVariables.wearBottle} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
-          <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
       </Suspense>
     
       <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>
