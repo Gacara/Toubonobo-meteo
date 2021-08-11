@@ -6,15 +6,13 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core";
         margin: "0 auto 15px auto",
         textAlign: "center",
         width: "fit-content",
-        fontSize: "3rem",
         borderRadius: "10%",
         padding: "10px 20px",
         backgroundColor: "rgb(255, 95, 109)",
         color: "white"
     },
     label: {
-        height: "55px",
-        width: "400px",
+        width: "100%",
         padding: "3px",
         backgroundColor: "white",
         alignItems: "center",
@@ -30,7 +28,6 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core";
         display: "flex",
         justifyContent: "center",
         cursor: "pointer",
-        fontSize: "3rem",
         borderRadius: "50%",
         /* padding: 2px; */
         backgroundColor: "white",

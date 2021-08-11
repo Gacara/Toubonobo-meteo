@@ -1,6 +1,5 @@
+/* eslint-disable no-restricted-globals */
 import React, { useState } from "react";
-import useWindowDimensions from "./useWindowDimensions";
-
 interface franceInterface {
     selectedCity: string;
     onRegionClick: (city: string) => void;
@@ -20,11 +19,8 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     const bordeaux = "Bordeaux";
     const nantes = "Nantes";
 
-    const { height, width } = useWindowDimensions();
     const [mouseY, setMouseY] = useState<number>(0);
     const [mouseX, setMouseX] = useState<number>(0);
-
-    const absoluteSize = height > width ? height : width;
 
     const [cityOnHover, setCityOnHover] = useState<string>("");
 
@@ -47,7 +43,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
 
 
    return (
-    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={absoluteSize < 450 ? absoluteSize*0.85 : 550} height={absoluteSize < 450 ? absoluteSize : 600}
+    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={screen.availWidth/2} height={screen.availHeight/2}
     viewBox="0 0 597.6 670.7" overflow="visible" enable-background="new 0 0 597.6 670.7" xmlSpace="preserve">
 
 <g>
@@ -500,7 +496,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
    </g>
 </g>
 <g>
-	<text style={{fontWeight: "bolder"}} fill="white" transform={`matrix(1 0 0 1 ${mouseX-625} ${mouseY-160})`} fontFamily="'Segoe UI'" font-size="40">{cityOnHover}</text>
+	<text style={{fontWeight: "bolder", pointerEvents: "none"}} fill="white" transform={`matrix(1 0 0 1 ${mouseX-625} ${mouseY-160})`} fontFamily="'Segoe UI'" font-size="40">{cityOnHover}</text>
 </g>
 </svg>
     );
