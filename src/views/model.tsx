@@ -433,9 +433,9 @@ function renderLoadingScreen(){
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={null}>
           <DayCamp callback={()=> setPageLoaded(true)} visible={sceneNumber === 1} position={[8, 6.37, -5]} scale={[35,35,35]} rotation={[0.04, 3.35, 0]} />
-          <Monkey position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
+          <Monkey visible={!huntMode || (huntTrigger && huntMode)} position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
 {          
-//<MonkeyBis position={[4, 1, -13.5]} rotation= {[0, 2.8, 0]}/>
+    //<MonkeyBis position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
 }      
 </Suspense>
 
