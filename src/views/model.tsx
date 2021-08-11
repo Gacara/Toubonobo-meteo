@@ -46,6 +46,8 @@ interface cameraOptionsInferface{
 export type switchModetype = "api" | "test";
 const defaultCameraRotation = [0,-16.1,0];
 const defaultCameraPosition = [7,1.2,-21];
+//const defaultCameraPosition = [6,2,-15];
+
 const defaultFov = 50;
 const rotationValue = 400;
 const huntValue = 200;
@@ -96,9 +98,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
 
   const dateWidth = screen.availWidth > screen.availHeight ? screen.availWidth/4 : screen.availWidth*0.90;
   const realHeight = height > screen.availHeight ? screen.availHeight : height;
-  const realWidth = width > screen.availWidth ? screen.availWidth : width;
   const dateResponsive = realHeight < 800;
-  const realDateResponsive = realHeight < 800 && realHeight < width;
   const dateTopPosition = dateResponsive ? "5px" : "25px";
 
   function setData(){
@@ -428,14 +428,17 @@ function renderLoadingScreen(){
 
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
     {
-      // <OrbitControls />
+     // <OrbitControls />
     }
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={null}>
           <DayCamp callback={()=> setPageLoaded(true)} visible={sceneNumber === 1} position={[8, 7.25, -3.40]} rotation={[0.042, 3.4, 0]} />
-          <Monkey visible={!huntMode || (huntTrigger && huntMode)} position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
+          
+          {          
+    //<Monkey visible={!huntMode || (huntTrigger && huntMode)} position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
+}  
 {          
-    //<MonkeyBis position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
+    <MonkeyBis visible={!huntMode || (huntTrigger && huntMode)} position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
 }      
 </Suspense>
 
@@ -466,23 +469,23 @@ function renderLoadingScreen(){
         <Stork props={{scale:[0.3, 0.3, 0.3]}} birdSpeed={birdCounter} callback={() => setBirdCounter(birdCounter+10)} />
       </Suspense>
       <Suspense fallback={null}>
-      <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.10, 1.25, -13.70]}  rotation= {[0, 2.2, 0]}/>
+      <Umbrella visible={wearablesVariables.wearUmbrella} position={[3.2, 1.22, -13.45]}  rotation= {[0, 1.6, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-          <Mask visible={wearablesVariables.wearMask} position={[4.01, 1.458, -13.57]}  rotation= {[0, 3.4, 0]}/>
+          <Mask visible={wearablesVariables.wearMask} position={[4.02, 1.47, -13.64]} rotation= {[0.24, 3.32, -0.05]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-          <Hat visible={wearablesVariables.wearHat} position={[4.05, 2, -13.6]} rotation= {[0, 1, 0]}/>
+          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.962, -13.57]} rotation= {[0.05, 1.24, 0.11]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-          <Sunglasses visible={wearablesVariables.wearSunglasses} position={[4.02, 1.8, -13.54]}  rotation= {[0, 2.8, 0]}/>
+          <Sunglasses visible={wearablesVariables.wearSunglasses} position={[4.02, 1.8, -13.49]}  rotation= {[-0.12, 2.95, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-          <WaterBottle visible={wearablesVariables.wearBottle} position={[4.97, 1.3, -13.2]}  rotation= {[0, 2.9, 0]}/>
+          <WaterBottle visible={wearablesVariables.wearBottle} position={[4.68, 1.36, -13.15]}  rotation= {[0, 2.9, 0]}/>
       </Suspense>
     
       <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>

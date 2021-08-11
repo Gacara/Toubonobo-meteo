@@ -9,7 +9,7 @@ const bonobo = gltf.scene;
 return (
    <mesh
    {...props}
-   scale={[0.5, 0.5, 0.5]}>
+   scale={[0.4, 0.4, 0.4]}>
    <primitive object={bonobo} />
   </mesh>
 )

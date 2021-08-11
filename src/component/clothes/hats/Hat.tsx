@@ -26,7 +26,7 @@ export default function Hat(props: JSX.IntrinsicElements['group']) {
   const gltf = useLoader(GLTFLoader, "/hats/hat.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (
-    <group ref={group} scale={[0.35,0.35,0.35]} {...props} dispose={null}>
+    <group ref={group} scale={[0.28,0.28,0.28]} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <mesh material={materials.material} geometry={nodes.defaultMaterial.geometry} />
