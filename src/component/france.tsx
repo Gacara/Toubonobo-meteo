@@ -43,7 +43,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
 
 
    return (
-    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={screen.availWidth/2} height={screen.availHeight/2}
+    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={screen.availWidth/1.5} height={screen.availHeight/1.75}
     viewBox="0 0 597.6 670.7" overflow="visible" enable-background="new 0 0 597.6 670.7" xmlSpace="preserve">
 
 <g>
