@@ -20,9 +20,11 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
     const bordeaux = "Bordeaux";
     const nantes = "Nantes";
 
-    const { width } = useWindowDimensions();
+    const { height, width } = useWindowDimensions();
     const [mouseY, setMouseY] = useState<number>(0);
     const [mouseX, setMouseX] = useState<number>(0);
+
+    const absoluteSize = height > width ? height : width;
 
     const [cityOnHover, setCityOnHover] = useState<string>("");
 
@@ -45,7 +47,7 @@ export default function FranceMap({selectedCity, onRegionClick}: franceInterface
 
 
    return (
-    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={width < 450 ? width*0.85 : 550} height={width < 450 ? width : 600}
+    <svg  version="1.1" id="Calque_1"xmlns="http://www.w3.org/2000/svg"  xmlnsXlink="http://www.w3.org/1999/xlink" width={absoluteSize < 450 ? absoluteSize*0.85 : 550} height={absoluteSize < 450 ? absoluteSize : 600}
     viewBox="0 0 597.6 670.7" overflow="visible" enable-background="new 0 0 597.6 670.7" xmlSpace="preserve">
 
 <g>

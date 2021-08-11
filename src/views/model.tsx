@@ -27,7 +27,7 @@ import { PerspectiveCamera } from 'three';
 import HelpIcon from '@material-ui/icons/Help';
 import MovieIcon from '@material-ui/icons/Movie';
 import ExploreIcon from '@material-ui/icons/Explore';
-import GpsFixedIcon from '@material-ui/icons/GpsFixed';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import FranceMap from '../component/france';
 import { Modal, CircularProgress } from '@material-ui/core';
 import { convertTimeToDay } from '../designSystem/drawers/utils';
@@ -374,7 +374,8 @@ function renderLoadingScreen(){
         {!openMenu
         &&!cameraTrigger
         && !openModal
-        && <GpsFixedIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
+        && !huntTrigger
+        && <SportsEsportsIcon style= {{ marginTop: "10px", color: "black", borderRadius: "50%", padding: "10px", cursor: "pointer", backgroundColor: "white"}} fontSize="large" onClick={()=> setHuntTrigger(true)} />}
     </div>
         </>
         :
