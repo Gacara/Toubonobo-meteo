@@ -4,7 +4,7 @@ import { getJSON } from '../callAPI/fetch-json'
 import useRefreshablePromise from '../callAPI/use-refreshable-promise'
 import Model, { switchModetype } from "./model";
 import { data, forecastInterface } from "../interfaces/utils";
-import { Button, CircularProgress } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import FranceMap from '../component/france';
 
 const fetchForecastData = async (city: string) => {
@@ -28,7 +28,7 @@ function Home(): React.ReactElement{
         setTestMode("test");
       }, 3000);
 
-      return <div style={{color: "black", height: "100vh", background: "#f9e4b7", display: "flex", alignItems: "center", justifyContent: "center"}}>
+      return <div style={{padding: "20px 0", color: "black", height: "100%", background: "#f9e4b7", display: "flex", alignItems: "flex-start", justifyContent: "center"}}>
         <div>
         <div>
       Bienvenue dans What To Wear !
@@ -39,7 +39,7 @@ function Home(): React.ReactElement{
       <div style={{paddingTop: "10px"}}>
         Où habites-tu ? - {city}
       </div>
-      <div style={{display: "flex", alignItems: "center", justifyContent:"center", width:"100%", height:"100%"}}>
+      <div style={{display: "flex", alignItems: "center", justifyContent:"center", width:"100%", height:"100%", paddingTop: "20px"}}>
           <FranceMap selectedCity={city} onRegionClick={(city) => {setCity(city)}} /> 
         </div>
       <div>
@@ -47,8 +47,7 @@ function Home(): React.ReactElement{
         Entrer
       </Button>
       </div>
-        </div>
-     
+      </div>
     </div>;
   }
 

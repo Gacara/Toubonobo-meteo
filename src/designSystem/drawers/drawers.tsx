@@ -1,12 +1,15 @@
 import Drawer from '@material-ui/core/Drawer';
 import { forecastInterface } from '../../interfaces/utils';
 import { Button, createStyles, Grid, makeStyles, Slider } from '@material-ui/core';
+import useStyle from "../../component/changeDateStyle";
 import {Bar} from 'react-chartjs-2';
 import { meteoInterface } from '../../component/meteoHook';
 import { wearablesInterface } from '../../component/wearablesHook';
 import { switchModetype } from '../../views/model';
 import GradientBtn from '../button/button';
 import CloseIcon from '@material-ui/icons/Close';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import {
   TemperatureChart,
   mockedTemperatureCharts,
@@ -15,7 +18,7 @@ import {
   CloudChart,
   mockedCloudCharts,
   mockedMeteoData,
-  dateByIndex,
+  convertTimeToDay,
 } from './utils';
 import useWindowDimensions from '../../component/useWindowDimensions';
 
@@ -29,12 +32,21 @@ interface DrawerInterface {
     action: (value: unknown, type: string, action: string) => void;
     selectedDate: number;
     disableButton: boolean;
+    onNextClick: () => void;
+    onPreviousClick: () => void;
+    maxDate: number;
+    city: string;
 }
 
-export default function TemporaryDrawer({selectedDate, disableButton, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
-  const { height, width } = useWindowDimensions();
+export default function TemporaryDrawer({city, maxDate, onPreviousClick, onNextClick, selectedDate, disableButton, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
+  const { width } = useWindowDimensions();
+  const classes = useStyle();
+
   const switchViewWidth = width > 960;
-  const switchMenuWidth = width > 700;
+  const switchMenuWidth = width > 1360;
+  const addPaddingWidth = width < 1280;
+
+  const switchMenuTestWidth = width > 400;
 
 
   const data = setData() || mockedMeteoData;
@@ -43,6 +55,19 @@ export default function TemporaryDrawer({selectedDate, disableButton, open, onCl
   const temperatureChart = allData ? TemperatureChart(allData) : mockedTemperatureCharts;
   const humidityChart = allData ? HumidityChart(allData) : mockedHumidityCharts;
   const cloudChart = allData ? CloudChart(allData) : mockedCloudCharts;
+
+  function widthTestSwitch(){
+    if(switchMenuTestWidth)return "400px";
+    return "100vw";
+  }
+
+  function widthApiSwitch(){
+    if(switchMenuWidth)return `${width/2.5}px`;
+    if(switchViewWidth)return "550px";
+    if(switchMenuTestWidth)return "400px";
+
+    return "100vw";
+  }
 
   function setData(){
     return allData ? allData[selectedDate] : null;
@@ -73,52 +98,59 @@ export default function TemporaryDrawer({selectedDate, disableButton, open, onCl
     const dataToCompare = allData ? +allData[1].Temperature.value : 1;
     const evolution = value-dataToCompare;
     const isPositive = evolution > 0;
-    return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} °C`}</span>;
+    return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.floor(Math.abs(evolution))} °C`}</span>;
   }
 
   function compareHumidity(value: number){
-    const dataToCompare = allData ? +allData[1].humidity : 1;
+    const dataToCompare = allData && allData[selectedDate-1] ? +allData[selectedDate-1].humidity : 1;
     const evolution = value-dataToCompare;
     const isPositive = evolution > 0;
-    return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.abs(evolution).toFixed(2)} %`}</span>;
+    return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.floor(Math.abs(evolution))} %`}</span>;
   }
 
 function renderOnApiMode(){
-  return  (<Grid style={{height: "100%", width: switchMenuWidth ? "700px" : "100vw", background: "#f9e4b7", padding: "25px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
+  return  (<Grid style={{height: "100%", width: widthApiSwitch(), background: "#f9e4b7", padding: "10px 30px 0 30px", overflow: "auto"}} container item sm={12} justify="center">
 
 
   <Grid container item sm={12} justify="space-between" alignItems="flex-start" style={{height: "100%"}}>
   <Grid container item sm={12} justify="center">
+
+  <div onClick={onPreviousClick}>
+      <NavigateBeforeIcon className={classes.chevron} style={{color: selectedDate !== 1 ? "black" : "grey"}} fontSize="large" />
+   </div>
+    <div onClick={onNextClick}>
+      <NavigateNextIcon className={classes.chevron} style={{color: selectedDate !== maxDate ? "black" : "grey"}} fontSize="large" />
+    </div>
   <Grid container item sm={12} justify="center">
-  <div><h4>Temps {dateByIndex(selectedDate)} :</h4></div>
+  <div><h4>Temps du {convertTimeToDay(data.dateObj as Date)} à {city} :</h4></div>
   </Grid>
   <Grid container item xs={12} md={4} alignItems="center" justify="flex-start">
-    <Grid container item xs={4} justify="center">
+    <Grid container item xs={4} md={6} justify="center">
       <img src={`http://openweathermap.org/img/wn/${data.icon}@2x.png`} width="60px" height="60px" alt="meteo" />
     </Grid>
-    <Grid container item xs={4} justify="flex-start">
-    <h3>{data.weather}</h3>
+    <Grid container item xs={4} md={6} justify="flex-start">
+    <h4>{data.weather}</h4>
     </Grid>
   </Grid>
 
-  <Grid container item xs={12} md={4} alignItems="center" justify="flex-start" style={{paddingTop: "12px"}}>
+  <Grid container item xs={12} md={4} alignItems="center" justify="flex-start" style={{paddingTop: addPaddingWidth ? "6px" : 0}}>
   <Grid container item xs={4} justify="center">
     <span style={{fontSize: "2.4rem"}} role="img" aria-label="Temperature">🌡️</span>
     </Grid>
     <Grid container item xs={4} justify="flex-start">
-    <h3>{data.Temperature.value} °C</h3>
+    <h4>{`${Math.floor(+data.Temperature.value)} °C`}</h4>
       
     </Grid>
     <Grid container item xs={4} justify="flex-start">
       {selectedDate !== 1 && compareTemperature(+data.Temperature.value)}
     </Grid>
   </Grid>
-  <Grid container item xs={12} md={4} alignItems="center" justify="flex-start" style={{paddingTop: "22px"}}>
+  <Grid container item xs={12} md={4} alignItems="center" justify="flex-start" style={{paddingTop: addPaddingWidth ? "6px" : 0}}>
   <Grid container item xs={4} justify="center">
     <span style={{fontSize: "2.4rem"}} role="img" aria-label="Humidity">💧</span>
     </Grid>
     <Grid container item xs={4} justify="flex-start">
-      <h3>{data.humidity} %</h3>
+      <h4>{Math.floor(+data.humidity)} %</h4>
     </Grid>
     <Grid container item xs={4} justify="flex-start">
       {selectedDate !== 1 && compareHumidity(+data.humidity)}
@@ -164,7 +196,7 @@ function renderOnApiMode(){
 
 
 function renderOnTestMode(){
-  return  (<Grid style={{height: "100%", width: switchMenuWidth ? "500px" : "100vw", background: "#f9e4b7", overflow: "auto", padding: "10px 15px"}} container item sm={12}  justify="center" alignItems="flex-start">
+  return  (<Grid style={{height: "100%", width: widthTestSwitch(), background: "#f9e4b7", overflow: "auto", padding: "10px 15px"}} container item sm={12}  justify="center" alignItems="flex-start">
   
   <Grid container item sm={12} direction="column" justify="center" style={{minHeight: "33%"}}>
   
@@ -253,7 +285,6 @@ function renderOnTestMode(){
 
       <Grid container item sm={12} justify="space-between" alignItems="center" style={{marginTop: "10px", padding: "10px 15px 5px 15px", background:"white", borderRadius: "12px"}}>
       <Grid container item xs={12} md={6} justify={ switchViewWidth ? "flex-start" : "center"}>
-        {console.log(meteoVariables.rain)}
       <Button style={{background: meteoVariables.mist ? "#e8e8e8" : "none"}} disabled={disableButton} className="iconButton" color="primary" onClick={() => action(!meteoVariables.mist, "updateMeteoVariables", "mist")}>
       {<span role="img" aria-label="Mist">🌫️</span>}
       </Button>
