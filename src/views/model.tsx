@@ -45,8 +45,8 @@ interface cameraOptionsInferface{
 
 export type switchModetype = "api" | "test";
 const defaultCameraRotation = [0,-16.1,0];
-//const defaultCameraPosition = [7,1.2,-21];
-const defaultCameraPosition = [6,2,-15];
+const defaultCameraPosition = [7,1.2,-21];
+//const defaultCameraPosition = [6,2,-15];
 
 const defaultFov = 50;
 const rotationValue = 400;
@@ -98,9 +98,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
 
   const dateWidth = screen.availWidth > screen.availHeight ? screen.availWidth/4 : screen.availWidth*0.90;
   const realHeight = height > screen.availHeight ? screen.availHeight : height;
-  const realWidth = width > screen.availWidth ? screen.availWidth : width;
   const dateResponsive = realHeight < 800;
-  const realDateResponsive = realHeight < 800 && realHeight < width;
   const dateTopPosition = dateResponsive ? "5px" : "25px";
 
   function setData(){
@@ -430,7 +428,7 @@ function renderLoadingScreen(){
 
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
     {
-      <OrbitControls />
+     // <OrbitControls />
     }
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={null}>
@@ -440,7 +438,7 @@ function renderLoadingScreen(){
     //<Monkey visible={!huntMode || (huntTrigger && huntMode)} position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
 }  
 {          
-    <MonkeyBis position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
+    <MonkeyBis visible={!huntMode || (huntTrigger && huntMode)} position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
 }      
 </Suspense>
 
@@ -475,11 +473,11 @@ function renderLoadingScreen(){
       </Suspense>
 
       <Suspense fallback={null}>
-          <Mask visible={wearablesVariables.wearMask} position={[4.02, 1.47, -13.64]} rotation= {[0.24, 3.32, 0]}/>
+          <Mask visible={wearablesVariables.wearMask} position={[4.02, 1.47, -13.64]} rotation= {[0.24, 3.32, -0.05]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-          <Hat visible={wearablesVariables.wearHat} position={[4.05, 1.967, -13.57]} rotation= {[0, 1.2, 0]}/>
+          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.962, -13.57]} rotation= {[0.05, 1.24, 0.11]}/>
       </Suspense>
 
       <Suspense fallback={null}>
