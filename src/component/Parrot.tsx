@@ -67,7 +67,7 @@ export default function Parrot({props, callback, birdSpeed}: birdInterface) {
   }, [animations, mixer, yRatio])
 
   useEffect(()=>{
-    const element = document.querySelector("body");
+    const element = document.querySelector("canvas");
     if(element){
       if(pointer)element.style.cursor = "crosshair";
       if(!pointer)element.style.cursor = "auto";
