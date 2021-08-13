@@ -46,7 +46,7 @@ interface cameraOptionsInferface{
 export type switchModetype = "api" | "test";
 const defaultCameraRotation = [0,-16.1,0];
 const defaultCameraPosition = [7,1.2,-21];
-//const defaultCameraPosition = [6,2,-15];
+//const defaultCameraPosition = [7-(400/125),1.2,-17];
 
 const defaultFov = 50;
 const rotationValue = 400;
@@ -289,8 +289,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
           cameraRef.current.position.y = cameraOptions.position[1];
           cameraRef.current.position.z = cameraOptions.position[2];
           cameraRef.current.fov = cameraOptions.fov;
-           // cameraRef.current!.fov! = 20;
-          cameraRef.current!.updateProjectionMatrix()
+          cameraRef.current.updateProjectionMatrix()
          }
       }, [size.height, size.width])
 
@@ -299,10 +298,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
       }, [set])
     
     
-    return <>
-    <perspectiveCamera ref={cameraRef} />
-  
-    </>
+    return <perspectiveCamera ref={cameraRef} />
 }
 
 function returnLuminanceByRain(){
@@ -473,7 +469,7 @@ function renderLoadingScreen(){
       </Suspense>
 
       <Suspense fallback={null}>
-          <Mask visible={wearablesVariables.wearMask} position={[4.02, 1.47, -13.64]} rotation= {[0.24, 3.32, -0.05]}/>
+          <Mask visible={wearablesVariables.wearMask} position={[4.02, 1.47, -13.63]} rotation= {[0.24, 3.4, -0.05]}/>
       </Suspense>
 
       <Suspense fallback={null}>
