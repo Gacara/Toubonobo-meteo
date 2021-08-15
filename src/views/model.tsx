@@ -63,6 +63,8 @@ const Mask = lazy(() => import('../component/clothes/masks/Mask'));
 const WaterBottle = lazy(() => import('../component/accessories/WaterBottle'));
 const Umbrella = lazy(() => import('../component/accessories/umbrella'));
 const Sunglasses = lazy(() => import('../component/clothes/sunglasses/Sunglasses'));
+const CatShoe = lazy(() => import('../component/outfits/CatShoe'));
+
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
   const { height, width } = useWindowDimensions();
@@ -424,7 +426,7 @@ function renderLoadingScreen(){
 
     <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
     {
-     // <OrbitControls />
+    // <OrbitControls />
     }
     <Storm trigger={meteoVariables.storm} />
       <Suspense fallback={null}>
@@ -434,7 +436,8 @@ function renderLoadingScreen(){
     //<Monkey visible={!huntMode || (huntTrigger && huntMode)} position={[4, -0.03, -13.5]} rotation= {[0, 2.8, 0]}/>
 }  
 {          
-    <MonkeyBis visible={!huntMode || (huntTrigger && huntMode)} position={[4, 0, -13.5]} rotation= {[0, 2.8, 0]}/>
+    //<MonkeyBis visible={!huntMode || (huntTrigger && huntMode)} position={[4.018, 1.03, -12.88]} rotation= {[-0.1, Math.PI/0.965, 0]}/>
+    <MonkeyBis visible={!huntMode || (huntTrigger && huntMode)} position={[4.1, 1.09, -12.2]} rotation= {[-0.1, Math.PI/0.965, 0]}/>
 }      
 </Suspense>
 
@@ -473,7 +476,7 @@ function renderLoadingScreen(){
       </Suspense>
 
       <Suspense fallback={null}>
-          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.962, -13.57]} rotation= {[0.05, 1.24, 0.11]}/>
+          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.962, -13.57]} rotation= {[-0.2, 1.22, 0.05]}/>
       </Suspense>
 
       <Suspense fallback={null}>
@@ -482,7 +485,11 @@ function renderLoadingScreen(){
 
       <Suspense fallback={null}>
           <WaterBottle visible={wearablesVariables.wearBottle} position={[4.68, 1.36, -13.15]}  rotation= {[0, 2.9, 0]}/>
+          <CatShoe scale={[0.48,0.48,0.48]} position={[3.8, -0.015, -13.65]} rotation= {[-0.1, 1.5, 0]}/>
+          <CatShoe scale={[0.48,0.48,0.48]} position={[4.27, -0.015, -13.65]} rotation= {[-0.1, 1, 0]}/>
+          
       </Suspense>
+
     
       <Html style={{width: "400px", color: "black"}} position={[5.6, 4, -13.5]} rotation-z={100}>
       <IntervalCamera
