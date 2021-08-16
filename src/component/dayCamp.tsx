@@ -6,11 +6,10 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import { MeshBasicMaterial, MeshStandardMaterial } from 'three';
+import { MeshStandardMaterial } from 'three';
 import { useEffect } from 'react';
 
-interface aze {
-  
+interface allMaterialInterface {
     ['59']: THREE.MeshStandardMaterial
     ['60']: THREE.MeshStandardMaterial
     ['61']: THREE.MeshStandardMaterial
@@ -42,7 +41,6 @@ interface aze {
     ['178']: THREE.MeshStandardMaterial
     ['88']: THREE.MeshStandardMaterial
     ['89']: THREE.MeshStandardMaterial
-  
 }
 
 type GLTFResult = GLTF & {
@@ -135,7 +133,7 @@ export default function DayCamp(props: any) {
   function changeSomething() {
     const allMaterial = Object.entries(materials).map(([key]) => key);
     allMaterial.forEach((e) => {
-      getRandomColor(materials[e as keyof aze])
+      getRandomColor(materials[e as keyof allMaterialInterface])
     });
   }
 

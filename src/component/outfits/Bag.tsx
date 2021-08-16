@@ -27,7 +27,7 @@ export default function Bag(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = gltf as GLTFResult
   
   return (
-    <group ref={group} {...props} onClick={(e) => {e.stopPropagation(); getRandomColor(materials.Default as THREE.MeshStandardMaterial)}} dispose={null}>
+    <group ref={group} {...props} onClick={(e) => {getRandomColor(materials.Default as THREE.MeshStandardMaterial)}} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <mesh geometry={nodes.defaultMaterial.geometry} material={materials.Default} />

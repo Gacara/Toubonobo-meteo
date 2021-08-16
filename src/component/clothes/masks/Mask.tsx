@@ -29,7 +29,7 @@ export default function Mask(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = gltf as GLTFResult;
 
   return (
-    <group ref={group} {...props} scale={[0.020,0.023,0.023]} onClick={(e) => {e.stopPropagation(); getRandomColor(nodes.mesh_7.material as THREE.MeshStandardMaterial)}} dispose={null}>
+    <group ref={group} {...props} scale={[0.020,0.023,0.023]} onClick={(e) => {getRandomColor(nodes.mesh_7.material as THREE.MeshStandardMaterial)}} dispose={null}>
       <mesh
         material={nodes.mesh_0.material}
         geometry={nodes.mesh_0.geometry}

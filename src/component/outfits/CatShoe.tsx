@@ -10,6 +10,7 @@ import * as THREE from 'three'
 import React, { useRef } from 'react'
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useLoader } from '@react-three/fiber'
+import { getRandomColor } from '../dayCamp'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -25,7 +26,7 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
   const gltf = useLoader(GLTFLoader, "/outfits/catShoe.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={group} {...props} onClick={(e) => {e.stopPropagation(); getRandomColor(materials.material_0 as THREE.MeshStandardMaterial)}} dispose={null}>
       <group position={[0.02, 0, 0]} rotation={[-Math.PI / 2, -0.04, 0]}>
         <mesh geometry={nodes.Object_2.geometry} material={materials.material_0} />
       </group>
