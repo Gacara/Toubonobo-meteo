@@ -64,6 +64,7 @@ const WaterBottle = lazy(() => import('../component/accessories/WaterBottle'));
 const Umbrella = lazy(() => import('../component/accessories/umbrella'));
 const Sunglasses = lazy(() => import('../component/clothes/sunglasses/Sunglasses'));
 const CatShoe = lazy(() => import('../component/outfits/CatShoe'));
+const Bag = lazy(() => import('../component/outfits/Bag'));
 
 
 function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): React.ReactElement{
@@ -303,21 +304,6 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
     return <perspectiveCamera ref={cameraRef} />
 }
 
-function returnLuminanceByRain(){
-  if(meteoVariables.rainPrecipitation <= 25000){
-    return 0;
-  } else {
-    return -(meteoVariables.rainPrecipitation / 100000);
-  }
-}
-
-function returnLuminanceSmoothingByRain(){
-  if(meteoVariables.rainPrecipitation <= 25000){
-    return 0;
-  } else {
-    return -(meteoVariables.rainPrecipitation / 100000);
-  }
-}
 
 function renderLoadingScreen(){
   return (
@@ -472,11 +458,12 @@ function renderLoadingScreen(){
       </Suspense>
 
       <Suspense fallback={null}>
-          <Mask visible={wearablesVariables.wearMask} position={[4.02, 1.47, -13.63]} rotation= {[0.24, 3.4, -0.05]}/>
+          <Mask visible={wearablesVariables.wearMask} position={[4.03, 1.47, -13.64]} rotation= {[0.17, 3.35, -0.05]}/>
       </Suspense>
 
       <Suspense fallback={null}>
-          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.962, -13.57]} rotation= {[-0.2, 1.22, 0.05]}/>
+          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.962, -13.57]} rotation= {[-2.1, 1.6, 2.1]}/>
+          <Bag visible={wearablesVariables.wearBag} scale={[0.43,0.43,0.43]} position={[4.035, 1.70, -13.55]} rotation= {[0, 2.75, 0]}/>
       </Suspense>
 
       <Suspense fallback={null}>
@@ -485,8 +472,8 @@ function renderLoadingScreen(){
 
       <Suspense fallback={null}>
           <WaterBottle visible={wearablesVariables.wearBottle} position={[4.68, 1.36, -13.15]}  rotation= {[0, 2.9, 0]}/>
-          <CatShoe scale={[0.48,0.48,0.48]} position={[3.8, -0.015, -13.65]} rotation= {[-0.1, 1.5, 0]}/>
-          <CatShoe scale={[0.48,0.48,0.48]} position={[4.27, -0.015, -13.65]} rotation= {[-0.1, 1, 0]}/>
+          <CatShoe visible={wearablesVariables.wearShoes}scale={[0.48,0.48,0.48]} position={[3.8, -0.015, -13.65]} rotation= {[-0.1, 1.5, 0]}/>
+          <CatShoe visible={wearablesVariables.wearShoes} scale={[0.48,0.48,0.48]} position={[4.27, -0.015, -13.65]} rotation= {[-0.1, 1, 0]}/>
           
       </Suspense>
 
