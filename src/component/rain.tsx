@@ -7,7 +7,7 @@ interface rainInterface{
     isVisible: boolean;
 }
 
-interface yeahInterface{
+interface rainPointInterface{
   geom: React.MutableRefObject<any>,
   isVisible: boolean,
   positions: Float32Array,
@@ -22,7 +22,7 @@ const setInitialPositions = (rainCount: number) => {
     for (let i = 0; i < rainCount; i++) {
       initialPositions.push(-12 + Math.random() * 40);
       initialPositions.push(Math.random() * 10);
-      initialPositions.push(-19.5 + Math.random() * 5);
+      initialPositions.push(-17.5 + Math.random() * 5);
       initialVelocities.push(0);
       initialVelocities.push(-1);
       initialVelocities.push(0);
@@ -34,7 +34,7 @@ const setInitialPositions = (rainCount: number) => {
     return [initialPositions, initialVelocities, initialAccelerations];
   };
 
-function RainPoints({geom, isVisible, positions, velocities, accelerations}: yeahInterface){
+function RainPoints({geom, isVisible, positions, velocities, accelerations}: rainPointInterface){
 
   const uniforms = useMemo(() => ({ time: { value: 1.0 } }), []);
   const vert = `uniform float time;

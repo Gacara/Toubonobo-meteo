@@ -48,7 +48,6 @@ export default function TemporaryDrawer({city, maxDate, onPreviousClick, onNextC
 
   const switchMenuTestWidth = width > 400;
 
-
   const data = setData() || mockedMeteoData;
   const defaultSelectedButton = "Enlever";
   const defaultNotSelectedButton = "Porter";
@@ -106,6 +105,26 @@ export default function TemporaryDrawer({city, maxDate, onPreviousClick, onNextC
     const evolution = value-dataToCompare;
     const isPositive = evolution > 0;
     return <span style={{color: isPositive ? "green" : "red"}}>{`${isPositive ? "+" : "-"} ${Math.floor(Math.abs(evolution))} %`}</span>;
+  }
+
+  function getRandomIntInclusive(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min +1)) + min;
+  }
+
+  function changeHat(){
+
+  const hatNumber = getRandomIntInclusive(1,2);
+
+  switch (hatNumber) {
+    case 1:
+      
+      break;
+  
+    default:
+      break;
+  }
   }
 
 function renderOnApiMode(){
@@ -318,6 +337,15 @@ function renderOnTestMode(){
 
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
       <Grid container item xs={12} md={6} alignItems="center" justify={ switchViewWidth ? "flex-start" : "center"} style={{padding: switchViewWidth ? "0 0" : "10px 0"}}>
+      Mettre un sac sur la tête
+      </Grid>
+      <Grid container item xs={12} md={6} justify="center">
+      <GradientBtn disabled={disableButton} label={wearablesVariables.wearBag ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearBag, "updateWearablesVariables", "wearBag")} />
+      </Grid>
+    </Grid>
+
+    <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
+      <Grid container item xs={12} md={6} alignItems="center" justify={ switchViewWidth ? "flex-start" : "center"} style={{padding: switchViewWidth ? "0 0" : "10px 0"}}>
       Mettre des lunettes
       </Grid>
       <Grid container item xs={12} md={6} justify="center">
@@ -349,6 +377,17 @@ function renderOnTestMode(){
       <GradientBtn disabled={disableButton} label={wearablesVariables.wearUmbrella ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearUmbrella, "updateWearablesVariables", "wearUmbrella")} />
       </Grid>
     </Grid>
+
+    <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
+      <Grid container item xs={12} md={6} alignItems="center" justify={ switchViewWidth ? "flex-start" : "center"} style={{padding: switchViewWidth ? "0 0" : "10px 0"}}>
+      Mettre des chaussures
+      </Grid>
+      <Grid container item xs={12} md={6} justify="center">
+      <GradientBtn disabled={disableButton} label={wearablesVariables.wearShoes ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearShoes, "updateWearablesVariables", "wearShoes")} />
+      </Grid>
+    </Grid>
+
+
 
       </Grid>
       <Grid container item sm={12} direction="column" justify="center" style={{paddingTop: "24px"}}>

@@ -8,6 +8,8 @@ export interface wearablesInterface {
     wearSunglasses: boolean;
     wearBottle: boolean;
     wearUmbrella: boolean;
+    wearShoes: boolean;
+    wearBag: boolean;
 }
 
 interface wearablesHookProps {
@@ -27,7 +29,8 @@ export default function WearablesHook({data, mode}: wearablesHookProps): wearabl
     const wearSunglasses = defineSeason() === "soleil";
     const wearBottle = defineSeason() === "soleil";
     const wearUmbrella = defineSeason() === "légère pluie";
-
+    const wearShoes = defineSeason() === "neige";
+    const wearBag = defineSeason() === "brouillard";
 
     function defineSeason(){
         const icon = data ? data.icon : "";
@@ -55,6 +58,8 @@ export default function WearablesHook({data, mode}: wearablesHookProps): wearabl
         wearSunglasses,
         wearBottle,
         wearUmbrella,
+        wearBag,
+        wearShoes,
     }
 
     const [wearablesVariables, setWearablesVariables] = useState<wearablesInterface>(initMeteoVariables);

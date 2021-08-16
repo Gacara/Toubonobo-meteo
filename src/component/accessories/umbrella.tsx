@@ -10,6 +10,7 @@ import React, { useRef, useState } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import { getRandomColor } from '../dayCamp';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -82,9 +83,9 @@ export default function Umbrella(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
   const gltf = useLoader(GLTFLoader, "/umbrella/umbrella.glb");
   const { nodes, materials } = gltf as GLTFResult
-  const [scaleUmbrella, setScaleUmbrella] = useState<number>(1);
+
   return (
-    <group onClick={() => setScaleUmbrella(scaleUmbrella+0.05)} ref={group} {...props} scale={[0.12*scaleUmbrella,0.12*scaleUmbrella,0.12*scaleUmbrella]} dispose={null}>
+    <group onClick={(e) => {getRandomColor(materials.umbrellaumbrella_hood_VRayMtl as THREE.MeshStandardMaterial)}} ref={group} {...props} scale={[0.12, 0.12, 0.12]} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group position={[0, 0, 0]}>
