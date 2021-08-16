@@ -462,7 +462,7 @@ function renderLoadingScreen(){
       </Suspense>
 
       <Suspense fallback={null}>
-          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.962, -13.57]} rotation= {[-2.1, 1.6, 2.1]}/>
+          <Hat visible={wearablesVariables.wearHat} position={[4.035, 1.96, -13.57]} rotation= {[3.12, 1.9, 3.19]}/>
           <Bag visible={wearablesVariables.wearBag} scale={[0.43,0.43,0.43]} position={[4.035, 1.70, -13.55]} rotation= {[0, 2.75, 0]}/>
       </Suspense>
 
