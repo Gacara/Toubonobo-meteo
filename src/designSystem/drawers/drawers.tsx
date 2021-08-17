@@ -378,6 +378,8 @@ function renderOnTestMode(){
       </Grid>
     </Grid>
 
+{
+/*
     <Grid container item sm={12} justify="space-between" style={{padding: "10px 0"}}>
       <Grid container item xs={12} md={6} alignItems="center" justify={ switchViewWidth ? "flex-start" : "center"} style={{padding: switchViewWidth ? "0 0" : "10px 0"}}>
       Mettre des chaussures
@@ -386,6 +388,9 @@ function renderOnTestMode(){
       <GradientBtn disabled={disableButton} label={wearablesVariables.wearShoes ? defaultSelectedButton : defaultNotSelectedButton} onClick={()=> action(!wearablesVariables.wearShoes, "updateWearablesVariables", "wearShoes")} />
       </Grid>
     </Grid>
+*/
+}
+
 
 
 
