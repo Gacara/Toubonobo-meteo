@@ -63,7 +63,7 @@ const Mask = lazy(() => import('../component/clothes/masks/Mask'));
 const WaterBottle = lazy(() => import('../component/accessories/WaterBottle'));
 const Umbrella = lazy(() => import('../component/accessories/umbrella'));
 const Sunglasses = lazy(() => import('../component/clothes/sunglasses/Sunglasses'));
-const CatShoe = lazy(() => import('../component/outfits/CatShoe'));
+// onst CatShoe = lazy(() => import('../component/outfits/CatShoe'));
 const Bag = lazy(() => import('../component/outfits/Bag'));
 
 
