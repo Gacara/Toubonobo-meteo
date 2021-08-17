@@ -472,9 +472,11 @@ function renderLoadingScreen(){
 
       <Suspense fallback={null}>
           <WaterBottle visible={wearablesVariables.wearBottle} position={[4.68, 1.36, -13.15]}  rotation= {[0, 2.9, 0]}/>
-          <CatShoe visible={wearablesVariables.wearShoes}scale={[0.48,0.48,0.48]} position={[3.8, -0.015, -13.65]} rotation= {[-0.1, 1.5, 0]}/>
-          <CatShoe visible={wearablesVariables.wearShoes} scale={[0.48,0.48,0.48]} position={[4.27, -0.015, -13.65]} rotation= {[-0.1, 1, 0]}/>
-          
+
+          {
+          //<CatShoe visible={wearablesVariables.wearShoes}scale={[0.48,0.48,0.48]} position={[3.8, -0.015, -13.65]} rotation= {[-0.1, 1.5, 0]}/>
+          //<CatShoe visible={wearablesVariables.wearShoes} scale={[0.48,0.48,0.48]} position={[4.27, -0.015, -13.65]} rotation= {[-0.1, 1, 0]}/>
+          }
       </Suspense>
 
     
