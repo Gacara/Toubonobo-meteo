@@ -14,7 +14,7 @@ const setInitialPositions = (snowCount: number) => {
     for (let i = 0; i < snowCount; i++) {
       initialPositions.push(-12 + Math.random() * 40);
       initialPositions.push(Math.random() * 10);
-      initialPositions.push(-17.5 + Math.random() * 5);
+      initialPositions.push(-19.5 + Math.random() * 5);
       initialVelocities.push(0);
       initialVelocities.push(-0.5);
       initialVelocities.push(0);
