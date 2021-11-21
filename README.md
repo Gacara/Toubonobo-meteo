@@ -1,4 +1,15 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Toubonobo Météo
+Application web interactive en 3D permettant de visualiser la météo en France.
+Toubonobo reprend le concept de l'émission de TV de Gulli, où un singe nous montre comment nous habiller en fonction de la météo de sa région.
+
+Un mode "bac à sable" permet de jouer avec les options et visualiser les différentes conditions climatiques !
+
+NB: Fonctionne également sur mobile 📱
+
+## Technologies
+- ReactJs
+- Typescript
+- React-three-fiber / threejs
 
 ## Available Scripts
 
