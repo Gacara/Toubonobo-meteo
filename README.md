@@ -20,7 +20,7 @@ Toubonobo reprend le concept de l'émission de TV de Gulli, où un singe nous mo
 
 NB: Fonctionne également sur mobile 📱
 
-![alt text](http://image.noelshack.com/fichiers/2021/46/7/1637505876-tobonobo-mobile.png)
+![alt text](http://image.noelshack.com/fichiers/2021/47/1/1637587225-tobonobo-mobile.png)
 
 
 ## Technologies
