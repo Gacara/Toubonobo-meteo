@@ -3,7 +3,11 @@ Application web interactive en 3D permettant de visualiser la météo en France.
 Toubonobo reprend le concept de l'émission de TV de Gulli, où un singe nous montre comment nous habiller en fonction de la météo de sa région.
 
 ![alt text](http://image.noelshack.com/fichiers/2021/46/7/1637505695-tobonobo.png)
-![alt text](http://image.noelshack.com/fichiers/2021/46/7/1637505696-tobonobo-stats.png)
+![alt text](http://image.noelshack.com/fichiers/2021/47/1/1637587015-tobonobo.jpg)
+
+### Des statistiques en temps réel issu de notre API
+
+![alt text](http://image.noelshack.com/fichiers/2021/47/1/1637587014-tobonobo-stats.png)
 
 ### Un mode "bac à sable" permet de jouer avec les options et visualiser les différentes conditions climatiques !
 
