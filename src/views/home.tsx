@@ -8,7 +8,7 @@ import { Button } from '@material-ui/core';
 import FranceMap from '../component/france';
 
 const fetchForecastData = async (city: string) => {
-  return getJSON<data>(`https://api.wtow.xyz/api/data/forecast/${city}`)
+  return getJSON<data>(`https://wtow.xyz/api/data/forecast/${city}`)
  }
 
 function Home(): React.ReactElement{
