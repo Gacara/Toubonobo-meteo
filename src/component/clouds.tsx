@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 // import { OrbitControls, MeshDistortMaterial, shaderMaterial } from "@react-three/drei";
-import * as THREE from "three";
 // import setInitialPositions from "./set-initial-positions";
 
 interface positionInterface{
@@ -18,7 +18,7 @@ interface cloudInterface{
 }
 
 const Cloud = ({ height, position, isVisible, velocity}: positionInterface) => {
-  const group: React.MutableRefObject<any> = useRef<THREE.Group>()
+  const group: React.MutableRefObject<any> = useRef<THREE.Group>(null)
   const z = -10;
 
   useFrame(({ clock }) => {
@@ -31,13 +31,13 @@ const Cloud = ({ height, position, isVisible, velocity}: positionInterface) => {
   return (
     <group ref={group} visible={isVisible}>
       <mesh castShadow receiveShadow position={[position, height, z]}>
-        <icosahedronBufferGeometry attach="geometry" args={[2, 2]} />
+        <icosahedronGeometry attach="geometry" args={[2, 2]} />
       </mesh>
       <mesh castShadow receiveShadow position={[position - 2, height, z]}>
-        <icosahedronBufferGeometry attach="geometry" args={[1.5, 2]} />
+        <icosahedronGeometry attach="geometry" args={[1.5, 2]} />
        </mesh>
       <mesh castShadow receiveShadow position={[position + 2, height, z]}>
-        <icosahedronBufferGeometry attach="geometry" args={[1.5, 2]} />
+        <icosahedronGeometry attach="geometry" args={[1.5, 2]} />
       </mesh>
     </group>
   );

@@ -3,25 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.11.2",
-    "@react-three/drei": "^4.3.2",
-    "@react-three/fiber": "^6.0.17",
-    "@react-three/postprocessing": "^2.0.4",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.0",
+    "@mui/material": "^5.15.0",
+    "@mui/styles": "^5.15.0",
+    "@react-three/drei": "^9.57.2",
+    "@react-three/fiber": "^8.12.0",
+    "@react-three/postprocessing": "^2.7.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
-    "@types/react": "^16.14.5",
-    "@types/react-dom": "^16.9.0",
-    "chart.js": "^2.9.4",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "ajv": "^8.17.1",
+    "chart.js": "^4.4.0",
     "lodash": "^4.17.21",
-    "react": "^17.0.1",
-    "react-chartjs-2": "^2.11.1",
-    "react-dom": "^17.0.1",
-    "react-hook-utils": "^1.0.6",
-    "react-scripts": "^4.0.3"
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "three": "^0.160.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,11 +49,15 @@
     ]
   },
   "devDependencies": {
-    "fsevents": "*",
     "@types/chart.js": "^2.9.31",
     "@types/lodash": "^4.14.170",
-    "@types/three": "^0.127.1",
-    "three": "^0.128.0",
-    "typescript": "^4.2.4"
+    "@types/three": "^0.160.0",
+    "fsevents": "*",
+    "glob": "^7.2.3",
+    "typescript": "^4.9.3"
+  },
+  "resolutions": {
+    "three": "^0.160.0",
+    "three-mesh-bvh": "^0.5.0"
   }
 }

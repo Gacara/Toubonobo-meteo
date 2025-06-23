@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import * as THREE from 'three'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -14,7 +15,7 @@ type GLTFResult = GLTF & {
 }
 
 export default function WaterBottle(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>();
+  const group = useRef<THREE.Group>(null);
   const gltf = useLoader(GLTFLoader, "/water/water_bottle.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (

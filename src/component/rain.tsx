@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame } from '@react-three/fiber';
-import * as THREE from "three";
+import * as THREE from 'three';
 
 interface rainInterface{
     rainCount: number;
@@ -65,19 +65,19 @@ const frag = `uniform float time;
  <points ref={geom} visible={isVisible}>
   <bufferGeometry attach="geometry">
     <bufferAttribute
-      attachObject={["attributes", "position"]}
+      attach="attributes-position"
       count={positions.length / 3}
       array={positions}
       itemSize={3}
     />
     <bufferAttribute
-      attachObject={["attributes", "velocity"]}
+      attach="attributes-velocity"
       count={velocities.length / 3}
       array={velocities}
       itemSize={3}
     />
     <bufferAttribute
-      attachObject={["attributes", "acceleration"]}
+      attach="attributes-acceleration"
       count={accelerations.length / 3}
       array={accelerations}
       itemSize={3}
@@ -95,7 +95,7 @@ const frag = `uniform float time;
 }
 
 const Rain = ({ rainCount, isVisible }: rainInterface) => {
-  const geom: React.MutableRefObject<any> = useRef<THREE.Points>();
+  const geom: React.MutableRefObject<any> = useRef<THREE.Points>(null);
 
     const [positions, velocities, accelerations] = useMemo(() => {
 

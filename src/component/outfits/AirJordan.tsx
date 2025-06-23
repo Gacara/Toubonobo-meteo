@@ -23,7 +23,7 @@ type GLTFResult = GLTF & {
 }
 
 export default function AirJordan(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>()
+  const group = useRef<THREE.Group>(null)
   const gltf = useLoader(GLTFLoader, "/outfits/airJordan.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (

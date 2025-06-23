@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import { useFrame } from '@react-three/fiber';
-import * as THREE from "three";
+import * as THREE from 'three';
 
 interface rainInterface{
     mistCount: number;
@@ -39,7 +39,7 @@ const Mist = ({ mistCount, isVisible }: rainInterface) => {
     }, [mistCount]);
     const uniforms = useMemo(() => ({ time: { value: 1.0 } }), []);
   
-    const geom: React.MutableRefObject<any> = useRef<THREE.Group>()
+    const geom: React.MutableRefObject<any> = useRef<THREE.Group>(null)
     const vert = `uniform float time;
       attribute vec3 velocity;
       attribute vec3 acceleration;
@@ -77,19 +77,19 @@ const Mist = ({ mistCount, isVisible }: rainInterface) => {
       <points key={mistCount} ref={geom} visible={isVisible}>
         <bufferGeometry attach="geometry">
           <bufferAttribute
-            attachObject={["attributes", "position"]}
+            attach="attributes-position"
             count={positions.length / 3}
             array={positions}
             itemSize={3}
           />
           <bufferAttribute
-            attachObject={["attributes", "velocity"]}
+            attach="attributes-velocity"
             count={velocities.length / 3}
             array={velocities}
             itemSize={3}
           />
           <bufferAttribute
-            attachObject={["attributes", "acceleration"]}
+            attach="attributes-acceleration"
             count={accelerations.length / 3}
             array={accelerations}
             itemSize={3}

@@ -6,7 +6,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import { MeshStandardMaterial } from 'three';
+import * as THREE from 'three';
 import { useEffect } from 'react';
 
 interface allMaterialInterface {
@@ -112,7 +112,7 @@ type GLTFResult = GLTF & {
   }
 }
 
- export function getRandomColor(material: MeshStandardMaterial) {
+ export function getRandomColor(material: THREE.MeshStandardMaterial) {
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
@@ -123,7 +123,7 @@ type GLTFResult = GLTF & {
 
 export default function DayCamp(props: any) {
 
-  const group = useRef<THREE.Group>();
+  const group = useRef<THREE.Group>(null);
   const gltf = useLoader(GLTFLoader, "/camp/dayCamp.glb");
   const { nodes, materials } = gltf as GLTFResult
   const [pointerOnTent, setPointerOnTent] = useState<boolean>(false);

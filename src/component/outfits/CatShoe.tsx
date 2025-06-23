@@ -22,7 +22,7 @@ type GLTFResult = GLTF & {
 }
 
 export default function Model(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>()
+  const group = useRef<THREE.Group>(null)
   const gltf = useLoader(GLTFLoader, "/outfits/catShoe.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (

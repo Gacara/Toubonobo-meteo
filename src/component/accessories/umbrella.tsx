@@ -10,6 +10,7 @@ import React, { useRef, useState } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
+import * as THREE from 'three'
 import { getRandomColor } from '../dayCamp';
 
 type GLTFResult = GLTF & {
@@ -80,7 +81,7 @@ type GLTFResult = GLTF & {
 }
 
 export default function Umbrella(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>();
+  const group = useRef<THREE.Group>(null);
   const gltf = useLoader(GLTFLoader, "/umbrella/umbrella.glb");
   const { nodes, materials } = gltf as GLTFResult
 

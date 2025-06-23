@@ -1,14 +1,17 @@
 import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 
 function Box(props: any): React.ReactElement {
-  const meshRef: React.MutableRefObject<any> = useRef();
+  const meshRef = useRef<THREE.Mesh>(null);
 
   const [hovered, setHover] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false)
 
   useFrame(() => {
-    meshRef.current.rotation.x = meshRef.current.rotation.y += 0.01;
+    if (meshRef.current) {
+      meshRef.current.rotation.x = meshRef.current.rotation.y += 0.01;
+    }
   })
 
   return (
@@ -19,7 +22,7 @@ function Box(props: any): React.ReactElement {
       onClick={(e) => setActive(!active)}
       onPointerOver={(e) => setHover(true)}
       onPointerOut={(e) => setHover(false)}>
-      <boxBufferGeometry args={[1, 1, 1]} />
+              <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
     </mesh>
   )

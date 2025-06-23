@@ -39,7 +39,7 @@ const Snow = ({ snowCount, isVisible }: rainInterface) => {
     }, [snowCount]);
     const uniforms = useMemo(() => ({ time: { value: 1.0 } }), []);
   
-    const geom: React.MutableRefObject<any> = useRef<THREE.Group>()
+    const geom: React.MutableRefObject<any> = useRef<THREE.Group>(null)
     const vert = `uniform float time;
       attribute vec3 velocity;
       attribute vec3 acceleration;
@@ -74,19 +74,19 @@ const Snow = ({ snowCount, isVisible }: rainInterface) => {
       <points key={snowCount} ref={geom} visible={isVisible}>
         <bufferGeometry attach="geometry">
           <bufferAttribute
-            attachObject={["attributes", "position"]}
+            attach="attributes-position"
             count={positions.length / 3}
             array={positions}
             itemSize={3}
           />
           <bufferAttribute
-            attachObject={["attributes", "velocity"]}
+            attach="attributes-velocity"
             count={velocities.length / 3}
             array={velocities}
             itemSize={3}
           />
           <bufferAttribute
-            attachObject={["attributes", "acceleration"]}
+            attach="attributes-acceleration"
             count={accelerations.length / 3}
             array={accelerations}
             itemSize={3}

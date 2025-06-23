@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 import React from "react";
 import useStyle from "./changeDateStyle";
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import useWindowDimensions from "./useWindowDimensions";
 
 interface ChangeDataInterface {

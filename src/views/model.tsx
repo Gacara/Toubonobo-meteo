@@ -17,12 +17,12 @@ import DayCamp from '../component/dayCamp';
 import MeteoHook, { meteoInterface, meteoVariablesType } from "../component/meteoHook";
 import WearablesHook, { wearablesInterface } from '../component/wearablesHook';
 import { PerspectiveCamera } from 'three';
-import HelpIcon from '@material-ui/icons/Help';
-import MovieIcon from '@material-ui/icons/Movie';
-import ExploreIcon from '@material-ui/icons/Explore';
-import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import HelpIcon from '@mui/icons-material/Help';
+import MovieIcon from '@mui/icons-material/Movie';
+import ExploreIcon from '@mui/icons-material/Explore';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import FranceMap from '../component/france';
-import { Modal, CircularProgress } from '@material-ui/core';
+import { Modal, CircularProgress } from '@mui/material';
 import { convertTimeToDay } from '../designSystem/drawers/utils';
 import ChangeDate from '../component/changeDate';
 import Mist from '../component/mist';
@@ -274,7 +274,7 @@ function ModelViewer({data: allData, onCityClick, mode, city}: modelInterface): 
 
 
   function CustomCamera(props: any) {
-    const cameraRef: React.MutableRefObject<PerspectiveCamera | undefined>= useRef()
+    const cameraRef = useRef<PerspectiveCamera>(null)
     const set = useThree(({ set }) => set)
     const size = useThree(({ size }) => size)
     

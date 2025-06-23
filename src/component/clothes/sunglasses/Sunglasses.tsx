@@ -6,6 +6,7 @@ source: https://sketchfab.com/3d-models/sunglasses-free-deeb41e3f5f1480bb6f79f47
 title: Sunglasses_Free
 */
 import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -21,7 +22,7 @@ type GLTFResult = GLTF & {
 }
 
 export default function Sunglasses(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>();
+  const group = useRef<THREE.Group>(null);
   const gltf = useLoader(GLTFLoader, "/sunglasses/sunglasses.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (

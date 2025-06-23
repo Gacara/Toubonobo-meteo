@@ -6,6 +6,7 @@ source: https://sketchfab.com/models/01aa135a058e4d9396c234294d1691ea
 title: Dark Minaz Designs Offical Hat
 */
 import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -23,7 +24,7 @@ type GLTFResult = GLTF & {
 }
 
 export default function Hat(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>()
+  const group = useRef<THREE.Group>(null)
   const gltf = useLoader(GLTFLoader, "/hats/hat.glb");
   const { nodes, materials } = gltf as GLTFResult
   return (
