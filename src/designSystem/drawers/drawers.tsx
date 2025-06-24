@@ -55,9 +55,10 @@ interface DrawerInterface {
     onPreviousClick: () => void;
     maxDate: number;
     city: string;
+    sceneNumber: number;
 }
 
-export default function TemporaryDrawer({city, maxDate, onPreviousClick, onNextClick, selectedDate, disableButton, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables}: DrawerInterface) {
+export default function TemporaryDrawer({city, maxDate, onPreviousClick, onNextClick, selectedDate, disableButton, open, onClose, allData, switchMode, action, meteoVariables, wearablesVariables, sceneNumber}: DrawerInterface) {
   const { width } = useWindowDimensions();
   const classes = useStyle();
 
@@ -243,7 +244,7 @@ function renderOnTestMode(){
       <Grid container item sm={12} justifyContent="space-between" alignItems="center" style={{padding: "10px 15px 5px 15px", background:"white", borderRadius: "12px"}}>
       <Grid container item xs={6} md={6} justifyContent="center">
       <Button style={{background: meteoVariables.sun ? "#e8e8e8" : "none"}} disabled={disableButton} className="iconButton" color="primary" onClick={() => action(!meteoVariables.sun, "updateMeteoVariables", "sun")}>
-      {<span role="img" aria-label="Sun">☀️</span>}
+      {<span role="img" aria-label="Sun">{sceneNumber !== 3 ? "☀️" : "🌙"}</span>}
       </Button>
       </Grid>
     

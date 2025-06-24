@@ -6,6 +6,7 @@ import Model, { switchModetype } from "./model";
 import { data, forecastInterface } from "../interfaces/utils";
 import { Button } from '@mui/material';
 import FranceMap from '../component/france';
+import GradientBtn from '../designSystem/button/button';
 
 const fetchForecastData = async (city: string) => {
   return getJSON<data>(`https://wtow.xyz/api/data/forecast/${city}`)
@@ -43,9 +44,7 @@ function Home(): React.ReactElement{
           <FranceMap selectedCity={city} onRegionClick={(city) => {setCity(city)}} /> 
         </div>
       <div>
-      <Button style={{background: "white", fontSize:"1.5rem", marginTop: "10px" }} onClick={() => setValidateEnter(true)} >
-        Entrer
-      </Button>
+      <GradientBtn label="Entrer"  onClick={() => setValidateEnter(true)} />
       </div>
       </div>
     </div>;

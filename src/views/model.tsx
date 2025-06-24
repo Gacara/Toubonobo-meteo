@@ -389,6 +389,7 @@ function renderLoadingScreen(){
       action={zoomOnActions}
       maxDate={allData ? allData.length - 1 : 1}
       city={city}
+      sceneNumber={sceneNumber}
       />
     <Canvas>
       {
@@ -435,7 +436,19 @@ function renderLoadingScreen(){
 
       <Suspense fallback={null}>
         <Sun visible={meteoVariables.sun && !meteoVariables.storm} color={sceneNumber !== 3 ? "yellow" : "#DCD8AE"}/>
-        <ambientLight visible={!meteoVariables.storm} />
+        <ambientLight visible={!meteoVariables.storm} intensity={meteoVariables.sun ? 2.5 : 1.8} />
+        <directionalLight 
+          visible={!meteoVariables.storm} 
+          intensity={meteoVariables.sun ? 3.0 : 2.2} 
+          position={[10, 10, 5]} 
+          color={sceneNumber !== 3 ? "#ffffff" : "#DCD8AE"}
+        />
+        <hemisphereLight 
+          visible={!meteoVariables.storm}
+          color="#87CEEB" 
+          groundColor="#654321" 
+          intensity={meteoVariables.sun ? 1.5 : 1.0}
+        />
         <Rain
         isVisible={meteoVariables.rain}
         rainCount={meteoVariables.rainPrecipitation}
