@@ -52,13 +52,16 @@
     "@types/chart.js": "^2.9.31",
     "@types/lodash": "^4.14.170",
     "@types/three": "^0.160.0",
-    "fsevents": "*",
     "glob": "^7.2.3",
     "typescript": "^4.9.3"
   },
   "resolutions": {
     "three": "^0.160.0",
-    "three-mesh-bvh": "^0.5.0"
+    "three-mesh-bvh": "^0.5.0",
+    "fsevents": "^2.3.2"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   },
   "engines": {
     "node": "18.x"
