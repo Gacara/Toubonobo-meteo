@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "app/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "buildCommand": "npm run build",
+  "devCommand": "npm start",
+  "installCommand": "npm install"
+} 
