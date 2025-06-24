@@ -4,7 +4,7 @@ import shadows from "@mui/material/styles/shadows";
 
   const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: () => ({
+    root: {
       width: 200,
       maxHeight: 35,
       transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
@@ -14,8 +14,18 @@ import shadows from "@mui/material/styles/shadows";
       '&:hover': {
         transform: 'scale(1.1)',
       },
-        borderRadius: 50,
-    }),
+      borderRadius: 50,
+      fontSize: 15,
+      color: 'white',
+      textTransform: 'none',
+      fontWeight: 700,
+      '& .MuiButton-label': {
+        fontSize: '15px',
+        color: 'white',
+        textTransform: 'none',
+        fontWeight: 700,
+      },
+    },
     label: {
       color: "white",
       textTransform: 'none',

@@ -5,6 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+}
+
+/* Appliquer font-weight: 700 par défaut à tous les éléments de texte */
+* {
+  font-weight: 700;
 }
 
 code {

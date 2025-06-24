@@ -410,7 +410,7 @@ function renderLoadingScreen(){
     
     <CustomCamera />
 
-    <pointLight intensity={meteoVariables.storm ? 0 : 1.5} position={[10, 40, -20]} scale={[2,2,2]} />
+    <pointLight intensity={meteoVariables.storm ? 0 : 15} position={[10, 40, -10]} scale={[2,2,2]} />
     {
     // <OrbitControls />
     }

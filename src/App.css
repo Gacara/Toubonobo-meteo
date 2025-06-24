@@ -36,6 +36,32 @@
   }
 }
 
+/* Styles pour corriger les problèmes de boutons Material-UI */
+/* Appliquer 15px seulement aux boutons de texte, pas aux boutons avec icônes */
+.makeStyles-root-14 .MuiButton-root:not(.iconButton),
+.MuiButton-root:not(.iconButton) {
+  font-size: 15px !important;
+  color: white !important;
+  text-transform: none !important;
+  font-weight: 700 !important;
+}
+
+.makeStyles-root-14 .MuiButton-label:not(.iconButton *),
+.MuiButton-label:not(.iconButton *) {
+  font-size: 15px !important;
+  color: white !important;
+  text-transform: none !important;
+  font-weight: 700 !important;
+}
+
+/* Laisser les boutons avec icônes à leur taille normale (2rem) */
+.MuiButton-root.iconButton {
+  font-size: 2rem !important;
+}
+
+.MuiButton-root.iconButton .MuiButton-label {
+  font-size: 2rem !important;
+}
 
 ::-webkit-scrollbar-track
 {
